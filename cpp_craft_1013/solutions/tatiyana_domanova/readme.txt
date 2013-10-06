@@ -1,3 +1,0 @@
-Tatiyana Domanova
-tanushadomanova@gmail.com
-domanova.tanusha
