@@ -1,25 +1,41 @@
-#include <iostream>
-#include <ctype.h>
 #include <fstream>
 #include <string>
 #include <algorithm> 
 
 
+void PrepareStr(std::string& str)
+{
+    str.erase(std::remove_if(str.begin(), str.end(), [](char a){return (a == ' ') || (a == '\\') || (a == '-');}), str.end());
+	std::transform(str.begin(), str.end(), str.begin(), toupper);
+}
+
 int main()
 {
+    setlocale(LC_ALL, std::locale("").name().c_str());
+
 	std::ifstream in("input.txt");
 	std::ofstream out("output.txt");
 
-	std::string polindrom;
+	std::string text, key;
+    std::getline(in, text);
+	PrepareStr(text);
+
 	while(!in.eof())
 	{
-		std::getline(in, polindrom);
-		polindrom.erase(std::remove_if(polindrom.begin(), polindrom.end(), [](char a){return a == ' ';}), polindrom.end());
-		//for (std::string::size_type i = 0; i < polindrom.length(); ++i)
-		//{
-		//	char c = toupper(polindrom.at(i));
-		//	polindrom[i] = toupper(polindrom[i]);
-		//}
-		std::transform(polindrom.begin(), polindrom.end(), polindrom.begin(), toupper);
+        std::getline(in, key);
+        PrepareStr(key);
+        
+        std::reverse(key.rbegin(), key.rend());
+        if(text.find(key) != std::string::npos)
+        {
+            out << "YES" << std::endl;
+        }
+        else
+        {
+            out << "NO" << std::endl;
+        }
 	}
+
+    in.close();
+    out.close();
 }
