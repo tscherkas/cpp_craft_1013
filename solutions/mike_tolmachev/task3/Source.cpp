@@ -14,12 +14,27 @@ void RemoveIslandFromMap(std::vector<std::string>& map, std::pair<int, int> o)
         o = island.front();
         island.pop();
 
-        for (int i = o.first; i < map.size(); ++i)
-        {
-            for (int j = o.second; j < map[i].size(); ++j)
-            {
-            }
-        }
+		int i = o.first;
+		int j = o.second;
+		map[i][j] = ' ';
+
+
+		if (j < map[i].length()-1 && map[i][j+1] == 'o')
+		{
+			island.push(std::make_pair(i,j+1));
+		}
+		if (j > 0 && map[i][j-1] == 'o')
+		{
+			island.push(std::make_pair(i,j-1));
+		}
+		if (i < map.size()-1 && map[i+1][j] == 'o')
+		{
+			island.push(std::make_pair(i+1,j));
+		}
+		if (i > 0 && map[i-1][j] == 'o')
+		{
+			island.push(std::make_pair(i-1,j));
+		}
     }
 }
 
@@ -53,6 +68,8 @@ int main()
             }
         }
     }
+
+	out << count;
 
     in.close();
     out.close();
