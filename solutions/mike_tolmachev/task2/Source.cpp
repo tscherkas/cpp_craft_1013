@@ -1,7 +1,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include <vector>
+#include <set>
 #include <cmath>
 
 
@@ -13,29 +13,21 @@ int main()
     int N;
     in >> N;
 
-    float code;
-    std::vector<float> codes;
+    double code;
+    std::set<int> codes;
     for (int i = 0; i < N; ++i)
     {
         in >> code;
-        codes.push_back(code);
+        int x = code*10000.0;
+        codes.insert(x);
     }
 
 	while(!in.eof())
 	{
         in >> code;
+        int x = code*10000.0;
 
-        bool res = true;
-        for (auto i = codes.begin(); i != codes.end(); ++i)
-        {
-            if (fabs(*i - code) < 0.0001)
-            {                
-                res = false;
-                break;
-            }
-        }
-        
-        out << ((res) ?  "YES" : "NO") << std::endl;
+        out << ((codes.find(x) != codes.end()) ?  "YES" : "NO") << std::endl;
        
 	}
 
