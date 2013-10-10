@@ -5,38 +5,36 @@
 #include <locale>
 #include <set>
 
-void read_line(std::ifstream& stream, std::string& line)
-{
-    std::getline(stream, line);
-    line.erase(
-        std::remove_if(line.begin(), line.end(), [](const char& symbol)
-            { return symbol == ' ' || symbol == ',' || symbol == '-' || symbol == '\\';}),
-        line.end());
 
-    std::transform(line.begin(), line.end(), line.begin(), ::tolower);
+int get_int(std::string& str)
+{
+    return std::atof(str.c_str()) * 10000.0f;
 }
+
 
 int main( int argc, char* argv[] )
 {
     std::ifstream input(SOURCE_DIR "/tests/test1.txt");
     
-    int n = 0;
-    input>>n;
+    std::string x;
+    std::getline(input, x);
+    int n = std::atoi(x.c_str());
 
-    std::set<float> passes;
-
-    int x;
-    for(int i=0; i<n; ++i)
+    std::set<int> pwds;
+    for(int i = 0; i < n; ++i)
     {
-        input>>x;
-        passes.insert(x);
+        std::getline(input, x);
+        pwds.insert(get_int(x));
     }
-
 
     while(!input.eof())
     {
-
-    }
-    
+        std::getline(input, x);
+        if(x.empty())
+        {
+            continue;
+        }
+        std::cout << (pwds.find(get_int(x)) != pwds.end() ? "YES" : "NO") << std::endl;
+    }    
 
 }
