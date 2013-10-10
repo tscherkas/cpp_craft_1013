@@ -2,9 +2,6 @@
 #include <string>
 #include <algorithm>
 
-const int str_capacity = 100000;
-//const char empty_char = '';
-
 void optimize_string(std::string& line)
 {
     std::transform(line.begin(), line.end(), line.begin(), ::tolower);
@@ -25,14 +22,13 @@ int main( int argc, char* argv[] )
     optimize_string(line);
 
     std::string test_line;
-    while ( true ) {
+    while ( ! input_file.eof() ) {
         std::getline( input_file, test_line );
-        if ( input_file.eof() ) {
-            break;
-        }
-        optimize_string(test_line);
-        auto result = std::search( line.rbegin(), line.rend(), test_line.begin(), test_line.end() );
-        result != line.rend() ? output_file << "YES" << std::endl : output_file << "NO" << std::endl;
+        if ( ! test_line.empty() ) {	  
+	  optimize_string(test_line);
+	  std::string::const_reverse_iterator result = std::search( line.rbegin(), line.rend(), test_line.begin(), test_line.end() );
+	  result != line.rend() ? output_file << "YES" << std::endl : output_file << "NO" << std::endl;
+	}
     }
 
     output_file.close();

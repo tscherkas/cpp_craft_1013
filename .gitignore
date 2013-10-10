@@ -18,3 +18,5 @@
 # CMake Framework Default Folder Names
 _build_*_*
 _start_msvc.bat
+
+./solutions/vlad_vysokikh/tests/data/001/output.txt
