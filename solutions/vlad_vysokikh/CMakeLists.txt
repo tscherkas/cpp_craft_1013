@@ -4,6 +4,6 @@ set( CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE} CACHE STRING "Configurations"
 project( ${SOLUTION_NAME} )
 include( environment.cmake required )
 
-binaries( reversed_words )
+binaries( reversed_words real_numbers )
 
 compile()

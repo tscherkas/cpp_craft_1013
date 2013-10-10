@@ -25,12 +25,11 @@ int main( int argc, char* argv[] )
     while ( ! input_file.eof() ) {
         std::getline( input_file, test_line );
         if ( ! test_line.empty() ) {	  
-	  optimize_string(test_line);
-	  std::string::const_reverse_iterator result = std::search( line.rbegin(), line.rend(), test_line.begin(), test_line.end() );
-	  result != line.rend() ? output_file << "YES" << std::endl : output_file << "NO" << std::endl;
-	}
+            optimize_string(test_line);
+            std::string::const_reverse_iterator result = std::search( line.rbegin(), line.rend(), test_line.begin(), test_line.end() );
+            output_file << ( (result != line.rend() ) ? "YES" : "NO" ) << std::endl;
+        }
     }
-
     output_file.close();
     input_file.close();
 }
