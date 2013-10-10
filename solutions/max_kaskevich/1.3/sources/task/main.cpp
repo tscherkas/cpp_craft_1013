@@ -4,12 +4,17 @@
 #include <algorithm>
 #include <locale>
 
+const std::string bad_chars = " -\\,";
+
 void read_line(std::ifstream& stream, std::string& line)
 {
     std::getline(stream, line);
     line.erase(
-        std::remove_if(line.begin(), line.end(), [](const char& symbol)
-            { return symbol == ' ' || symbol == ',' || symbol == '-' || symbol == '\\';}),
+        std::remove_if(line.begin(), line.end(), [](const char& c)
+		{
+			return std::any_of(bad_chars.begin(), bad_chars.end(),
+				[=](const char& b){return b == c;});
+		}),
         line.end());
 
     std::transform(line.begin(), line.end(), line.begin(), ::tolower);
@@ -17,7 +22,7 @@ void read_line(std::ifstream& stream, std::string& line)
 
 int main( int argc, char* argv[] )
 {
-    setlocale(LC_ALL, "Russian");
+    setlocale(LC_ALL, "");
     std::ifstream input(SOURCE_DIR "/tests/test1.txt");
 
     std::string text;
@@ -27,20 +32,12 @@ int main( int argc, char* argv[] )
     while(!input.eof())
     {
         read_line(input, line);
-        std::reverse(line.begin(), line.end());
         if(line.empty())
         {
             continue;
         }
-        if (text.find(line) != std::string::npos)
-        {
-            std::cout<< "YES" <<std::endl;
-        }
-        else
-        {
-            std::cout<< "NO" <<std::endl;
-        }
-    }
-    
+		std::cout << (std::search(text.begin(), text.end(), line.rbegin(), line.rend()) != text.end() ?
+			"YES" : "NO") << std::endl;
+    }   
 
 }
