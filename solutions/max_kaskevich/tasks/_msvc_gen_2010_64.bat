@@ -1,6 +1,6 @@
 @echo off
 
-set SOLUTION_NAME=puzzle_1_4_solution
+set SOLUTION_NAME=solution
 
 set BUILD_TYPE=Debug
 if [%1]==[Release] (

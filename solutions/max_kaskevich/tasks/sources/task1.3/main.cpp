@@ -23,7 +23,7 @@ void read_line(std::ifstream& stream, std::string& line)
 int main( int argc, char* argv[] )
 {
     setlocale(LC_ALL, "");
-    std::ifstream input(SOURCE_DIR "/tests/test1.txt");
+    std::ifstream input(SOURCE_DIR "/tests/1.3/test1.txt");
 
     std::string text;
     read_line(input, text);

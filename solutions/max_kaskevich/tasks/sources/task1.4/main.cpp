@@ -14,7 +14,7 @@ int get_int(std::string& str)
 
 int main( int argc, char* argv[] )
 {
-    std::ifstream input(SOURCE_DIR "/tests/test1.txt");
+    std::ifstream input(SOURCE_DIR "/tests/1.4/test1.txt");
     
     std::string x;
     std::getline(input, x);

@@ -2,11 +2,10 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include <locale>
 #include <vector>
 
 
-struct WorldMap
+struct world_map
 {
     std::vector<std::string> data;
 
@@ -33,7 +32,7 @@ struct WorldMap
 };
 
 
-void mark_the_land(WorldMap& map, int x, int y)
+void mark_the_land(world_map& map, int x, int y)
 {
     map[y][x] = 'x';
     if(x + 1 < map.x_max() && map[y][x+1] == 'o')
@@ -57,9 +56,9 @@ void mark_the_land(WorldMap& map, int x, int y)
 
 int main( int argc, char* argv[] )
 {
-    std::ifstream input(SOURCE_DIR "/tests/test1.txt");
+    std::ifstream input(SOURCE_DIR "/tests/1.5/test1.txt");
     
-    WorldMap map;
+    world_map map;
     while(!input.eof())
     {
         std::getline(input, map.get_new_line());
