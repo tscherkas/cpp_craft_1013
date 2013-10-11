@@ -1,4 +1,4 @@
-#include <iostream> 
+п»ї#include <iostream> 
 #include <fstream>
 #include <string> 
 #include <functional>
@@ -6,7 +6,7 @@
 #include <cctype>
 #include <locale>
 
-// Предикат возвращает true вслучае если найденный символ является пробелом, дефисов или слешом
+// РџСЂРµРґРёРєР°С‚ РІРѕР·РІСЂР°С‰Р°РµС‚ true РІСЃР»СѓС‡Р°Рµ РµСЃР»Рё РЅР°Р№РґРµРЅРЅС‹Р№ СЃРёРјРІРѕР» СЏРІР»СЏРµС‚СЃСЏ РїСЂРѕР±РµР»РѕРј, РґРµС„РёСЃРѕРІ РёР»Рё СЃР»РµС€РѕРј
 bool Pred(char ch)
 {
 	return ch == ' ' || ch == '-' || ch == '\\';
