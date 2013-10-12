@@ -1,9 +1,10 @@
 #include <fstream>
 #include <vector>
 #include <math.h>
+#include <algorithm>
 #include <iostream>
 
-const double epsilon = 0.0001;
+bool comparing_function(double value, double code);
 
 int main()
 {
@@ -14,27 +15,28 @@ int main()
     input_file >> N;
 
     std::vector<double> codes;
+    codes.reserve(N);
+
     double value;
     for (int i=0; i<N; i++) {
         input_file >> value;
         codes.push_back(value);
     }
 
-    input_file.peek();
-    while ( !input_file.eof() ) {
-        bool found = false;
+    std::sort(codes.begin(),codes.end());
+    while ( true ) {
         input_file >> value;
-
-        for (int i=0; i<N; i++) {
-            if ( fabs( codes[i] - value ) < epsilon ) {
-                found = true;
-                break;
-            }
+        if ( input_file.eof() ) {
+            break;
         }
-        output_file << ( found ? "YES" : "NO" ) << std::endl;
-        input_file.peek();
+        output_file << ( std::binary_search(codes.begin(), codes.end(), value, comparing_function ) ? "YES" : "NO" ) << std::endl;
     }
     output_file.close();
     input_file.close();
+}
+
+bool comparing_function(double code, double value)
+{
+    return code + 0.0001 <= value;
 }
 
