@@ -1,7 +1,5 @@
-#include <iostream>
 #include <fstream>
 #include <string>
-#include <algorithm>
 #include <vector>
 
 
@@ -64,7 +62,7 @@ int main( int argc, char* argv[] )
 	}    
     
     world_map map;
-    while(!input.eof())
+    while(input)
     {
         std::getline(input, map.get_new_line());
     }

@@ -1,4 +1,3 @@
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <algorithm>
@@ -25,7 +24,7 @@ int main( int argc, char* argv[] )
     setlocale(LC_ALL, "");
     std::ifstream input(SOURCE_DIR "/tests/data/task1.3/input.txt");
     std::ofstream output(SOURCE_DIR "/tests/data/task1.3/output.txt");
-	if (!(input.is_open() && output.is_open()))
+	if ( !(input && output) )
 	{
 		return 1;
 	}
@@ -34,7 +33,7 @@ int main( int argc, char* argv[] )
     read_line(input, text);
 
     std::string line;
-    while(!input.eof())
+    while(input)
     {
         read_line(input, line);
         if(line.empty())

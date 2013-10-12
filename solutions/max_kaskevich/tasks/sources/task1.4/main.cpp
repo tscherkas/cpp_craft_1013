@@ -1,45 +1,29 @@
-#include <iostream>
 #include <fstream>
 #include <string>
-#include <algorithm>
-#include <locale>
 #include <set>
-
-
-int get_int(std::string& str)
-{
-    return std::atof(str.c_str()) * 10000.0f;
-}
-
 
 int main( int argc, char* argv[] )
 {
     std::ifstream input(SOURCE_DIR "/tests/data/task1.4/input.txt");
     std::ofstream output(SOURCE_DIR "/tests/data/task1.4/output.txt");
-	if (!(input.is_open() && output.is_open()))
+	if ( !(input && output) )
 	{
 		return 1;
 	}    
 
-    std::string x;
-    std::getline(input, x);
-    int n = std::atoi(x.c_str());
+	int n = 0;
+	input >> n;
 
-    std::set<int> pwds;
-    for(int i = 0; i < n; ++i)
-    {
-        std::getline(input, x);
-        pwds.insert(get_int(x));
-    }
+	double x;
+	std::set<int> pwds;
+	while(n-- && input >> x)
+	{
+		pwds.insert(x * 10000.0f);
+	}
 
-    while(!input.eof())
-    {
-        std::getline(input, x);
-        if(x.empty())
-        {
-            continue;
-        }
-       output << (pwds.find(get_int(x)) != pwds.end() ? "YES" : "NO") << std::endl;
-    }    
+	while(input >> x)
+	{
+		output << (pwds.find(x * 10000.0f) != pwds.end() ? "YES" : "NO") << std::endl;
+	}    
 
 }
