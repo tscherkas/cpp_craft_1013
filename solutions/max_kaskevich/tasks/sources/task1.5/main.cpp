@@ -56,7 +56,12 @@ void mark_the_land(world_map& map, int x, int y)
 
 int main( int argc, char* argv[] )
 {
-    std::ifstream input(SOURCE_DIR "/tests/1.5/test1.txt");
+    std::ifstream input(SOURCE_DIR "/tests/data/task1.5/input.txt");
+    std::ofstream output(SOURCE_DIR "/tests/data/task1.5/output.txt");
+	if (!(input.is_open() && output.is_open()))
+	{
+		return 1;
+	}    
     
     world_map map;
     while(!input.eof())
@@ -77,5 +82,5 @@ int main( int argc, char* argv[] )
             }
         }
     }
-    std::cout << lands << std::endl;
+    output << lands << std::endl;
 }

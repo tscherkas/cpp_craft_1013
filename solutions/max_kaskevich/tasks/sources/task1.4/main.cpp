@@ -14,8 +14,13 @@ int get_int(std::string& str)
 
 int main( int argc, char* argv[] )
 {
-    std::ifstream input(SOURCE_DIR "/tests/1.4/test1.txt");
-    
+    std::ifstream input(SOURCE_DIR "/tests/data/task1.4/input.txt");
+    std::ofstream output(SOURCE_DIR "/tests/data/task1.4/output.txt");
+	if (!(input.is_open() && output.is_open()))
+	{
+		return 1;
+	}    
+
     std::string x;
     std::getline(input, x);
     int n = std::atoi(x.c_str());
@@ -34,7 +39,7 @@ int main( int argc, char* argv[] )
         {
             continue;
         }
-        std::cout << (pwds.find(get_int(x)) != pwds.end() ? "YES" : "NO") << std::endl;
+       output << (pwds.find(get_int(x)) != pwds.end() ? "YES" : "NO") << std::endl;
     }    
 
 }

@@ -23,7 +23,12 @@ void read_line(std::ifstream& stream, std::string& line)
 int main( int argc, char* argv[] )
 {
     setlocale(LC_ALL, "");
-    std::ifstream input(SOURCE_DIR "/tests/1.3/test1.txt");
+    std::ifstream input(SOURCE_DIR "/tests/data/task1.3/input.txt");
+    std::ofstream output(SOURCE_DIR "/tests/data/task1.3/output.txt");
+	if (!(input.is_open() && output.is_open()))
+	{
+		return 1;
+	}
 
     std::string text;
     read_line(input, text);
@@ -36,7 +41,7 @@ int main( int argc, char* argv[] )
         {
             continue;
         }
-		std::cout << (std::search(text.begin(), text.end(), line.rbegin(), line.rend()) != text.end() ?
+		output << (std::search(text.begin(), text.end(), line.rbegin(), line.rend()) != text.end() ?
 			"YES" : "NO") << std::endl;
     }   
 
