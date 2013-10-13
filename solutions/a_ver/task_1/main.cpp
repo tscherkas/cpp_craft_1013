@@ -45,9 +45,9 @@ int main(int argc, char* argv[])
         it = std::search(text.begin(), text.end(),
                          line.rbegin(), line.rend());
         if(it != text.end()){
-            o_fs << "TRUE" << endl;
+            o_fs << "YES" << endl;
         }else{
-            o_fs << "FALSE" << endl;
+            o_fs << "NO" << endl;
         }
         read_line(i_fs, line);
     }

@@ -91,9 +91,9 @@ int main(int argc, char* argv[])
     while(!line.empty()){
         offset = kmp_matcher(text, line);
         if(offset != -1){
-            o_fs << "TRUE" << endl;
+            o_fs << "YES" << endl;
         }else{
-            o_fs << "FALSE" << endl;
+            o_fs << "NO" << endl;
         }
         read_line(i_fs, line);
     }
