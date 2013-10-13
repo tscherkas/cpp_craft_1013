@@ -16,18 +16,18 @@ int main()
 		in >> N;
 
 		double code;
-		std::set<unsigned int> codes;
+		std::set<long> codes;
 		for (int i = 0; i < N; ++i)
 		{
 			in >> code;
-			unsigned int tmp = code*10000.0;
+			long tmp = code*10000.0;
 			codes.insert(tmp);
 		}
 
 		
 		while(in >> code)
 		{
-			unsigned int tmp = code*10000.0;
+			long tmp = code*10000.0;
 
 			out << ((codes.find(tmp) != codes.end()) ?  "YES" : "NO") << std::endl;
 		}
