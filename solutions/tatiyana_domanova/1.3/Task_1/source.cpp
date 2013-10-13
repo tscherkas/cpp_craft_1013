@@ -14,13 +14,6 @@ bool isSpaceChar(char c) {
 	return false;
 }
 
-string reverse(string s) {
-	string res;
-	for (int i=s.length()-1; i>=0; i--)
-		res+=s[i];
-	return res;
-}
-
 bool equals(char c1, char c2) {
 	if (c1 >= 'À' && c1 <= 'ß') 
 		c1 = c1-('À'-'à'); 
@@ -30,7 +23,7 @@ bool equals(char c1, char c2) {
 	return (tolower(c1) == tolower(c2));
 }
 
-bool contains(string text, string key) {
+bool contains(string &text, string &key) {
 	for (int i=0; i<text.length()-key.length(); i++) {
 		bool flag = true;
 		for (int j=0; j<key.length(); j++)
@@ -44,18 +37,20 @@ bool contains(string text, string key) {
 	return false;		
 }
 
-string cutSpaces(string s) {
+void cutSpaces(string &s) {
 	string res = "";
 	for (int i=0; i<s.length(); i++)
 		if (!isSpaceChar(s[i])) {
 			res += s[i];
 		}
-	return (res);
+	s = res;
 }
 
 string toString(bool b) {
-	if (b) return "YES";
-	else return "NO";
+	if (b) 
+		return "YES";
+	else 
+		return "NO";
 }
 
 int main() {
@@ -63,10 +58,12 @@ int main() {
 	ifstream in("input.txt");
 	ofstream out("output.txt");
 	getline(in, text);
-	text = cutSpaces(text);
+	cutSpaces(text);
 	while (!in.eof()) {
 		getline(in, key);
-		out << toString(contains(text, reverse(cutSpaces(key)))) << endl;
+		cutSpaces(key);
+		reverse(key.begin(), key.end());
+		out << toString(contains(text, key)) << endl;
 	}
 	return 0;
 }
