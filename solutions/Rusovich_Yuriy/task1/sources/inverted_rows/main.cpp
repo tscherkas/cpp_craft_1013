@@ -18,8 +18,8 @@ std::string removeOddSymbols(const std::string &text, const std::vector <char> &
 
 int main()
 {
-	std::ifstream inputFile(SOURCE_DIR "/input.txt");
-	std::ofstream outputFile(SOURCE_DIR "/output.txt" );
+	std::ifstream inputFile(SOURCE_DIR "/input_inverted_rows.txt");
+	std::ofstream outputFile(SOURCE_DIR "/output_inverted_rows.txt" );
 	
 	std::string text;
 	std::getline(inputFile, text);
