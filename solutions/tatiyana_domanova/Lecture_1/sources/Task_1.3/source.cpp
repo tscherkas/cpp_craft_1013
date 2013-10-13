@@ -65,5 +65,7 @@ int main() {
 		reverse(key.begin(), key.end());
 		out << toString(contains(text, key)) << endl;
 	}
+	in.close();
+	out.close();
 	return 0;
 }
