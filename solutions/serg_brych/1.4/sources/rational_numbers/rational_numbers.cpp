@@ -9,12 +9,12 @@
 
 using namespace std;
 
-typedef set<int> list_of_numbers;
+typedef set<long long> list_of_numbers;
 
 int main() 
 { 
 	int N = 0;
-	int number;
+	long long number;
 	string string_number;
 	list_of_numbers keys;
 	fstream input_file, output_file;
@@ -29,9 +29,10 @@ int main()
 	
 		int i = 0;
 		// Читаем число в строку
-		input_file >> string_number;
-		for(;!input_file.eof(); i++)
+		
+		while(input_file >> string_number)
 		{
+			i++;
 			// Ищем точку, если находим то смотрим сколько символов после точки
 			// если их больше 4 то урезаем до 4 симвовлов
 			// в противном случае добавляем нули до количества 4 символов после точки
@@ -57,7 +58,7 @@ int main()
 			// Переводим строку в целое число
 			istringstream ( string_number ) >> number;
 			// Ключи добавляем во множество
-			if( i < N)
+			if( i <= N)
 			{
 				keys.insert(number);
 			}
@@ -72,7 +73,6 @@ int main()
 					output_file << "NO" <<endl;
 				}
 			}
-			input_file >> string_number;
 		}
 
 		input_file.close();
