@@ -14,7 +14,7 @@ int main(){
     int count;
     double value;
     if(!i_fs){
-        cout << "Could not open input file" << endl;
+        cout << "Could not open input file " << endl;
         return 1;
     }
     if(!o_fs){
@@ -31,16 +31,17 @@ int main(){
     }
     sort(passwd.begin(), passwd.end());
     
-    i_fs >> value;
     while(!i_fs.eof()){
+        i_fs >> value;
         if(binary_search(passwd.begin(), passwd.end(),
            (int) (value*ACCURACY))){
-            o_fs << "YES" << endl;
+            o_fs << "YES";
         }else{
-            o_fs << "NO" << endl;
+            o_fs << "NO";
         }
-        i_fs >> value;
+        o_fs << endl;
     }
+
     o_fs.close();
     i_fs.close();
     return 0;

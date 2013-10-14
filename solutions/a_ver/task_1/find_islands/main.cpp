@@ -67,5 +67,7 @@ int main(){
         }
     }
     o_fs << count;
+    o_fs.close();
+    i_fs.close();
     return 0;
 }

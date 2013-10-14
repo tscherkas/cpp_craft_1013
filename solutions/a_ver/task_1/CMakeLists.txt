@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 2.7)
 
-add_definitions( -DSOURCE_DIR="${CMAKE_SOURCE_DIR}" )
+add_subdirectory(find_islands)
+add_subdirectory(rational_numbers)
+add_subdirectory(reverse_string)
 
-add_executable(reverse_string reverse_string.cpp)
-add_executable(reverse_string_kmp reverse_string_kmp.cpp)
-add_executable(rational rational.cpp)
-add_executable(islands islands.cpp)

@@ -39,9 +39,9 @@ int main(int argc, char* argv[])
     text.reserve(EXPECT_INPUT_LEN);
 
     read_line(i_fs, text);
-    read_line(i_fs, line);
     
-    while(!line.empty()){
+    while(!i_fs.eof()){
+        read_line(i_fs, line);
         it = std::search(text.begin(), text.end(),
                          line.rbegin(), line.rend());
         if(it != text.end()){
@@ -49,7 +49,6 @@ int main(int argc, char* argv[])
         }else{
             o_fs << "NO" << endl;
         }
-        read_line(i_fs, line);
     }
     i_fs.close();
     o_fs.close();

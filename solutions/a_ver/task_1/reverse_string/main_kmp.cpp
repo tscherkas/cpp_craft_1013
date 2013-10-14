@@ -1,11 +1,11 @@
 /*
  * Search algorithm in standard library (libstdc++-v3 4.8.1) implemented a
- * trivial way therefore may work not fats
+ * trivial way therefore may work not fast
  *
  * http://gcc.gnu.org/viewcvs/gcc/tags/gcc_4_8_1_release/libstdc++-v3/include/bits/basic_string.tcc?view=markup
  * 
  * This implementation used the Knuth-Morris-Pratt algorithm 
- * ("Introduction to Algorithms" Thomas H. Corman and other)
+ * (was taken from "Introduction to Algorithms - Thomas H. Corman and other")
  *
  * */
 #include <iostream>
@@ -86,16 +86,15 @@ int main(int argc, char* argv[])
     text.reserve(EXPECT_INPUT_LEN);
 
     read_line(i_fs, text);
-    read_line(i_fs, line);
     
-    while(!line.empty()){
+    while(!i_fs.eof()){
+        read_line(i_fs, line);
         offset = kmp_matcher(text, line);
         if(offset != -1){
             o_fs << "YES" << endl;
         }else{
             o_fs << "NO" << endl;
         }
-        read_line(i_fs, line);
     }
     i_fs.close();
     o_fs.close();
