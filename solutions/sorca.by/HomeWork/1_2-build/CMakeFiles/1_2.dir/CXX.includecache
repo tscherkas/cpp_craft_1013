@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/sorca/Desktop/HomeWork/1_2/main.cpp
+iostream
+-
+iomanip
+-
+math.h
+-
+fstream
+-
+vector
+-
+algorithm
+-
+
