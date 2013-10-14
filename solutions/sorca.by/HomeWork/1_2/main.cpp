@@ -11,14 +11,14 @@ int main()
 {
     std::string yes = "YES";
     std::string no = "NO";
-    float eps = pow(10,-4);
+    float eps = 0.0001;
     float pass;
 
     //open
-    std::ifstream inFile	("../1_2/data/input.txt");
+    std::ifstream inFile	( "../1_2/data/input.txt");
     std::ofstream outFile	( "../1_2/data/output.txt");
 
-    int N = 1;
+    long N = 1;
     inFile >> N;
     if (N == 0) {
         return 1;
