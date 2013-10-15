@@ -29,24 +29,25 @@ int main()
 	ofstream f2("output.txt");
 	int n;
 	f1 >> n;
-	vector<double> a;
+	vector<long long> a;
 	for(int i=0;i<n;i++)
 	{
 		double x;
 		f1 >> x;
-		a.pb(x);
+		long long X =  (long long) (x*10000);
+		a.pb(X);
 	}
 	sort(a.begin(),a.end());
 	while (!f1.eof())
 	{
 		double x;
 		f1 >> x;
-		int z;
-		z=lower_bound(a.begin(),a.end(),x)-a.begin()-1;
-		if (fabs(a[z]-x)<1e-4 || (z>0 && fabs(a[z-1]-x)<1e-4))
-				f2 << "YES" << endl; else
-				f2 << "NO" << endl;
-			
+		long long X = (long long) (x*10000);
+		vector<long long> :: iterator tr=lower_bound(a.begin(),a.end(),X);
+		if (tr!=a.end() && *tr==X) 
+			f2 << "YES" << endl; 
+			else 
+			f2 << "NO" << endl; 
 	}
 	return 0;
 }
