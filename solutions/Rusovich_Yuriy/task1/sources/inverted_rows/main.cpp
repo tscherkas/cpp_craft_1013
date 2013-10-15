@@ -25,10 +25,11 @@ int main()
 	std::getline(inputFile, text);
 	std::transform(text.begin(), text.end(), text.begin(), tolower);
 
-	while (!inputFile.eof()) 
+	std::string key;
+	while (std::getline(inputFile, key)) 
     {
-		std::string key;
-		std::getline(inputFile, key);
+		if( key.length()==0)
+			continue;
 
 		std::vector<char> symbol;// = {' ', '\\', '-'};
 		symbol.push_back(' ');
@@ -39,10 +40,10 @@ int main()
 		std::reverse(key.begin(), key.end());
 		std::transform(key.begin(), key.end(), key.begin(), tolower); 
 
-		if (text.find(key) == std::string::npos)
-			outputFile << std::string("NO") << std::endl;
-		else
+		if (text.find(key) != std::string::npos)
 			outputFile << std::string("YES") << std::endl;
+		else
+			outputFile << std::string("NO") << std::endl;			
     }
 
 	inputFile.close();
