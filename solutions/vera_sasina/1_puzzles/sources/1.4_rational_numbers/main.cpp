@@ -2,21 +2,20 @@
 #include <fstream>
 #include <vector>
 #include <string>
-
+#include <stdint.h>
 using namespace std;
-typedef unsigned long long ull;
 
 int main( int argc, char* argv[] )
 {
 	ifstream input_file( BINARY_DIR "/input.txt" );
 	ofstream output_file( BINARY_DIR "/output.txt" );
-	int size_array, pos;
+	int size_array;
 	input_file >> size_array;	// read size of array
 	if(size_array < 1)
 		return 0;
-	vector<ull>array_numb;	// vector for rational numbers
+	vector<int64_t>array_numb;	// vector for rational numbers
 	double num;					// temp variables
-	ull temp;
+	int64_t temp;
 	bool check;
 
 	//read values of array
@@ -30,7 +29,7 @@ int main( int argc, char* argv[] )
 	while(!input_file.eof())
 	{
 		input_file >> num;
-		for(vector<ull>::iterator it = array_numb.begin(); it != array_numb.end(); it++)
+		for(vector<int64_t>::iterator it = array_numb.begin(); it != array_numb.end(); it++)
 		{
 			temp = num*10000;
 			check = *it == temp;
