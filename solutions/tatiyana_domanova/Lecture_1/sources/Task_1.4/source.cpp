@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 
 using std::ifstream;
 using std::ofstream;
@@ -12,7 +13,9 @@ char* toString(bool b) {
 }
 
 bool equals(double a, double b) {
-	if (abs(a-b) < 10e-4)
+	if (a>0 && floor(b) == floor(a) && floor((b-floor(b))*10e3) == floor((a-floor(a))*10e3) )
+		return true;
+	else if (a<0 && ceil(b) == ceil(a) && ceil((b-ceil(b))*10e3) == ceil((a-ceil(a))*10e3) )
 		return true;
 	return false;
 }
