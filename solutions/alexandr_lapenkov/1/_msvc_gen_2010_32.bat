@@ -1,6 +1,6 @@
 @echo off
 
-set SOLUTION_NAME=cmake_example
+set SOLUTION_NAME=day_1
 
 set BUILD_TYPE=Debug
 if [%1]==[Release] (

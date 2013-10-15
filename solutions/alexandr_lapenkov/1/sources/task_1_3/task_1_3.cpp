@@ -20,73 +20,67 @@ class Solution
 
 private:
               
-       string text, line;
+     string text, line;
        
-       ifstream in;
-       ofstream out;
+     ifstream in;
+     ofstream out;
        
-       
-       //Removes {' ','\','-'}. Translates to lower case.
-       void cut(string &s)
-       {
+     void cut(string &s)
+     {
  
-         string res;
+     string res;
    
-                for(int i=0;i<s.size();i++)
-                        if(s[i]!=' '&&s[i]!='\\'&&s[i]!='-')
-                        //Tolower for russian and english letters.
-                          res+=(s[i]>='À'&&s[i]<='ß')?s[i]-'À'+'à':tolower(s[i]);
+     for(string::iterator i=s.begin();i<s.end();i++)
+          if((*i)!=' '&&(*i)!='\\'&&(*i)!='-')
+              res+=((*i)>='?'&&(*i)<='?')?(*i)-'?'+'?':tolower((*i));
  
-         s=res;
+     s=res;
  
-         }
+     }
 
 public:
 
-       Solution()
-       {
-            in.open(SOURCE_DIR"/input.txt",ios_base::in);
-            out.open(SOURCE_DIR"/output.txt",ios_base::out);
-       }
+    Solution()
+    {
+        in.open(SOURCE_DIR"/input.txt",ios_base::in);
+        out.open(SOURCE_DIR"/output.txt",ios_base::out);
+    }
             
-       ~Solution()
-       {
-               in.close();
-               out.close();
-       }
+    ~Solution()
+    {
+        in.close();
+        out.close();
+    }
        
-       void process()
-       {
+    void process()
+    {
                             
-                      getline(in,text);
+        getline(in,text);
+        cut(text);
+        reverse(text.begin(),text.end());
        
-                      //Format and reverse input text.
-                       cut(text);
-                       reverse(text.begin(),text.end());
-       
-                        while(!in.eof())
-                        {
-                                        
-                                        getline(in,line);
-                                        if(in.eof())break;
-                                        //Format the query.
-                                        cut(line);
+        while(!in.eof())
+        {
+            getline(in,line);
+            if(in.eof())break;
+            cut(line);
 					
-                                        if(text.find(line)!=string::npos)
-                                                                         out<<"YES\n";
-                                        else
-                                                                         out<<"NO\n";
-                           }
+            if(text.find(line)!=string::npos)
+                out<<"YES\n";
+            else
+                out<<"NO\n";
+         }
        
-            }
+    }
             
 };
 
 
-int main(){
+int main()
+{
        
-       Solution s;
-       s.process();
+    Solution s;
+    s.process();
        
     return 0;  
 }
