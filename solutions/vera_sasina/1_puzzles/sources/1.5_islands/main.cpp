@@ -3,8 +3,8 @@
 int main( int argc, char* argv[] )
 {
 	//open files for read and write
-	ifstream input_file( "input.txt" );
-	ofstream output_file( "output.txt" );
+	ifstream input_file( BINARY_DIR "/input.txt" );
+	ofstream output_file( BINARY_DIR "/output.txt" );
 	int islands, count_land;
 	vector<char>* land;							// vectors for read of file
 	land = read_file(input_file, count_land);	// read information from file to vectors

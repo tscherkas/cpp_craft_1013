@@ -8,8 +8,8 @@ typedef unsigned long long ull;
 
 int main( int argc, char* argv[] )
 {
-	ifstream input_file( "input.txt" );
-	ofstream output_file( "output.txt" );
+	ifstream input_file( BINARY_DIR "/input.txt" );
+	ofstream output_file( BINARY_DIR "/output.txt" );
 	int size_array, pos;
 	input_file >> size_array;	// read size of array
 	if(size_array < 1)

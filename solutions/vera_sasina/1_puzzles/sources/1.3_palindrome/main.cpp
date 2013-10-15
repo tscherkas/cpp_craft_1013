@@ -7,8 +7,8 @@ using namespace std;
 int main( int argc, char* argv[] )
 {
 	//open files for read and write
-	ifstream input_file( "input.txt" );
-	ofstream output_file( "output.txt" );
+	ifstream input_file( BINARY_DIR "/input.txt" );
+	ofstream output_file( BINARY_DIR "/output.txt" );
 	string text, key;					//variables for text and keys
 	getline( input_file, text );		//read text from file
 	for(;!input_file.eof();)
