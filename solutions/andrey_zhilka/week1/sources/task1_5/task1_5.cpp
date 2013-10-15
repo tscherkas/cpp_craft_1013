@@ -6,7 +6,7 @@
 using namespace std;
 
 int calculateIslands( const std::vector< std::string >& );
-void exploreIsland( int, int, const std::vector< std::string >&, bool** );
+void exploreIsland( unsigned, unsigned, const std::vector< std::string >&, bool** );
 
 int main() 
 {	
@@ -50,7 +50,7 @@ int main()
 int calculateIslands( const std::vector< std::string >& map)
 {
 	int islandsNumber = 0;
-	int lineSize;
+	unsigned lineSize;
 	if ( map.size() > 0 )
 	{
 		lineSize = map.at(0).length();		
@@ -61,10 +61,10 @@ int calculateIslands( const std::vector< std::string >& map)
 	}
 
 	bool **isPartVisited = new bool*[map.size()];
-	for ( int i = 0; i < map.size(); i++ )
+	for ( size_t i = 0; i < map.size(); i++ )
 	{		
 		isPartVisited[i] = new bool[lineSize];
-		for ( int j = 0; j < lineSize; j++ )
+		for ( unsigned j = 0; j < lineSize; j++ )
 		{
 			isPartVisited[i][j] = false;
 		}
@@ -72,9 +72,9 @@ int calculateIslands( const std::vector< std::string >& map)
 
 	
 	// find coast and explore an island
-	for ( int i = 0; i < map.size(); i++ )
+	for ( size_t i = 0; i < map.size(); i++ )
 	{		
-		for ( int j = 0; j < lineSize; j++ )
+		for ( size_t j = 0; j < lineSize; j++ )
 		{
 			char part = map.at(i).at(j);
 			if ( part == 'o' && !isPartVisited[i][j] )
@@ -85,7 +85,7 @@ int calculateIslands( const std::vector< std::string >& map)
 		}
 	}
 
-	for ( int i = 0; i < map.size(); i++ )
+	for ( size_t i = 0; i < map.size(); i++ )
 	{
 		delete [] isPartVisited[i];
 	}
@@ -93,7 +93,7 @@ int calculateIslands( const std::vector< std::string >& map)
 	
 	return islandsNumber;
 }
-void exploreIsland( int coordX, int coordY, const std::vector< std::string >& map, bool** isVisited)
+void exploreIsland( unsigned coordX, unsigned coordY, const std::vector< std::string >& map, bool** isVisited)
 {
 	isVisited[coordX][coordY] = true;
 
