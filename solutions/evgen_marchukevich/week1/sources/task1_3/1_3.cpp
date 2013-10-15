@@ -39,7 +39,7 @@ int main()
 	s="";
 	getline(f1,s1);
 	for(int i=0;i<len(s1);i++)
-	if (s1[i]!=' ')
+	if (s1[i]!='-' && s1[i]!=' ' && s1[i]!=92)
 	{
 		s+=tolower(s1[i]);
 	}
@@ -49,7 +49,7 @@ int main()
 		s2="";
 		for(int i=len(s1)-1;i>=0;i--)
 			if(s1[i]!='-' && s1[i]!=' ' && s1[i]!=92)
-				s2+=tolower(s1[i]);
+				s2+=tolower(s1[i]);	
 		bool f=0;
 		int kk=len(s2);
 		for(int i=0;i<len(s)-kk+1;i++)
