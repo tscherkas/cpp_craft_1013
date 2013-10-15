@@ -1,6 +1,8 @@
 #include <fstream>
 #include <string>
 #include <set>
+#include <stdint.h>
+
 
 int main( int argc, char* argv[] )
 {
@@ -11,11 +13,11 @@ int main( int argc, char* argv[] )
 		return 1;
 	}    
 
-	int n = 0;
+	int32_t n = 0;
 	input >> n;
 
 	double x;
-	std::set<int> pwds;
+	std::set<int64_t> pwds;
 	while(n-- && input >> x)
 	{
 		pwds.insert(x * 10000.0f);

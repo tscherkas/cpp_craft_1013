@@ -1,6 +1,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <stdint.h>
 
 
 struct world_map
@@ -67,7 +68,7 @@ int main( int argc, char* argv[] )
         std::getline(input, map.get_new_line());
     }
 
-    int lands = 0;
+    int32_t lands = 0;
 
     for(int x = 0; x < map.x_max(); ++x)
     {
