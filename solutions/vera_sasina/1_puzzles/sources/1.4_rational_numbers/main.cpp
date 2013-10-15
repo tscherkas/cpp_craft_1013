@@ -22,7 +22,7 @@ int main( int argc, char* argv[] )
 	for(int i = 0; i < size_array; i++)
 	{	
 		input_file >> num;
-		temp = num*10000;
+		temp = static_cast<int64_t>(num*10000);
 		array_numb.push_back(temp);
 	}
 	//read passwords for array from file
@@ -31,7 +31,7 @@ int main( int argc, char* argv[] )
 		input_file >> num;
 		for(vector<int64_t>::iterator it = array_numb.begin(); it != array_numb.end(); it++)
 		{
-			temp = num*10000;
+			temp = static_cast<int64_t>(num*10000);
 			check = *it == temp;
 			if(check)
 				break;

@@ -1,9 +1,9 @@
 #include <string>
 #include "islands.h"
 
-int check_size_file(ifstream &file, int &count_land)
+size_t check_size_file(ifstream &file, int &count_land)
 {
-	int size = 0;
+	size_t size;
 	string line;
 	while(!file.eof())
 	{
@@ -18,7 +18,7 @@ int check_size_file(ifstream &file, int &count_land)
 
 vector<char>* read_file(ifstream &file, int &count_land)
 {
-	int size_land;
+	size_t size_land;
 	count_land = 0;
 	vector<char> *land;
 	size_land = check_size_file(file, count_land);
@@ -53,7 +53,7 @@ int island(vector<char>* land, int &count_land)
 	int isl = 0;
 	for(int i = 1; i < count_land-1; i++)
 	{
-		for(int j = 1; j < land[i].size(); j++)
+		for(size_t j = 1; j < land[i].size(); j++)
 		{
 			if(land[i].at(j) == earth)
 			{
