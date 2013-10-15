@@ -5,24 +5,24 @@
 
 using namespace std;
 
-int calculateIslands( const vector< string > );
-void exploreIsland( int, int, const vector< string >&, bool** );
+int calculateIslands( const std::vector< std::string >& );
+void exploreIsland( int, int, const std::vector< std::string >&, bool** );
 
 int main() 
 {	
-	vector<string> map;
-	string buffer;
+	std::vector<std::string> map;
+	std::string buffer;
 		
-	ofstream outFile;
-	ifstream mapSource( SOURCE_DIR "/sources/task1_5/input.txt" );
+	std::ofstream outFile;
+	std::ifstream mapSource( SOURCE_DIR "/sources/task1_5/input.txt" );
 	
-	if ( !mapSource ) 
+	if ( !mapSource.is_open() ) 
 	{
-		cerr << "Failed to open input file\n";
+		std::cerr << "Failed to open input file\n";
 		return 1;
 	}
 
-	while ( getline(mapSource, buffer) )
+	while ( std::getline(mapSource, buffer) )
 	{
 		map.push_back( buffer );
 	}
@@ -33,21 +33,21 @@ int main()
 
 	outFile.open( SOURCE_DIR "/tests/task1_5/output.txt" );
 	
-	if ( !outFile )
+	if ( !outFile.is_open() )
 	{
-		cerr << "Output File was not created\n";
-		cout << "Number of islands is " << numberOfIslands << endl;
+		std::cerr << "Output File was not created\n";
+		std::cout << "Number of islands is " << numberOfIslands << std::endl;
 		return 1;
 	}
 
-	outFile << numberOfIslands << endl;
+	outFile << numberOfIslands << std::endl;
 
 	outFile.close();
 
 	return 0;
 }
 
-int calculateIslands( const vector< string > map)
+int calculateIslands( const std::vector< std::string >& map)
 {
 	int islandsNumber = 0;
 	int lineSize;
@@ -93,7 +93,7 @@ int calculateIslands( const vector< string > map)
 	
 	return islandsNumber;
 }
-void exploreIsland( int coordX, int coordY, const vector< string >& map, bool** isVisited)
+void exploreIsland( int coordX, int coordY, const std::vector< std::string >& map, bool** isVisited)
 {
 	isVisited[coordX][coordY] = true;
 
