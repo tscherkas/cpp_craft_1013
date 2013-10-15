@@ -1,10 +1,10 @@
 #include "palindrome.h"
 
 using namespace std;
-//function to remove ignore characters and  to lower
-void string_del(string& str)
+
+void  string_preparation(string& str)
 {
-	for(int i = 0; i < str.size(); i++)
+	for(size_t i = 0; i < str.size(); i++)
 	{
 		if(isalpha(str.at(i)))
 			str[i] = tolower(str.at(i));
@@ -12,16 +12,14 @@ void string_del(string& str)
 			str.erase(i--, 1);
 	}
 }
-//function to find substring
-bool find_key(string& key, string str)
+
+bool find_key(const string& key, const string &str)
 {
 	string temp_key;
-	string_del(str);
-	for(int i = key.size()-1; i >= 0; i--)
-		temp_key.push_back(key.at(i));
-	string_del(temp_key);
-	if(str.find(temp_key) != string::npos)
-		return true;
-	else
-		return false;
+	 for( string::const_reverse_iterator it = key.rbegin(); it != key.rend(); ++it ) 
+		 temp_key.push_back( *it );
+
+	string_preparation(temp_key);
+
+	return (str.find(temp_key) != string::npos);
 }
