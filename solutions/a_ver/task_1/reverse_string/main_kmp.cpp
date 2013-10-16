@@ -10,37 +10,42 @@
  * */
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
 #define EXPECT_INPUT_LEN 100000
 
-void compute_prefix(int prefix[], const string &needle){
-    int m = needle.length()-1;
-    int k = -1;
-    prefix[0] = k;
-    for(int q=1; q <= m; q++){
-        while(k > -1 && needle[m - (k+1)] != needle[m - q]){
+static const size_t npos = -1;
+
+void compute_prefix(vector<size_t> &prefix, const string &needle){
+    size_t m = needle.length()-1;
+    size_t k = npos;
+    prefix.push_back(k);
+    for(size_t q=1; q <= m; q++){
+        while(k < npos && needle[m - (k+1)] != needle[m - q]){
             k = prefix[k]; 
         }
         if(needle[m - (k+1)] == needle[m - q]){
             k++;
         }
-        prefix[q] = k;
+        prefix.push_back(k);
     }
 }
 
-int kmp_matcher(const string &haystack, const string &needle){
-    int n = haystack.length();
-    int m = needle.length() - 1;
-    int prefix[m];
+size_t kmp_matcher(const string &haystack, const string &needle){
+    size_t n = haystack.length();
+    size_t m = needle.length() - 1;
+    vector<size_t> prefix;
+    prefix.reserve(m+1);
 
     compute_prefix(prefix, needle);
 
-    int q = -1;
-    for(int i=0; i < n; i++){
-        while(q > -1 && needle[m - (q+1)] != haystack[i]){
+    size_t q = npos;
+    for(size_t i=0; i < n; i++){
+        while(q < npos && needle[m - (q+1)] != haystack[i]){
             q = prefix[q];
         }
         if(needle[m - (q+1)] == haystack[i]){
@@ -50,25 +55,25 @@ int kmp_matcher(const string &haystack, const string &needle){
             return i - m;
         }
     }
-    return -1;
+    return npos;
 }
 
 
 void read_line(ifstream &i_fs, string &line){
-    char c = '\0';
     if(!line.empty()){
         line.erase();
     }
+    int c = '\0';
     c = i_fs.get();
     while(!i_fs.eof()  && c != '\n'){
         if(c != ' ' && c != '-' && c != '\\'){
-            line.push_back(toupper(c));
+            line.push_back(static_cast<char>(toupper(c)));
         }
         c = i_fs.get();
     }
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     ifstream i_fs(SOURCE_DIR "/Input.txt");
     if(!i_fs){
@@ -82,7 +87,7 @@ int main(int argc, char* argv[])
     }
     string text;
     string line;
-    int offset;
+    size_t offset;
     text.reserve(EXPECT_INPUT_LEN);
 
     read_line(i_fs, text);
@@ -90,7 +95,7 @@ int main(int argc, char* argv[])
     while(!i_fs.eof()){
         read_line(i_fs, line);
         offset = kmp_matcher(text, line);
-        if(offset != -1){
+        if(offset != npos){
             o_fs << "YES" << endl;
         }else{
             o_fs << "NO" << endl;

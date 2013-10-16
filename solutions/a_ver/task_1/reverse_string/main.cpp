@@ -8,20 +8,20 @@ using namespace std;
 #define EXPECT_INPUT_LEN 100000
 
 void read_line(ifstream &i_fs, string &line){
-    char c = '\0';
+    int c = '\0';
     if(!line.empty()){
         line.erase();
     }
     c = i_fs.get();
     while(!i_fs.eof()  && c != '\n'){
         if(c != ' ' && c != '-' && c != '\\'){
-            line.push_back(toupper(c));
+            line.push_back(static_cast<char>(toupper(c)));
         }
         c = i_fs.get();
     }
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     ifstream i_fs(SOURCE_DIR "/Input.txt");
     if(!i_fs){
