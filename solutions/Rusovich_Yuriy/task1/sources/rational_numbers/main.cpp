@@ -13,7 +13,7 @@ int main()
 	
 	int countKey = 0;
 	std::string countKeyString;
-	std::vector < int > keys; 
+	std::vector < long long > keys; 
 
 	std::getline(inputFile, countKeyString);
 	countKey = atoi(countKeyString.c_str());
@@ -24,7 +24,7 @@ int main()
 		if (!inputFile.eof())
 		{
 			std::getline(inputFile, key);
-			keys.push_back(atof(key.c_str()) * accuracy);
+			keys.push_back((long long)atof(key.c_str()) * accuracy);
 		} else 
 		{
 			break;
@@ -39,7 +39,7 @@ int main()
 		if (passwordString.empty())
 			continue;
 
-		int password = atof(passwordString.c_str()) * accuracy;
+		long long password = (long long)atof(passwordString.c_str()) * accuracy;
 		
 		for (int i = 0; i < countKey; ++i)
 		{
