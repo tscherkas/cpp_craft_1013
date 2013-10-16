@@ -40,7 +40,7 @@ int main()
 		std::reverse(key.begin(), key.end());
 		std::transform(key.begin(), key.end(), key.begin(), tolower); 
 
-		if (text.find(key) != std::string::npos)
+		if (removeOddSymbols(text, symbol).find(key) != std::string::npos)
 			outputFile << std::string("YES") << std::endl;
 		else
 			outputFile << std::string("NO") << std::endl;			
