@@ -61,12 +61,12 @@ int32_t SinkIslands(Field& field)
 int main()
 {
     setlocale(LC_ALL, "");
-    std::ifstream in ("Input.txt");
-    std::ofstream out ("Output.txt");
+    std::ifstream in (BINARY_DIR "/Input.txt");
+    std::ofstream out (BINARY_DIR "/Output.txt");
 
-    if(!in || !out)
+	if (!in.is_open()|| !out.is_open())
     {
-        return -1;
+        return 1;
     }
 
     Field field;

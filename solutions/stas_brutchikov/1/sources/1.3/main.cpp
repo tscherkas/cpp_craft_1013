@@ -16,11 +16,11 @@ void PrepareString(std::string& str)
 int main()
 {
     setlocale(LC_ALL, "");
-    std::ifstream in ("Input.txt");
-    std::ofstream out ("Output.txt");
-    if (!in && !out)
+    std::ifstream in (BINARY_DIR "/Input.txt");
+    std::ofstream out (BINARY_DIR "/Output.txt");
+	if (!in.is_open()|| !out.is_open())
     {
-        return -1;
+        return 1;
     }
     std::string base_str;
     std::getline(in, base_str);
