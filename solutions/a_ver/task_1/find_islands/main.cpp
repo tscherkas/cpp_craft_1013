@@ -9,13 +9,13 @@
 using namespace std;
 
 
-void mark_island(vector<string>& data, int i, int j){
-    stack<pair<int,int> > st;
-    pair<int, int> p;
-    int data_size = data.size()-1;
-    int length = data[0].length()-1;
+void mark_island(vector<string>& data, size_t i, size_t j){
+    stack<pair<size_t, size_t> > st;
+    pair<size_t, size_t> p;
+    const size_t column_length = data.size() - 1;
+    const size_t row_length = data[0].length() - 1;
     
-    st.push(make_pair(i,j));
+    st.push(make_pair(i, j));
     while(!st.empty()){
         p = st.top();
         st.pop();
@@ -24,13 +24,13 @@ void mark_island(vector<string>& data, int i, int j){
         if(p.second > 0 && data[p.first][p.second-1] == 'o'){
             st.push(make_pair(p.first, p.second-1));
         }
-        if(p.second < length && data[p.first][p.second+1] == 'o'){
+        if((p.second + 1) < row_length && data[p.first][p.second+1] == 'o'){
             st.push(make_pair(p.first, p.second+1));
         }
         if(p.first > 0 && data[p.first-1][p.second] == 'o'){
             st.push(make_pair(p.first-1, p.second));
         }
-        if(p.first < data_size && data[p.first+1][p.second] == 'o'){
+        if((p.first + 1) < column_length && data[p.first+1][p.second] == 'o'){
             st.push(make_pair(p.first+1, p.second));
         }
     }
@@ -49,17 +49,17 @@ int main(){
     }
     vector<string> data;
     string line;
-    int count = 0;
+    size_t count = 0;
 
     while(!i_fs.eof()){
         i_fs >> line;
         data.push_back(line);
     }
-    int data_length = data.size();
-    int length = data[0].length();
+    const size_t column_length = data.size();
+    const size_t row_length = data[0].length();
 
-    for(int i=0; i < data_length; i++){
-        for(int j=0; j < length; j++){
+    for(size_t i=0; i < column_length; i++){
+        for(size_t j=0; j < row_length; j++){
             if(data[i][j] == 'o'){
                 mark_island(data, i, j);
                 count++;

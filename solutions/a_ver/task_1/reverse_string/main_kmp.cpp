@@ -21,7 +21,7 @@ using namespace std;
 static const size_t npos = -1;
 
 void compute_prefix(vector<size_t> &prefix, const string &needle){
-    size_t m = needle.length()-1;
+    const size_t m = needle.length()-1;
     size_t k = npos;
     prefix.push_back(k);
     for(size_t q=1; q <= m; q++){
@@ -36,8 +36,8 @@ void compute_prefix(vector<size_t> &prefix, const string &needle){
 }
 
 size_t kmp_matcher(const string &haystack, const string &needle){
-    size_t n = haystack.length();
-    size_t m = needle.length() - 1;
+    const size_t n = haystack.length();
+    const size_t m = needle.length() - 1;
     vector<size_t> prefix;
     prefix.reserve(m+1);
 
