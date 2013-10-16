@@ -13,11 +13,11 @@ using namespace std;
 
 class Solution{
 
-	static const int EPS=1;
+    static const int EPS=1;
 
     int n;
-    double x;
-    vector<double>a;
+    long double x;
+    vector<long double>a;
      
     ifstream in;
     ofstream out;
@@ -29,11 +29,14 @@ public:
     {
         in.open(SOURCE_DIR"/input.txt",ios_base::in);
         out.open(SOURCE_DIR"/output.txt",ios_base::out);
+
+        if(!in.is_open()||!out.is_open())
+            throw new exception();
     }
             
     ~Solution()    
     { 
-	    in.close();
+        in.close();
         out.close();
     }
                
@@ -54,12 +57,12 @@ public:
               
         while(!in.eof())
         {
-            vector<double>::iterator it;
+            vector<long double>::iterator it;
                             
             if(!(in>>x))
                 break;
 
-			x=floor(x*10000);
+            x=floor(x*10000);
                             
             it = lower_bound(a.begin(),a.end(),x);
             
@@ -87,8 +90,14 @@ public:
 int main()
 {
        
-    Solution s;
-    s.process();
+    try
+    {
+        Solution s;
+        s.process();
+    }catch(...)
+    {
+        cerr<<"Can't open files!";
+    }
            
     return 0;  
 }

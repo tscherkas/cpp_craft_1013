@@ -32,7 +32,7 @@ private:
    
      for(string::iterator i=s.begin();i<s.end();i++)
           if((*i)!=' '&&(*i)!='\\'&&(*i)!='-')
-              res+=((*i)>='?'&&(*i)<='?')?(*i)-'?'+'?':tolower((*i));
+              res+=tolower((*i));
  
      s=res;
  
@@ -44,6 +44,9 @@ public:
     {
         in.open(SOURCE_DIR"/input.txt",ios_base::in);
         out.open(SOURCE_DIR"/output.txt",ios_base::out);
+		
+        if(!in.is_open()||!out.is_open())
+            throw new exception();
     }
             
     ~Solution()
@@ -62,7 +65,7 @@ public:
         while(!in.eof())
         {
             getline(in,line);
-            if(in.eof())break;
+			if(line.size()==0)continue;
             cut(line);
 					
             if(text.find(line)!=string::npos)
@@ -78,9 +81,15 @@ public:
 
 int main()
 {
-       
-    Solution s;
-    s.process();
-       
+    
+    try
+    {
+        Solution s;
+        s.process();
+    }catch(...)
+    {
+        cerr<<"Can't open files!";
+    }
+
     return 0;  
 }

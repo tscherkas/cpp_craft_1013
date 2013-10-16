@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <queue>
+#include <exception>
 
 /*
 * Alexandr Lapenkov
@@ -25,11 +26,35 @@ private:
 	struct point
 	{
 		int x,y;
+
+		point()
+		{
+			x=0;
+			y=0;
+		}
+
 		point(int x, int y)
 		{
 			point::x=x;
 			point::y=y;
 		}
+
+		point up(){
+			return point(x-1,y);
+		}
+
+		point left(){
+			return point(x,y-1);
+		}
+
+		point right(){
+			return point(x,y+1);
+		}
+
+		point down(){
+			return point(x+1,y);
+		}
+
 	};
 
 public:
@@ -39,6 +64,9 @@ public:
     {
         in.open(SOURCE_DIR"/input.txt",ios_base::in);
         out.open(SOURCE_DIR"/output.txt",ios_base::out);
+        
+        if(!in.is_open()||!out.is_open())
+            throw new exception();
     }
             
     ~Solution()
@@ -47,43 +75,43 @@ public:
         out.close();
     }
        
-    inline void bfs_move(queue<point>&q, const int tx, const int ty)
+    inline void bfs_move(queue<point>&q, const point& to)
     {
     
-        if(tx<0||ty<0||tx>=n||ty>=m)return ;
-        if(a[tx][ty]!='o')return ;
+        if(to.x<0||to.y<0||to.x>=n||to.y>=m)return ;
+        if(a[to.x][to.y]!='o')return ;
         
-        q.push(point(tx,ty));
+        q.push(to);
           
-        a[tx][ty]='~';
+        a[to.x][to.y]='~';
           
     }  
 
 
-    void bfs_component(const int sx, const int sy)
+    void bfs_component(const point& start)
     {
         queue<point>q;
-        int tx,ty;
+        point current;
  
-        q.push(point(sx,sy));
+        q.push(start);
     
-        a[sx][sy]='~';
+        a[start.x][start.y]='~';
     
         while(!q.empty())
         {
-            tx=q.front().x; ty=q.front().y;
+            current = q.front();
             q.pop();
            
-            bfs_move(q,tx+1,ty);
-            bfs_move(q,tx-1,ty);
-            bfs_move(q,tx,ty+1);
-            bfs_move(q,tx,ty-1);
+            bfs_move(q,current.up());
+            bfs_move(q,current.down());
+            bfs_move(q,current.left());
+            bfs_move(q,current.right());
         }
 
     }
             
     void process()
-    {            
+    {     
         string buf;
         int ans=0;
        
@@ -101,7 +129,7 @@ public:
                 if(a[i][j]=='o')
                 {
                     ans++;
-                    bfs_component(i,j);
+                    bfs_component(point(i,j));
                 }
         
         out<<ans;
@@ -114,9 +142,15 @@ public:
 int main()
 {
        
-    Solution s;
-    s.process();
-       
+    try
+    {
+        Solution s;
+        s.process();
+    } catch (...)
+    {
+        cerr<<"Can't open files!";
+    }
+
     return 0;  
 }
 
