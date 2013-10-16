@@ -2,6 +2,7 @@
 #include <fstream>
 #include <algorithm>
 #include <vector>
+#include <string>
 
 typedef std::vector<std::string> landmap_t; //definition for map
 const char waterChar = '~';
@@ -17,7 +18,7 @@ void renderMap(const landmap_t& map) {
 
 bool isCoordValid(const landmap_t& map, const unsigned int x,
 		const unsigned int y) {
-	return x < map[0].length() && y < map.size();
+	return (x < map[0].length()) && (y < map.size());
 }
 
 char getLandChar(const landmap_t& map, const unsigned int x,
@@ -48,8 +49,8 @@ int main(int argc, char** argv) {
 	std::ifstream inputFile(SOURCE_DIR "/sources/15/input.txt");
 	std::ofstream outputFile(SOURCE_DIR "/sources/15/output.txt");
 
-	unsigned int linesCount = 0;
-	unsigned int lineLength = 0;
+	size_t linesCount = 0;
+	size_t lineLength = 0;
 	std::string strBuff;
 	landmap_t landmap;
 	const std::string marks =

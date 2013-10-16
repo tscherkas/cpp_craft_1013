@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <string>
 
 
 void prepareString( std::string& str ){
@@ -21,21 +22,17 @@ int main( int argc, char** argv ){
 
     //process first line
     std::getline( inputFile, mainString );
-    std::cout << mainString.c_str() << std::endl << std::endl;
     prepareString(mainString);
 
     //process keys
     while ( std::getline( inputFile, line ) ){
-    	std::cout << line.c_str();
     	prepareString(line);
     	std::reverse(line.begin(), line.end());
 
     	if ( mainString.find(line) != std::string::npos ){
     		outputFile << "YES" << std::endl;
-    		std::cout << "\tYES" << std::endl;
     	}else{
     		outputFile << "NO" << std::endl;
-    		std::cout << "\tNO" << std::endl;
     	}
     }
 
