@@ -9,9 +9,6 @@ int main()
 {
     static const std::string yes = "YES";
     static const std::string no = "NO";
-	static const char space = ' ';
-	static const char dash = '-';
-	static const char slash = '\\';
 
     //open
     std::ifstream inFile	( BINARY_DIR "input.txt");
@@ -45,6 +42,9 @@ int main()
 //Does not convert the Cyrillic alphabet
 void clearString(std::string& line)
 {
+	static const char space = ' ';
+	static const char dash = '-';
+	static const char slash = '\\';
     std::replace(line.begin(), line.end(), dash, space);
     std::replace(line.begin(), line.end(), slash, space);
     std::transform(line.begin(), line.end(), line.begin(), ::tolower);
