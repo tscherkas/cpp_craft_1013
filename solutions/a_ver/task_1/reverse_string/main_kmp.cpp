@@ -21,14 +21,14 @@ using namespace std;
 static const size_t npos = -1;
 
 void compute_prefix(vector<size_t> &prefix, const string &needle){
-    const size_t m = needle.length()-1;
+    const size_t m = needle.length() - 1;
     size_t k = npos;
     prefix.push_back(k);
     for(size_t q=1; q <= m; q++){
-        while(k < npos && needle[m - (k+1)] != needle[m - q]){
+        while(k < npos && needle[m - (k + 1)] != needle[m - q]){
             k = prefix[k]; 
         }
-        if(needle[m - (k+1)] == needle[m - q]){
+        if(needle[m - (k + 1)] == needle[m - q]){
             k++;
         }
         prefix.push_back(k);
@@ -36,19 +36,22 @@ void compute_prefix(vector<size_t> &prefix, const string &needle){
 }
 
 size_t kmp_matcher(const string &haystack, const string &needle){
+    if(haystack.empty() || needle.empty()){
+        return npos;
+    }
     const size_t n = haystack.length();
     const size_t m = needle.length() - 1;
     vector<size_t> prefix;
-    prefix.reserve(m+1);
+    prefix.reserve(m + 1);
 
     compute_prefix(prefix, needle);
 
     size_t q = npos;
     for(size_t i=0; i < n; i++){
-        while(q < npos && needle[m - (q+1)] != haystack[i]){
+        while(q < npos && needle[m - (q + 1)] != haystack[i]){
             q = prefix[q];
         }
-        if(needle[m - (q+1)] == haystack[i]){
+        if(needle[m - (q + 1)] == haystack[i]){
             q++;
         }
         if(q == m){
