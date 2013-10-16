@@ -7,12 +7,18 @@ void clearString(std::string& line);
 
 int main()
 {
-    std::string yes = "YES";
-    std::string no = "NO";
+    static const std::string yes = "YES";
+    static const std::string no = "NO";
+	static const char space = ' ';
+	static const char dash = '-';
+	static const char slash = '\\';
 
     //open
-    std::ifstream inFile	( "../1_1/data/input.txt");
-    std::ofstream outFile	( "../1_1/data/output.txt");
+    std::ifstream inFile	( BINARY_DIR "input.txt");
+    std::ofstream outFile	( BINARY_DIR "output.txt");
+	if (!inFile.is_open()) {
+		return 1;
+	}
 
     //init mainLine
     std::string mainLine;
@@ -39,10 +45,6 @@ int main()
 //Does not convert the Cyrillic alphabet
 void clearString(std::string& line)
 {
-    char space = ' ';
-    char dash = '-';
-    char slash = '\\';
-
     std::replace(line.begin(), line.end(), dash, space);
     std::replace(line.begin(), line.end(), slash, space);
     std::transform(line.begin(), line.end(), line.begin(), ::tolower);

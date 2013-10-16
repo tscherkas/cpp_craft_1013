@@ -9,18 +9,18 @@ bool isEquals (float a, float b, float eps);
 
 int main()
 {
-    std::string yes = "YES";
-    std::string no = "NO";
-    float eps = 0.0001;
+    static const std::string yes = "YES";
+    static const std::string no = "NO";
+    static const float eps = 0.0001;
     float pass;
 
     //open
-    std::ifstream inFile	( "../1_2/data/input.txt");
-    std::ofstream outFile	( "../1_2/data/output.txt");
+    std::ifstream inFile	( BINARY_DIR "input.txt");
+    std::ofstream outFile	( BINARY_DIR "output.txt");
 
     long N = 1;
     inFile >> N;
-    if (N == 0) {
+    if (N <= 0) {
         return 1;
     }
 
