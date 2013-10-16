@@ -27,6 +27,7 @@ int main()
 {
 	ifstream f1("input.txt");
 	ofstream f2("output.txt");
+	if (!f1.is_open() || !f2.is_open()) return 0;
 	int n;
 	f1 >> n;
 	vector<long long> a;
@@ -34,7 +35,7 @@ int main()
 	{
 		double x;
 		f1 >> x;
-		long long X =  (long long) (x*10000);
+		long long X =  floor (x*10000+0.5);
 		a.pb(X);
 	}
 	sort(a.begin(),a.end());
@@ -42,12 +43,14 @@ int main()
 	{
 		double x;
 		f1 >> x;
-		long long X = (long long) (x*10000);
+		long long X = floor (x*10000+0.5);
 		vector<long long> :: iterator tr=lower_bound(a.begin(),a.end(),X);
 		if (tr!=a.end() && *tr==X) 
 			f2 << "YES" << endl; 
 			else 
 			f2 << "NO" << endl; 
 	}
+	f1.close();
+	f2.close();
 	return 0;
 }

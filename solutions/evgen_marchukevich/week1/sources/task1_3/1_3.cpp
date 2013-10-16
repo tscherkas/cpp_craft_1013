@@ -34,6 +34,7 @@ int main()
 {
 	ifstream f1("input.txt");
 	ofstream f2("output.txt");
+	if (!f1.is_open() || !f2.is_open()) return 0;
 	setlocale(LC_ALL,"");
 	string s,s1,s2;
 	s="";
@@ -62,5 +63,7 @@ int main()
 		}
 		if (f) f2 << "YES" << endl; else f2 << "NO" << endl;
 	}
+	f1.close();
+	f2.close();
 	return 0;
 }
