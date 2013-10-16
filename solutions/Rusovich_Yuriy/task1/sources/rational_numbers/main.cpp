@@ -8,57 +8,58 @@
 
 int main()
 {
-	std::ifstream inputFile(SOURCE_DIR "/input_rational_numbers.txt");
-	std::ofstream outputFile(SOURCE_DIR "/output_rational_numbers.txt" );
+	std::ifstream inputFile(SOURCE_DIR "/input.txt");
+	std::ofstream outputFile(SOURCE_DIR "/output.txt" );
 	
-	int countKey = 0;
-	std::string countKeyString;
-	std::vector < long long > keys; 
-
-	std::getline(inputFile, countKeyString);
-	countKey = atoi(countKeyString.c_str());
-	
-	for (int i = 0; i < countKey; ++i)
+	if ( inputFile && outputFile)
 	{
-		std::string key;
-		if (!inputFile.eof())
-		{
-			std::getline(inputFile, key);
-			keys.push_back((long long)atof(key.c_str()) * accuracy);
-		} else 
-		{
-			break;
-		}
-	}
-	
-	while (!inputFile.eof()) 
-    {
-		std::string passwordString;
-		std::getline(inputFile, passwordString);
-		
-		if (passwordString.empty())
-			continue;
+		int countKey = 0;
+		std::string countKeyString;
+		std::vector < long long > keys; 
 
-		long long password = (long long)atof(passwordString.c_str()) * accuracy;
+		std::getline(inputFile, countKeyString);
+		countKey = atoi(countKeyString.c_str());
 		
 		for (int i = 0; i < countKey; ++i)
 		{
-			if (password == keys[i])
+			std::string key;
+			if (!inputFile.eof())
 			{
-				outputFile << std::string("YES") << std::endl;
+				std::getline(inputFile, key);
+				keys.push_back((long long)(atof(key.c_str()) * accuracy));
+			} else 
+			{
 				break;
-			} else
-			{
-				if (i + 1 == countKey)
-					outputFile << std::string("NO") << std::endl;
-				continue;
 			}
 		}
-	}
+		
+		while (!inputFile.eof()) 
+		{
+			std::string passwordString;
+			std::getline(inputFile, passwordString);
+			
+			if (passwordString.empty())
+				continue;
 
-	inputFile.close();
-	outputFile.close();
-    
-	system("pause");
+			long long password = (long long)(atof(passwordString.c_str()) * accuracy);
+			
+			for (int i = 0; i < countKey; ++i)
+			{
+				if (password == keys[i])
+				{
+					outputFile << std::string("YES") << std::endl;
+					break;
+				} else
+				{
+					if (i + 1 == countKey)
+						outputFile << std::string("NO") << std::endl;
+					continue;
+				}
+			}
+		}
+
+		inputFile.close();
+		outputFile.close();
+	}
 	return 0;
 }

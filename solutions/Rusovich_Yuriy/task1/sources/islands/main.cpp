@@ -27,52 +27,55 @@ bool hasOldIsland(int row, int column, const std::vector <std::string> &earth)
 
 int main()
 {
-	std::ifstream inputFile(SOURCE_DIR "/input_islands.txt");
-	std::ofstream outputFile(SOURCE_DIR "/output_islands.txt" );
+	std::ifstream inputFile(SOURCE_DIR "/input.txt");
+	std::ofstream outputFile(SOURCE_DIR "/output.txt" );
 	
-	std::vector <std::string> earth;
-	int countIslands = 0;
-
-	while (!inputFile.eof()) 
-    {
-		std::string pieceOfEarth;
-		std::getline(inputFile, pieceOfEarth);
-		
-		if (pieceOfEarth.empty())
-			continue;
-
-		earth.push_back(pieceOfEarth);
-	}
-
-	size_t countPieceEarth = earth.size();
-	for (size_t row = 0; row < countPieceEarth; ++row)
+	if ( inputFile && outputFile)
 	{
-		int countItems = earth[row].size();
-		for (int column = 0; column < countItems; ++column)
+		std::vector <std::string> earth;
+		int countIslands = 0;
+
+		while (!inputFile.eof()) 
 		{
-			if (earth[row][column] == 'o')
+			std::string pieceOfEarth;
+			std::getline(inputFile, pieceOfEarth);
+			
+			if (pieceOfEarth.empty())
+				continue;
+
+			earth.push_back(pieceOfEarth);
+		}
+
+		size_t countPieceEarth = earth.size();
+		for (size_t row = 0; row < countPieceEarth; ++row)
+		{
+			int countItems = earth[row].size();
+			for (int column = 0; column < countItems; ++column)
 			{
-				if ((row <= 0 || earth[row - 1][column] != 'o') 
-					&& (column <= 0 || earth[row][column - 1] != 'o'))
+				if (earth[row][column] == 'o')
 				{
-					if (countPieceEarth == 1)
+					if ((row <= 0 || earth[row - 1][column] != 'o') 
+						&& (column <= 0 || earth[row][column - 1] != 'o'))
 					{
-						++countIslands;
-					} else
-					{
-						if (!hasOldIsland(row, column, earth))
+						if (countPieceEarth == 1)
 						{
-							for (size_t offset = 1; offset < countPieceEarth; ++offset)
-							{	
-								if ((row + offset) >= countPieceEarth 
-									|| earth[row + offset][column] != 'o' 
-									|| !hasOldIsland(row + offset, column, earth)) 
-								{
-									++countIslands;
-									break;
-								} else
-								{
-									break;
+							++countIslands;
+						} else
+						{
+							if (!hasOldIsland(row, column, earth))
+							{
+								for (size_t offset = 1; offset < countPieceEarth; ++offset)
+								{	
+									if ((row + offset) >= countPieceEarth 
+										|| earth[row + offset][column] != 'o' 
+										|| !hasOldIsland(row + offset, column, earth)) 
+									{
+										++countIslands;
+										break;
+									} else
+									{
+										break;
+									}
 								}
 							}
 						}
@@ -80,15 +83,13 @@ int main()
 				}
 			}
 		}
+		std::stringstream countIslandString;
+		countIslandString << countIslands;
+
+		outputFile << countIslandString.str() << std::endl;
+
+		inputFile.close();
+		outputFile.close();
 	}
-	std::stringstream countIslandString;
-	countIslandString << countIslands;
-
-	outputFile << countIslandString.str() << std::endl;
-
-	inputFile.close();
-	outputFile.close();
-    
-	system("pause");
 	return 0;
 }

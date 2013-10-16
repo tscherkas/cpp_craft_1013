@@ -18,37 +18,38 @@ std::string removeOddSymbols(const std::string &text, const std::vector <char> &
 
 int main()
 {
-	std::ifstream inputFile(SOURCE_DIR "/input_inverted_rows.txt");
-	std::ofstream outputFile(SOURCE_DIR "/output_inverted_rows.txt" );
+	std::ifstream inputFile(SOURCE_DIR "/input.txt");
+	std::ofstream outputFile(SOURCE_DIR "/output.txt" );
 	
-	std::string text;
-	std::getline(inputFile, text);
-	std::transform(text.begin(), text.end(), text.begin(), tolower);
+	if ( inputFile && outputFile)
+	{
+		std::string text;
+		std::getline(inputFile, text);
+		std::transform(text.begin(), text.end(), text.begin(), tolower);
 
-	std::string key;
-	while (std::getline(inputFile, key)) 
-    {
-		if( key.length()==0)
-			continue;
+		std::string key;
+		while (std::getline(inputFile, key)) 
+		{
+			if( key.length()==0)
+				continue;
 
-		std::vector<char> symbol;// = {' ', '\\', '-'};
-		symbol.push_back(' ');
-		symbol.push_back('-');
-		symbol.push_back('\\');
-		key = removeOddSymbols(key, symbol);
+			std::vector<char> symbol;// = {' ', '\\', '-'};
+			symbol.push_back(' ');
+			symbol.push_back('-');
+			symbol.push_back('\\');
+			key = removeOddSymbols(key, symbol);
 
-		std::reverse(key.begin(), key.end());
-		std::transform(key.begin(), key.end(), key.begin(), tolower); 
+			std::reverse(key.begin(), key.end());
+			std::transform(key.begin(), key.end(), key.begin(), tolower); 
 
-		if (removeOddSymbols(text, symbol).find(key) != std::string::npos)
-			outputFile << std::string("YES") << std::endl;
-		else
-			outputFile << std::string("NO") << std::endl;			
-    }
+			if (removeOddSymbols(text, symbol).find(key) != std::string::npos)
+				outputFile << std::string("YES") << std::endl;
+			else
+				outputFile << std::string("NO") << std::endl;			
+		}
 
-	inputFile.close();
-	outputFile.close();
-    
-	system("pause");
+		inputFile.close();
+		outputFile.close();
+	}
 	return 0;
 }
