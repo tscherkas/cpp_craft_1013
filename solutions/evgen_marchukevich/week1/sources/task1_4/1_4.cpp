@@ -13,12 +13,6 @@
 #include <algorithm>
 #include <vector>
 
-#define pb(VALUE) push_back(VALUE)
-#define mp(FST,SEC) make_pair(FST,SEC)
-#define len(STR) STR.length()
-#define F first
-#define S second
-
 
 using namespace std;
 
@@ -35,15 +29,15 @@ int main()
 	{
 		double x;
 		f1 >> x;
-		long long X =  floor (x*10000+0.5);
-		a.pb(X);
+		long long X =  (long long) (x*10000);
+		a.push_back(X);
 	}
 	sort(a.begin(),a.end());
 	while (!f1.eof())
 	{
 		double x;
 		f1 >> x;
-		long long X = floor (x*10000+0.5);
+		long long X = (long long) (x*10000);
 		vector<long long> :: iterator tr=lower_bound(a.begin(),a.end(),X);
 		if (tr!=a.end() && *tr==X) 
 			f2 << "YES" << endl; 
