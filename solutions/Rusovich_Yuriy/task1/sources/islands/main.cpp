@@ -7,8 +7,8 @@
 
 bool hasOldIsland(int row, int column, const std::vector <std::string> &earth)
 {
-	int countColumn = earth[row].size();
-	for (int j = column; j < countColumn; ++j)
+	size_t countColumn = earth[row].size();
+	for (size_t j = column; j < countColumn; ++j)
 	{
 		if ((j + 1) < countColumn && earth[row][j + 1] == 'o')
 		{
@@ -44,8 +44,8 @@ int main()
 		earth.push_back(pieceOfEarth);
 	}
 
-	int countPieceEarth = earth.size();
-	for (int row = 0; row < countPieceEarth; ++row)
+	size_t countPieceEarth = earth.size();
+	for (size_t row = 0; row < countPieceEarth; ++row)
 	{
 		int countItems = earth[row].size();
 		for (int column = 0; column < countItems; ++column)
@@ -55,19 +55,25 @@ int main()
 				if ((row <= 0 || earth[row - 1][column] != 'o') 
 					&& (column <= 0 || earth[row][column - 1] != 'o'))
 				{
-					if (!hasOldIsland(row, column, earth))
+					if (countPieceEarth == 1)
 					{
-						for (int offset = 1; offset < countPieceEarth; ++offset)
-						{	
-							if ((row + offset) >= countPieceEarth 
-								|| earth[row + offset][column] != 'o' 
-								|| !hasOldIsland(row + offset, column, earth)) 
-							{
-								++countIslands;
-								break;
-							} else
-							{
-								break;
+						++countIslands;
+					} else
+					{
+						if (!hasOldIsland(row, column, earth))
+						{
+							for (size_t offset = 1; offset < countPieceEarth; ++offset)
+							{	
+								if ((row + offset) >= countPieceEarth 
+									|| earth[row + offset][column] != 'o' 
+									|| !hasOldIsland(row + offset, column, earth)) 
+								{
+									++countIslands;
+									break;
+								} else
+								{
+									break;
+								}
 							}
 						}
 					}
