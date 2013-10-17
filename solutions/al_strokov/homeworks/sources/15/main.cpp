@@ -5,8 +5,8 @@
 #include <string>
 
 typedef std::vector<std::string> landmap_t; //definition for map
-const char waterChar = '~';
-const char islandChar = 'o';
+static const char waterChar = '~';
+static const char islandChar = 'o';
 
 void renderMap(const landmap_t& map) {
 	std::string s(map[0].length() + 2, '-');
@@ -48,6 +48,11 @@ int main(int argc, char** argv) {
 
 	std::ifstream inputFile(SOURCE_DIR "/sources/15/input.txt");
 	std::ofstream outputFile(SOURCE_DIR "/sources/15/output.txt");
+
+	if ( !inputFile.is_open() || !outputFile.is_open()){
+		std::cout << "cannot open files" << std::endl;
+		return 1;
+	}
 
 	size_t linesCount = 0;
 	size_t lineLength = 0;
