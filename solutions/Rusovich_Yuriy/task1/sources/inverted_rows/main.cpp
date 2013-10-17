@@ -30,15 +30,15 @@ int main()
 		std::string key;
 		while (std::getline(inputFile, key)) 
 		{
-			if( key.length()==0)
-				continue;
-
 			std::vector<char> symbol;// = {' ', '\\', '-'};
 			symbol.push_back(' ');
 			symbol.push_back('-');
 			symbol.push_back('\\');
 			key = removeOddSymbols(key, symbol);
 
+			if( key.length()==0)
+				continue;
+				
 			std::reverse(key.begin(), key.end());
 			std::transform(key.begin(), key.end(), key.begin(), tolower); 
 
