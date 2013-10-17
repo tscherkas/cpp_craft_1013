@@ -1,6 +1,8 @@
+#pragma once
+
 class Land {
     public:
-        Land(const std::string filename) {
+        Land(const std::string& filename) {
             std::ifstream in(filename.c_str());
             if(in.good()) {
                 std::string line;
@@ -18,7 +20,7 @@ class Land {
         }
         void walk_and_mark(int i, int j)
         {
-            if(ckeck_range(i, j) && is_set(i, j)) {
+            if(check_range(i, j) && is_set(i, j)) {
                 reset(i, j);
                 walk_and_mark(i-1, j);
                 walk_and_mark(i, j+1);
@@ -43,14 +45,13 @@ class Land {
         std::vector<std::vector<bool> > data;
         int m_width;
         int m_height;
-        bool ckeck_range(const int i, const int j) const
+        bool check_range(const int i, const int j) const
         {
             return i >= 0 && j >= 0 && i < m_height && j < m_width;
         }
         bool at(const int i, const int j) const { return data.at(i).at(j); }
         static bool is_land(char c) { return (c == 'o'); }
         void reset(const int i, const int j) { data.at(i).at(j) = false; }
-        Land(Land&);
-        Land(const Land&);
+        Land(const Land&);        
         Land& operator=(Land&);
 };
