@@ -23,6 +23,11 @@ int main(int argc, char** argv) {
 	std::ifstream inputFile(SOURCE_DIR "/sources/14/input.txt");
 	std::ofstream outputFile(SOURCE_DIR "/sources/14/output.txt");
 
+	if ( !inputFile.is_open() || !outputFile.is_open()){
+		std::cout << "cannot open files" << std::endl;
+		return 1;
+	}
+
 	std::string line;
 	std::string strBuff;
 	unsigned int codesCount = 0;
