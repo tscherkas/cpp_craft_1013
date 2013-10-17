@@ -52,7 +52,6 @@ class Land {
         bool at(const int i, const int j) const { return data.at(i).at(j); }
         static bool is_land(char c) { return (c == 'o'); }
         void reset(const int i, const int j) { data.at(i).at(j) = false; }
-        Land(Land&);
-        Land(const Land&);
+        Land(const Land&);        
         Land& operator=(Land&);
 };
