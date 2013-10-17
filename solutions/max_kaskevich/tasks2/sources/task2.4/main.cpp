@@ -5,83 +5,78 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <iterator>
 
 enum msg_type: uint32_t
 {
     MARKET_OPEN = 1u,
     TRADE = 2u,
     QUOTE = 3u,
-    MARKET_CLOSE = 4u,
-    msg_type_end
+    MARKET_CLOSE = 4u    
 };
 
 struct message
 {
-    msg_type type;
+    uint32_t type;
     uint32_t time;
-    uint32_t len;
-    std::vector<char> msg;
 };
 
-std::ifstream& operator >> (std::ifstream& input, message& m)
+std::istream& operator >> (std::istream& input, message& m)
 {
     input.read(reinterpret_cast<char*>(&m.type), sizeof(m.type));
     input.read(reinterpret_cast<char*>(&m.time), sizeof(m.time));
-    input.read(reinterpret_cast<char*>(&m.len), sizeof(m.len));
-    if(m.len)
-    {
-        m.msg.resize(m.len);
-        input.read(m.msg.data(), m.len);
-    }
     return input;
 }
 
-std::ofstream& operator << (std::ofstream& output, message& m)
+std::ostream& operator << (std::ostream& output, message& m)
 {
     output.write(reinterpret_cast<char*>(&m.type), sizeof(m.type));
     output.write(reinterpret_cast<char*>(&m.time), sizeof(m.time));
-    output.write(reinterpret_cast<char*>(&m.len), sizeof(m.len));
-    if(m.len)
-    {
-        output.write(m.msg.data(), m.len);
-    }
     return output;
 }
 
 int main( int argc, char* argv[] )
 {
-    std::ifstream input(BINARY_DIR "/2.4_example.in", std::ios::binary);
-    std::ofstream output(BINARY_DIR "/2.4_example.out", std::ios::binary);
+    std::ifstream input(BINARY_DIR "/input.txt", std::ios::binary);
+    std::ofstream output(BINARY_DIR "/output.txt", std::ios::binary);
     if(!input || !output)
     {
         return 1;
     }
 
-    typedef std::multimap<uint32_t, std::shared_ptr< message > > message_map;
-    message_map my_map;
     uint32_t T = 0;
-    while(1)
+    message m;
+    while(input >> m)
     {
-        std::shared_ptr< message > m(new message());
-        input >> *m;
-        if(input)
+        if(m.type >= MARKET_OPEN && m.type <= MARKET_CLOSE && m.time + 2 > T )
         {
-            if(m->type < msg_type_end && m->time + 2 > T )
+            if( !(output << m ) )
             {
-                my_map.insert(message_map::value_type(m->time, m));
-                T = std::max(T, m->time);
+                return 1;
+            }
+            // redirect msg to output
+            int32_t len;
+            input.read(reinterpret_cast<char*>(&len), sizeof(len));
+            if (input && len)
+            {
+                std::istreambuf_iterator<char> it(input);
+                while(output.write(*(it), sizeof(*(it))) && --len)
+                {
+                    ++it;
+                }
             }
 
+            T = std::max(T, m.time);
         }
         else
         {
-            break;
+            // miss msg
+            int32_t len;
+            input.read(reinterpret_cast<char*>(&len), sizeof(len));
+            if (input)
+            {
+                input.seekg(len, std::ios::cur);
+            }
         }
     }
-
-    std::for_each(my_map.begin(), my_map.end(), [&output](message_map::value_type& msg_pair)
-    {
-        output << *(msg_pair.second);
-
-    });
 }
