@@ -4,12 +4,12 @@
 #include <queue>
 
 
-void RemoveIslandFromMap(std::vector<std::string>& map, std::pair<int, int> o)
+void RemoveIslandFromMap(std::vector<std::string>& map, std::pair<size_t, size_t> o)
 {
-    std::queue<std::pair<int, int>> island;
+    std::queue<std::pair<size_t, size_t>> island;
     island.push(o);
-	int i = o.first;
-	int j = o.second;
+	size_t i = o.first;
+	size_t j = o.second;
 	map[i][j] = ' ';
 
     while (!island.empty())
@@ -61,9 +61,9 @@ int main()
 		}
     
 		int count = 0;
-		for (int i = 0; i < map.size(); ++i)
+		for (size_t i = 0; i < map.size(); ++i)
 		{
-			for (int j = 0; j < map[i].size(); ++j)
+			for (size_t j = 0; j < map[i].size(); ++j)
 			{
 				if (map[i][j] == 'o')
 				{
