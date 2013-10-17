@@ -2,6 +2,7 @@
 #include <fstream>
 #include <algorithm>
 #include <set>
+#include <string>
 
 
 //transform given string to double with 4 digit precision
