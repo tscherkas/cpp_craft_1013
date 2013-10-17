@@ -43,7 +43,7 @@ int main()
                 break;
             }
         }
-        outFile << (eqNum ? yes : no) << std::endl;
+        outFile << (eqNum ? yes : no).c_str() << std::endl;
     }
     //close
     delete[] codes;
@@ -59,6 +59,5 @@ bool isEquals(double a, double b, double degree) {
 
 long long int myRound (double number, double degree) {
     number *= degree;
-    number = static_cast<long long int>(number);
-    return number;
+    return static_cast<long long int>(number);
 }
