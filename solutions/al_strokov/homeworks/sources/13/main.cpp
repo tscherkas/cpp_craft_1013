@@ -18,8 +18,8 @@ int main( int argc, char** argv ){
     std::ofstream outputFile( SOURCE_DIR "/sources/13/output.txt" );
 
     if ( !inputFile.is_open() || !outputFile.is_open()){
-	std::cout << "cannot open files" << std::endl;
-	return 1;
+        std::cout << "cannot open files" << std::endl;
+        return 1;
     }
 
     std::string line;
