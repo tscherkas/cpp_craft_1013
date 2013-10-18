@@ -72,8 +72,8 @@ bool openFiles(std::ifstream & inputfile, std::ofstream & outputfile)
 
 int main(int argc, char** argv) 
 {   
-    std::ifstream inputfile ("/tmp/input.txt");
-    std::ofstream outputfile ("/tmp/output.txt");
+    std::ifstream inputfile (SOURCE_DIR "/input.txt");
+    std::ofstream outputfile (SOURCE_DIR "/output.txt");
     if (openFiles(inputfile,outputfile)) {
         task1p4(inputfile,outputfile);
         inputfile.close();
