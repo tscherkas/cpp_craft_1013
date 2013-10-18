@@ -94,9 +94,9 @@ endif (BUILD_TESTS)
 
 if ( UNIX )
 	if (Debug)
-		add_definitions( " -std=c++11 -O0 -g -Wall" )
+		add_definitions( " -O0 -g -Wall" )
 	else()
-		add_definitions( " -std=c++11 -O3 -Wall -Werror" )
+		add_definitions( " -O3 -Wall -Werror" )
 	endif()
 
 	set(output_path ${PROJECT_BINARY_DIR}/bin_${CMAKE_ADDRESS_MODEL}/${CMAKE_BUILD_TYPE})
