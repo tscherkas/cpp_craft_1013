@@ -16,6 +16,11 @@ int main( int argc, char* argv[] )
 {
 	ifstream input_file( BINARY_DIR "/input.txt" );
 	ofstream output_file( BINARY_DIR "/output.txt");
+	if ( !input_file.is_open())
+	{
+	    cerr << "input file does not exist" << endl;
+	    return 1;
+	}
 	long int N; // N < 1 000 000
 	input_file >> N;
 	vector<long double> codes (N);
