@@ -3,6 +3,7 @@
 #include <list>
 #include <math.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 
 
@@ -55,11 +56,19 @@ int main( int argc, char* argv[] )
 			key_it != mas_keys.end();
 			key_it ++
 		)
-			if( fabs(*key_it-*pass_it)<0.00001)
+		{
+		        uint64_t var1, var2;
+			double buf_p = (*pass_it)*10000;
+			double buf_k = (*key_it)*10000;
+			var1 = buf_p;
+			var2 = buf_k;
+			if( var1 == var2)
 			{
+				
 				check = true;
 				break;
 			}
+		}		
 		check ?	output_file << "YES" << std::endl : output_file << "NO" << std::endl;
 				
 	}
