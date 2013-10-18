@@ -37,6 +37,6 @@ int main()
 
 bool comparing_function(double code, double value)
 {
-    return code + 0.0001 <= value;
+    return ( int ) ( code * 10000 ) < ( int ) ( value * 10000 );
 }
 
