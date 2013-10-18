@@ -10,13 +10,14 @@ void get_Codes(ifstream& stream, vector<long long int>& vectCodes)
 {
 	int nCodesCount = 0, nI = 0;
 	double Passw;
-	const int nPrecisionNumbers = 10000;
+	static const int nPrecisionNumbers = 10000;
+	static const int nMaxCodesCount = 1000000;
 
 	stream >> nCodesCount;
 	if(stream.eof())
 		return;
 
-	if(nCodesCount <= 0 || nCodesCount > 1000000)
+	if(nCodesCount <= 0 || nCodesCount > nMaxCodesCount)
 		return;
 	else
 		vectCodes.reserve(nCodesCount);
@@ -32,7 +33,7 @@ void get_Codes(ifstream& stream, vector<long long int>& vectCodes)
 bool compare_CodesAndPasswords(ifstream& stream, const vector<long long int>& vectCodes) 
 {
 	ofstream output_file(SOURCE_DIR "/Output.txt" );
-	const int nPrecisionNumbers = 10000;
+	static const int nPrecisionNumbers = 10000;
 	bool bReturn = true;
 	double Passw;
 	if(!output_file.is_open())
