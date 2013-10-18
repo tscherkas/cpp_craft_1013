@@ -7,16 +7,18 @@ using namespace std;
 
 bool formatting_line(ifstream& stream, string& line)
 {
-	bool bReturn = true;
-	const size_t maxInputLen = 100000;
+	static const size_t maxInputLen = 100000;
 	getline(stream, line);
 	if(line.empty())
-		return bReturn;
+		return false;
 	if(line.size() > maxInputLen)
-		cout << "Could not open input file" << endl;
+	{
+		cout << "Incorrect string" << endl;
+		return false;
+	}
 	line.erase(remove_if(line.begin(), line.end(), [](const char symb){ return (symb == ' ') || (symb == '\\') || (symb == '-'); }), line.end());
 	transform(line.begin(), line.end(), line.begin(), tolower);
-	return bReturn;
+	return true;
 }
 
 int main()
