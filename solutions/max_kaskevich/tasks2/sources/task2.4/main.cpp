@@ -1,11 +1,5 @@
 #include <fstream>
-#include <string>
-#include <algorithm>
 #include <stdint.h>
-#include <memory>
-#include <vector>
-#include <map>
-#include <iterator>
 
 enum msg_type: uint32_t
 {
@@ -19,12 +13,14 @@ struct message
 {
     uint32_t type;
     uint32_t time;
+	uint32_t len;
 };
 
 std::istream& operator >> (std::istream& input, message& m)
 {
     input.read(reinterpret_cast<char*>(&m.type), sizeof(m.type));
     input.read(reinterpret_cast<char*>(&m.time), sizeof(m.time));
+    input.read(reinterpret_cast<char*>(&m.len), sizeof(m.len));
     return input;
 }
 
@@ -32,6 +28,7 @@ std::ostream& operator << (std::ostream& output, message& m)
 {
     output.write(reinterpret_cast<char*>(&m.type), sizeof(m.type));
     output.write(reinterpret_cast<char*>(&m.time), sizeof(m.time));
+    output.write(reinterpret_cast<char*>(&m.len), sizeof(m.len));
     return output;
 }
 
@@ -55,15 +52,19 @@ int main( int argc, char* argv[] )
                 return 1;
             }
             // redirect msg to output
-            int32_t len;
-            input.read(reinterpret_cast<char*>(&len), sizeof(len));
-            if (input && len)
+            if (input && m.len)
             {
-                std::istreambuf_iterator<char> it(input);
-                while(output.write(*(it), sizeof(*(it))) && --len)
-                {
-                    ++it;
-                }
+				uint32_t len = m.len;
+				static const size_t buf_size = 4096;
+				char buf[buf_size];
+				while (len > buf_size)
+				{
+					input.read(buf, buf_size);
+					output.write(buf, buf_size);
+					len -= buf_size;
+				}
+				input.read(buf, len);
+				output.write(buf, len);
             }
 
             T = std::max(T, m.time);
@@ -71,11 +72,9 @@ int main( int argc, char* argv[] )
         else
         {
             // miss msg
-            int32_t len;
-            input.read(reinterpret_cast<char*>(&len), sizeof(len));
             if (input)
             {
-                input.seekg(len, std::ios::cur);
+                input.seekg(m.len, std::ios::cur);
             }
         }
     }
