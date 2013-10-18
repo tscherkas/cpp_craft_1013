@@ -20,9 +20,10 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <vector>
 #include <cstdlib>
 
-#define MAX_N_SIZE 100000
+#define ACCURACY 10000
 
 
 void printToOutput(std::ofstream & outputfile , std::string msg) {
@@ -30,13 +31,38 @@ void printToOutput(std::ofstream & outputfile , std::string msg) {
     std::cout << msg << std::endl;
 }
 
+std::vector<int64_t> readPasswd(std::ifstream & inputfile) {
+    std::vector<int64_t> passwd;
+    int count;
+    inputfile >> count;
+    passwd.reserve(count);
+    double value;
+    for(int i=0; i < count && !inputfile.eof(); i++){
+        inputfile >> value;
+        passwd.push_back((int64_t)(value*ACCURACY));
+    }    
+    return passwd;
+}
+
+bool searchfind (std::vector<int64_t> & passwd, double & value) 
+{
+    return (std::binary_search(passwd.begin(), passwd.end(),(int64_t)(value*ACCURACY)));
+}
 void task1p4(std::ifstream & inputfile, std::ofstream & outputfile)
 {
-    std::string line;
-    while ( getline (inputfile,line) )
-    {
-        
-    }   
+    std::vector<int64_t> passwd = readPasswd(inputfile);
+    std::sort(passwd.begin(), passwd.end());
+    double value;
+    while(!inputfile.eof()){
+        inputfile >> value;
+        if (searchfind(passwd,value)) 
+        {
+            printToOutput(outputfile,"YES");
+        } else {
+            printToOutput(outputfile,"NO");
+        }
+
+    }
 }
 
 bool openFiles(std::ifstream & inputfile, std::ofstream & outputfile) 
