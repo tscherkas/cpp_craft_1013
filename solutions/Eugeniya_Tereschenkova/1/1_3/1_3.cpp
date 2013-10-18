@@ -5,19 +5,6 @@
 #include <algorithm>
 using namespace std;
 
-bool isSpaceSymb(const char& symb)
-{
-	switch(symb)
-	{
-	case ' ':
-	case '-':
-	case '\\':
-		return 1;
-	default:
-		return 0;
-	}
-}
-
 bool formatting_line(ifstream& stream, string& line)
 {
 	bool bReturn = true;
@@ -27,7 +14,7 @@ bool formatting_line(ifstream& stream, string& line)
 		return bReturn;
 	if(line.size() > maxInputLen)
 		cout << "Could not open input file" << endl;
-	line.erase(remove_if(line.begin(), line.end(), isSpaceSymb), line.end());
+	line.erase(remove_if(line.begin(), line.end(), [](const char symb){ return (symb == ' ') || (symb == '\\') || (symb == '-'); }), line.end());
 	transform(line.begin(), line.end(), line.begin(), tolower);
 	return bReturn;
 }
