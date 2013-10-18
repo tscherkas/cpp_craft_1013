@@ -18,10 +18,14 @@ bool is_delim(const wchar_t c)
 	return c == ' ' || c == '\\' || c == '-';
 }
 
-const std::wstring tolower_and_del_delims(const std::wstring& str)
+const std::wstring tolower_and_del_delims(const std::wstring& str, const bool reverse)
 {
 	std::wstring ret_str;
-	remove_copy_if(str.rbegin(), str.rend(), std::back_inserter(ret_str), is_delim);	
+	if(reverse) {
+		remove_copy_if(str.rbegin(), str.rend(), std::back_inserter(ret_str), is_delim);	
+	} else {
+		remove_copy_if(str.begin(), str.end(), std::back_inserter(ret_str), is_delim);	
+	}	
 	std::transform(ret_str.begin(), ret_str.end(), ret_str.begin(), std::towlower);
 	return ret_str;
 }
@@ -41,10 +45,10 @@ int main(int argc, char **argv)
 	std::cout << "Input file: " << INPUT_FILE_DEFAULT << std::endl;
 	std::wstring line;
 	getline(in, line);
-	std::wstring firstline = tolower_and_del_delims(line);
+	std::wstring firstline = tolower_and_del_delims(line, true);
 	while ( getline(in, line) ) {
 		if(!line.empty()) {			
-			bool found = ( firstline.find( tolower_and_del_delims(line) ) != std::wstring::npos );
+			bool found = ( firstline.find( tolower_and_del_delims(line, false) ) != std::wstring::npos );
 			out << ((found) ? "YES" : "NO") << std::endl;
 		}
 	}
