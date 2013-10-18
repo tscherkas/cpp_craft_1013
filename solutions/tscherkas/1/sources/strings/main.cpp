@@ -23,9 +23,13 @@ public:
 
 int main( int argc, char* argv[] )
 {
-	std::ifstream input_file( "input.txt" );
-	std::string original_text, key;
+	std::ifstream input_file( SOURCE_DIR "/tests/strings/input.txt" );
+	if(!input_file.is_open())
+		return 0;
 	std::ofstream output_file("output.txt" );
+	if(!output_file.is_open())
+		return 0;
+	std::string original_text, key;
 	if( !input_file.eof() )
 	{
 		std::getline( input_file, original_text );

@@ -9,9 +9,13 @@
 
 int main( int argc, char* argv[] )
 {
-	std::ifstream input_file( "input.txt" );
-	std::string original_text, key;
+	std::ifstream input_file( SOURCE_DIR "/tests/search_for_o/input.txt" );
+	if(!input_file.is_open())
+		return 0;
 	std::ofstream output_file("output.txt" );
+	if(!output_file.is_open())
+		return 0;
+	std::string original_text, key;
 		char O = '0';
 
 std::string virt_ocean((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
