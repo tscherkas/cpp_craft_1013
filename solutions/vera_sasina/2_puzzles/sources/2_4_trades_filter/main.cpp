@@ -4,10 +4,10 @@
 
 int main()
 {
-	std::ifstream input_file( "input.txt", std::ios::binary );
+	std::ifstream input_file( BINARY_DIR "/input.txt", std::ios::binary );
 	if ( !input_file.is_open() )
 		return -1;
-	std::ofstream output_file( "output.txt", std::ios::binary );
+	std::ofstream output_file( BINARY_DIR "/output.txt", std::ios::binary );
 	if ( !output_file.is_open() )
 		return -1;
 	{
@@ -23,4 +23,3 @@ int main()
 	output_file.close();
 	return 0;
 }
-
