@@ -22,10 +22,45 @@
 #include <algorithm>
 #include <cstdlib>
 
+#define MAX_LINE_SIZE 100000
+
+std::string washString(std::string & str) 
+{
+    std::string retString;
+    int lenght = str.length();
+    for (int i = 0 ; i< lenght; i++) 
+    {
+        char a = str.at(i);
+        if ((a != ' ') && (a != '-') && (a != '\\'))
+        {
+            retString.push_back(std::tolower(a));
+        }
+    }
+    
+    return retString;
+
+}
 
 bool puzzle(std::string line)
 {
-    return false;
+    std::string newLine = washString(line);
+    int lenght = newLine.length();
+    int lenght2 = lenght/2;
+    for (int i = 0 ; i<lenght2 ; i++)
+    {
+        if (newLine.at(i) == newLine.at(lenght-i-1)) {
+            //OK
+        } else {
+            return false;
+        }
+    }
+    return true;
+    
+}
+
+void printToOutput(std::ofstream & outputfile , std::string msg) {
+    outputfile << msg <<"\n";
+    std::cout << msg << std::endl;
 }
 
 void task1p3(std::ifstream & inputfile, std::ofstream & outputfile)
@@ -33,13 +68,15 @@ void task1p3(std::ifstream & inputfile, std::ofstream & outputfile)
     std::string line;
     while ( getline (inputfile,line) )
     {
+        if (line.size() > MAX_LINE_SIZE) 
+        {
+            printToOutput(outputfile,"LINE is Big!!");
+        }
         if (puzzle(line)) 
         {
-            outputfile << "YES\n";
-            std::cout << "YES" << std::endl;
+            printToOutput(outputfile,"YES");
         } else {
-            outputfile << "NO\n";
-            std::cout << "NO" << std::endl;
+            printToOutput(outputfile,"NO");
         }
     }   
 }
@@ -50,8 +87,7 @@ bool openFiles(std::ifstream & inputfile, std::ofstream & outputfile)
 }
 
 int main(int argc, char** argv) 
-{
-    
+{   
     std::ifstream inputfile ("/tmp/input.txt");
     std::ofstream outputfile ("/tmp/output.txt");
     if (openFiles(inputfile,outputfile)) {
@@ -61,6 +97,7 @@ int main(int argc, char** argv)
     } else {
         std::cout << "fail" << std::endl;
     }
+    
     return 0;
 }
 
