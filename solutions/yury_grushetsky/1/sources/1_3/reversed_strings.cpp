@@ -27,19 +27,25 @@ void to_lower(string& s)
 {
 	//transform(s.begin(), s.end(), s.begin(), tolower);
 	for(string::size_type i = 0; i<s.length(); i++)
-		s[i] = tolower(s[i]);  //TODO tolower(s[i], locale) and #include <locale>
+		s[i] = tolower(s[i]);  
+	//TODO tolower(s[i], locale) and #include <locale>
 }
 
 int main( int argc, char* argv[] )
 {
-	ifstream input_file( "input.txt"); //SOURCE_DIR "/tests/3_reversed_strings/input.txt" );
-	ofstream output_file( "output.txt");
+	ifstream input_file( BINARY_DIR "/input.txt");
+	ofstream output_file( BINARY_DIR "/output.txt");
+	if( !input_file.is_open())
+	{
+		cerr << "input file does not exist" << endl;
+		return 2;
+	}
 	string text, key;
-	string notInAccount = " -\\";
+	string not_In_Account_Symbols = " -\\";
 	if( !input_file.eof())
 	{
 		getline( input_file, text);
-		strip_all(text, notInAccount);
+		strip_all(text, not_In_Account_Symbols);
 		to_lower(text);
 		reverse(text.begin(), text.end());
 	}else
@@ -51,8 +57,8 @@ int main( int argc, char* argv[] )
 	{
 		getline( input_file, key );
 		if( key.length()==0)
-			break; //?? continue;
-		strip_all(key, notInAccount);
+			break;
+		strip_all(key, not_In_Account_Symbols);
 		to_lower(key);
 		if( text.find(key)!=string::npos)
 			output_file << "YES" << endl;

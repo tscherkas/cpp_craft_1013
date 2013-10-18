@@ -5,29 +5,26 @@
 #include <algorithm>
 
 using namespace std;
-#define PRECISION 1E-4
 
-bool mycomp(float v1, float v2)
+static const long double eps = 1E-4;
+bool mycomp(long double v1, long double v2)
 {
-	return v2-v1>PRECISION;
+	return v2-v1>eps;
 }
 
 int main( int argc, char* argv[] )
 {
-	ifstream input_file( SOURCE_DIR "/tests/4_rational_numbers/input.txt" );
-	ofstream output_file( "output.txt");
-	int N;
+	ifstream input_file( BINARY_DIR "/input.txt" );
+	ofstream output_file( BINARY_DIR "/output.txt");
+	long int N; // N < 1 000 000
 	input_file >> N;
-	vector<float> codes (N);
-	for(vector<float>::iterator it = codes.begin(); it!=codes.end(); ++it)
+	vector<long double> codes (N);
+	for(vector<long double>::iterator it = codes.begin(); it!=codes.end(); ++it)
 		input_file >> *it;
 	sort(codes.begin(), codes.end());
-	float curval;
-	while( !input_file.eof() )
+	long double curval;
+	while( input_file >> curval )
 	{
-		input_file >> curval;
-		cout << curval << endl;
-		//TODO check error flags to handle \n in the end of file
 		if( binary_search(codes.begin(), codes.end(), curval, mycomp))
 			output_file << "YES" << endl;
 		else
@@ -36,3 +33,4 @@ int main( int argc, char* argv[] )
 	input_file.close();
 	output_file.close();
 }
+
