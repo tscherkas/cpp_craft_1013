@@ -22,13 +22,45 @@
 #include <algorithm>
 #include <cstdlib>
 
-using namespace std;
 
-/*
- * 
- */
-int main(int argc, char** argv) {
+bool puzzle(std::string line)
+{
+    return false;
+}
 
+void task1p3(std::ifstream & inputfile, std::ofstream & outputfile)
+{
+    std::string line;
+    while ( getline (inputfile,line) )
+    {
+        if (puzzle(line)) 
+        {
+            outputfile << "YES\n";
+            std::cout << "YES" << std::endl;
+        } else {
+            outputfile << "NO\n";
+            std::cout << "NO" << std::endl;
+        }
+    }   
+}
+
+bool openFiles(std::ifstream & inputfile, std::ofstream & outputfile) 
+{
+    return ( (inputfile.is_open()) && (outputfile.is_open()));
+}
+
+int main(int argc, char** argv) 
+{
+    
+    std::ifstream inputfile ("/tmp/input.txt");
+    std::ofstream outputfile ("/tmp/output.txt");
+    if (openFiles(inputfile,outputfile)) {
+        task1p3(inputfile,outputfile);
+        inputfile.close();
+        outputfile.close();
+    } else {
+        std::cout << "fail" << std::endl;
+    }
     return 0;
 }
 
