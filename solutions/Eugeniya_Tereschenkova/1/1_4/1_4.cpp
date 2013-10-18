@@ -34,12 +34,11 @@ bool compare_CodesAndPasswords(ifstream& stream, const vector<long long int>& ve
 {
 	ofstream output_file(SOURCE_DIR "/Output.txt" );
 	static const int nPrecisionNumbers = 10000;
-	bool bReturn = true;
 	double Passw;
 	if(!output_file.is_open())
 	{
 		cout << "Could not open output file" << endl;
-		return 1;
+		return false;
 	}
 	while(!stream.eof())
 	{
@@ -51,7 +50,7 @@ bool compare_CodesAndPasswords(ifstream& stream, const vector<long long int>& ve
 			output_file << "NO" << endl;
 	}
 	output_file.close();
-	return bReturn;
+	return true;
 }
 
 int main()
