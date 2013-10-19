@@ -19,16 +19,18 @@ std::ostream& operator<<(std::ostream& os, const Msg& msg) {
 } 
 
 void MsgBuf::read(Reader& in) {
-    while(!in.eof()) {
-        Type type = in.get_int();
-        size_t time = in.get_int();
-        size_t len = in.get_int();
-        std::string str_msg = in.get_string(len);
-        if(!in.eof() && len == str_msg.size()) {
-            const Msg msg(type, time, len, str_msg);
-            add(msg);
-        }
-    }
+	while(!in.eof()) {
+		Type type = in.get_int();
+		size_t time = in.get_int();
+		size_t len = in.get_int();
+		if(!in.eof()) {
+			std::string str_msg = in.get_string(len);
+			if(len == str_msg.size()) {
+				const Msg msg(type, time, len, str_msg);
+				add(msg);
+			}
+		}
+	}
 } 
 
 void MsgBuf::write_type_map(Writer& out) {
