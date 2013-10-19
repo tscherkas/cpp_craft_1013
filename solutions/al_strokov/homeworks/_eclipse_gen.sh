@@ -1,5 +1,5 @@
 
-export SOLUTION_NAME=cmake_example
+export SOLUTION_NAME=homeworks
 
 export BUILD_TYPE=Debug
 if [ "$1" == 'Release' ];
@@ -15,6 +15,6 @@ then
 fi
 
 cd $BUILD_FOLDER
-cmake -DVERBOSE=ON -DSOLUTION_NAME=$SOLUTION_NAME -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G "Unix Makefiles" ../ 
+cmake -DVERBOSE=ON -DSOLUTION_NAME=$SOLUTION_NAME -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G "Eclipse CDT4 - Unix Makefiles" ../ 
 cd ../
 
