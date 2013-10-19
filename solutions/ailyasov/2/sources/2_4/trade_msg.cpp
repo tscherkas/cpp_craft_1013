@@ -20,9 +20,9 @@ std::ostream& operator<<(std::ostream& os, const TradeMsg& msg) {
 vector<TradeMsg> TradeMsg::read_data(Reader& in) {
     vector<TradeMsg> messages;
     while(!in.eof()) {
-        size_t type = in.get_int();
-        size_t time = in.get_int();
-        size_t len = in.get_int();
+        unsigned int type = in.get_int();
+        unsigned int time = in.get_int();
+        unsigned int len = in.get_int();
 		if(in.eof()) return messages;
         std::string str_msg = in.get_string(len);
         if(len == str_msg.size()) {
@@ -45,4 +45,4 @@ void TradeMsg::write_data(vector<TradeMsg> messages, Writer& out) {
     }
 }
 
-size_t TradeMsg::max_time = 0;
+unsigned int TradeMsg::max_time = 0;
