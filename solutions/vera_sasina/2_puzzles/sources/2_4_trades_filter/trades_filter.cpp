@@ -6,8 +6,10 @@ void Trades::set_trade(std::ifstream& file)
 	file.read((char*) &this->time, sizeof(this->time));
 	file.read((char*) &this->len, sizeof(this->len));
 	if(this->len > 0)
+	{
 		this->msg = new char [this->len];
-	file.read((char*) this->msg, this->len);
+		file.read((char*) this->msg, this->len);
+	}
 }
 
 void Trades::get_trade(std::ofstream &file)
