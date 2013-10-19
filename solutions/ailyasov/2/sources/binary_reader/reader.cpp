@@ -19,6 +19,9 @@ namespace binary_reader {
     }
 
 	std::string Reader::get_string(const int len) {
+	    if(len >= STR_BUF_SIZE)
+	        throw std::runtime_error("Length is too big");
+
         char str_msg[STR_BUF_SIZE];
         in.read(str_msg, sizeof(char) * len);        
         std::string s(str_msg, len);
