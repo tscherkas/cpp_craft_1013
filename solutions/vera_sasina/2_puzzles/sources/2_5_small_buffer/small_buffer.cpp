@@ -1,6 +1,5 @@
 #include "small_buffer.h"
 #include <boost/array.hpp>
-//#include <iostream>
 
 void NetMessage::set_data(std::ifstream& file)
 {
@@ -9,10 +8,12 @@ void NetMessage::set_data(std::ifstream& file)
 		exit(1);
 	file.read((char*) &this->time, sizeof(this->time));
 	file.read((char*) &this->len, sizeof(this->len));
-	delete [] this->msg;
 	if(this->len > 0)
+	{
 		this->msg = new char [this->len];
-	file.read((char*) this->msg, this->len);
+		file.read((char*) this->msg, this->len);
+		delete [] this->msg;
+	}
 }
 
 uint32_t NetMessage::get_type()
@@ -27,14 +28,8 @@ uint32_t NetMessage::get_len()
 {
 	return this->len;
 }
-NetMessage::NetMessage()
-{
-	this->msg = new char [1];
-}
-NetMessage::~NetMessage()
-{
-	delete [] this->msg;
-}
+NetMessage::NetMessage() { }
+NetMessage::~NetMessage() { }
 
 void Result::set_result(NetMessage &msg)
 {
@@ -58,9 +53,9 @@ void Result::get_result(std::ofstream &file)
 	if(this->time > 0)
 	{
 		double temp;
-		temp = static_cast<double>(this->count / this->time);
-		file.write((char*) this->type, sizeof(this->type));
-		file.write(reinterpret_cast<const char*>(&temp), sizeof(temp));
+		temp = static_cast<double>(this->count) / static_cast<double>(this->time);
+		file.write((char*) &this->type, sizeof(this->type));
+		file.write((char*) &temp, sizeof(temp));
 	}
 	else
 		return;
