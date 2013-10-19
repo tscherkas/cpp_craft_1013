@@ -18,14 +18,15 @@ namespace binary_reader {
         return v;
     }
 
-    std::string Reader::get_string(int len) {
-        char str_msg[len + 1];
-        in.read(reinterpret_cast<char*>(&str_msg), sizeof(char) * len);
-        *(str_msg + len) = 0;
-        return std::string(str_msg);
-    }
+	std::string Reader::get_string(const int len) {
+        char str_msg[STR_BUF_SIZE];
+        in.read(str_msg, sizeof(char) * len);        
+        std::string s(str_msg, len);
+		std::cout << s << std::endl;
+		return s;
+	}
 
-    bool Reader::eof() const {
+	bool Reader::eof() const {
         return in.eof();
     }
 

@@ -20,12 +20,13 @@ std::ostream& operator<<(std::ostream& os, const TradeMsg& msg) {
 vector<TradeMsg> TradeMsg::read_data(Reader& in) {
     vector<TradeMsg> messages;
     while(!in.eof()) {
-        int type = in.get_int();
-        int time = in.get_int();
+        size_t type = in.get_int();
+        size_t time = in.get_int();
         size_t len = in.get_int();
+		if(in.eof()) return messages;
         std::string str_msg = in.get_string(len);
-        if(!in.eof() && len == str_msg.size()) {
-            if(type <= MARKET_CLOSE && time > (TradeMsg::max_time - 2)) {
+        if(len == str_msg.size()) {
+            if(type <= MARKET_CLOSE && (TradeMsg::max_time < 2 || time > std::max(TradeMsg::max_time - 2, 0U)) ) {				
                 TradeMsg::max_time = std::max(time, TradeMsg::max_time);
                 TradeMsg msg(type, time, len, str_msg);
                 messages.push_back(msg);
@@ -44,4 +45,4 @@ void TradeMsg::write_data(vector<TradeMsg> messages, Writer& out) {
     }
 }
 
-int TradeMsg::max_time = 0;
+size_t TradeMsg::max_time = 0;

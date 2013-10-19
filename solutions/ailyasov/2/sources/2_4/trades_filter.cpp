@@ -15,9 +15,8 @@ void TradesFilter::filter_trades_and_save(const std::string& input, const std::s
     Writer out(output);
     std::vector<TradeMsg> messages = TradeMsg::read_data(in);
     std::sort(messages.begin(), messages.end(), cmp_by_time);
-    TradeMsg::write_data(messages, out); 
-
-#ifndef NDEBUG
+    TradeMsg::write_data(messages, out);	
+//#ifndef NDEBUG
     std::copy(messages.begin(), messages.end(), std::ostream_iterator<TradeMsg>(std::cout, "\n"));
-#endif
+//#endif
 } 

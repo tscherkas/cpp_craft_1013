@@ -14,6 +14,7 @@ namespace binary_reader {
             std::string get_string(int);
             ~Reader();
         private:
+			static const size_t STR_BUF_SIZE = 102400;
             std::ifstream in;
             Reader();
             Reader(const Reader&);

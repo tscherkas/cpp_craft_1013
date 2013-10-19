@@ -18,7 +18,7 @@ enum TYPES {
 
 class TradeMsg {
     public:
-        TradeMsg(const unsigned int type, const unsigned int time, const unsigned int len, const std::string msg) : 
+        TradeMsg(const size_t type, const size_t time, const size_t len, const std::string msg) : 
             type_(type), time_(time), len_(len), msg_(msg) {
                 //empty
             } 
@@ -28,14 +28,14 @@ class TradeMsg {
         friend std::ostream& operator<<(std::ostream&, const TradeMsg&);
         static std::vector<TradeMsg> read_data(Reader&);
         static void write_data(std::vector<TradeMsg>, Writer&);
-        int get_type() const { return type_; }
-        int get_time() const { return time_; }
-        int get_len() const { return len_; }
+        size_t get_type() const { return type_; }
+        size_t get_time() const { return time_; }
+        size_t get_len() const { return len_; }
         std::string get_msg() const { return msg_; }
-        static int max_time;
+        static size_t max_time;
     private:
-        int type_;
-        int time_;
-        int len_;
+        size_t type_;
+        size_t time_;
+        size_t len_;
         std::string msg_;
 };
