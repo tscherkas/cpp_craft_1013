@@ -4,6 +4,6 @@ set( CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE} CACHE STRING "Configurations"
 project( ${SOLUTION_NAME} )
 include( environment.cmake required )
 
-binaries( task2.4 task2.5 task2.6)
+binaries( 2_4 2_5 2_6)
 
 compile()
