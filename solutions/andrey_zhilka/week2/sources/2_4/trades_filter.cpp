@@ -6,7 +6,6 @@
 int maxT = 0;
 
 void filterMessages();
-bool filter( const Message& );
 
 int main()
 {	
@@ -35,21 +34,12 @@ void filterMessages() {
 	while ( remaining_bytes != 0 ) {
 		input >> new_message;
 
-		if ( !filter( new_message ) ) {
+		if ( message.getTime() > maxT - 2 ) {
 			output << new_message;
 			output.write("\0", sizeof(char) );
+			maxT = ( maxT < message.getTime() ) ? message.getTime() : maxT;
 		}
 
 		remaining_bytes -= 3 * sizeof( unsigned ) + new_message.getLength();
-	}
-}
-
-bool filter( const Message& message ) {	
-	if ( message.getTime() <= maxT - 2 ) {
-		return true;
-	} 
-	else {
-		maxT = ( maxT < message.getTime() ) ? message.getTime() : maxT;
-		return false;
 	}
 }
