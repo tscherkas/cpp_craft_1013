@@ -19,6 +19,7 @@ int main()
 {
 	std::map< unsigned, std::vector< unsigned > > message_report;
 	reading_storingProcess( message_report );
+	flush_summary( message_report );
 	return 0;
 }
 
@@ -78,7 +79,7 @@ void update_report( std::map< unsigned, std::vector< unsigned > >& message_repor
 void flush_summary( const std::map< unsigned, std::vector< unsigned > >& message_report)
 {
 	const char* output_file_path = SOURCE_DIR "/tests/2_5/2.5_output.out";
-	std::fstream output_file( output_file_path, std::ios::binary | std::ios::in );
+	std::fstream output_file( output_file_path, std::ios::binary | std::ios::out );
 	
 	check_is_file_open( output_file, output_file_path );
 	
