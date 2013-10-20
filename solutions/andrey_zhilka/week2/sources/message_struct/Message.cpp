@@ -5,7 +5,9 @@ Message::Message(const Message &message) {
 	this->time = message.time;
 	this->length = message.length;	
 	this->text = new char[ message.length + 1 ];
-	strcpy(this->text, message.text );
+	if ( message.text ) {
+		strcpy(this->text, message.text );
+	}
 }
 
 Message::~Message() {
