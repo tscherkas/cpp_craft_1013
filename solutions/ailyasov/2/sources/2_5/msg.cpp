@@ -12,6 +12,7 @@ using binary_reader::Reader;
 using binary_writer::Writer;
 
 const size_t MsgBuf::MAX_SIZE = 2048; 
+const Type MsgBuf::MAX_TYPE = 100000;
 
 std::ostream& operator<<(std::ostream& os, const Msg& msg) {
     os << "[" << msg.type_ << "," << msg.time_ << "," << msg.len_ << "," << msg.msg_ << "]";
@@ -56,8 +57,8 @@ std::ostream& operator<<(std::ostream& os, const MsgBufInfo& s) {
 
 void MsgBuf::add(const Msg& m) {
     size_t sz = m.get_size() + this->get_size(m.get_type());
-    bool msg_fit = sz < MsgBuf::MAX_SIZE;
-    if(msg_fit) {
+    bool msg_fit = sz < MAX_SIZE;
+    if(msg_fit && m.get_type() < MAX_TYPE) {
         MsgTypeMap::iterator it = type_map.find(m.get_type());
         if(it == type_map.end()) {
             type_map.insert(std::make_pair(m.get_type(), MsgBufInfo(m.get_time(), m.get_size())));

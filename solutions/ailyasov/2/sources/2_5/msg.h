@@ -73,6 +73,7 @@ class MsgBuf {
     public:
         MsgBuf() {}
         static const size_t MAX_SIZE;
+        static const Type MAX_TYPE;
         const MsgTypeMap& get_type_map() const;
         const std::vector<Msg>& get_messages() const;
         const size_t get_size(const size_t type) const;
