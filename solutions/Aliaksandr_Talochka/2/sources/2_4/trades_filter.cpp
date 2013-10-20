@@ -1,4 +1,3 @@
-#include <map>
 #include "reader.h"
 #include <stdint.h>
 
@@ -38,7 +37,7 @@ int main()
 	InFile.close();
 	OutFile.close();
 
-	system("pause");
+	//system("pause");
 	return 0;
 }
 
