@@ -3,7 +3,6 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <utility>
 #include <map>
 
 typedef std::map< unsigned, std::vector< unsigned > >::iterator map_iterator;
@@ -23,7 +22,7 @@ int main()
 	return 0;
 }
 
-void reading_storingProcess( std::map< unsigned, std::vector< unsigned > >& message_report) 
+void reading_storingProcess( std::map< unsigned, std::vector< unsigned > >& message_report ) 
 {
 	const char *input_file_path = SOURCE_DIR "/tests/2_5/2.5_example.in";
 	std::fstream input_file( input_file_path, std::ios::binary | std::ios::in );
@@ -53,7 +52,7 @@ void reading_storingProcess( std::map< unsigned, std::vector< unsigned > >& mess
 void update_report( std::map< unsigned, std::vector< unsigned > >& message_report, 
 				   const Message& message, unsigned new_message_capacity )
 {
-	map_iterator existing_statistics = message_report.find( message.getType() );
+		map_iterator existing_statistics = message_report.find( message.getType() );
 		
 		if ( existing_statistics == message_report.end() )
 		{
@@ -70,6 +69,7 @@ void update_report( std::map< unsigned, std::vector< unsigned > >& message_repor
 		if ( existing_statistics->second[1] != message.getTime() )
 		{
 			existing_statistics->second[0] = 2048;
+			existing_statistics->second[1] = message.getTime();
 		}
 
 		existing_statistics->second[0] -= new_message_capacity;
@@ -97,11 +97,11 @@ void init_new_type( std::map< unsigned, std::vector< unsigned > >& message_repor
 				   const Message& message)
 {
 	std::vector< unsigned > message_type_statistics;
-	message_type_statistics.push_back( 2048 ); // free spac
+	message_type_statistics.push_back( 2048 ); // free space
 	message_type_statistics.push_back( message.getTime() );
 	message_type_statistics.push_back( 0 );	// total number
 
-	message_report.insert( std::make_pair(message.getType(), message_type_statistics ) );
+	message_report[ message.getType() ] = message_type_statistics;
 }
 void check_is_file_open( const std::fstream& file, const char *path)
 {
