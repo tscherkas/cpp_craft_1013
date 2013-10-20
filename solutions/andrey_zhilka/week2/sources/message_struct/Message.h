@@ -27,6 +27,7 @@ public :
 
 	unsigned getLength() const;
 	unsigned getTime() const;
+	unsigned getType() const;
 
 	friend std::ostream& operator<<(std::ostream& binary_os, Message message);
 	friend std::istream& operator>>(std::istream& binary_is, Message& message);

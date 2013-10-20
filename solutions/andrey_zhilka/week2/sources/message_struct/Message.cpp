@@ -51,6 +51,10 @@ unsigned Message::getTime() const {
 	return this->time;	
 }
 
+unsigned Message::getType() const {
+	return this->type;
+}
+
 std::istream& operator>>( std::istream& binary_is, Message& message ) {
 	binary_is.read( reinterpret_cast< char* > ( &message.type ), sizeof( unsigned ) );
 	binary_is.read( reinterpret_cast< char* > ( &message.time ), sizeof( unsigned ) );
