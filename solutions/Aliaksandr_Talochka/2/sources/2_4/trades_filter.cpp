@@ -17,9 +17,9 @@ int main()
 	{
 		while((binary_reader::read_binary(InFile, Data))==0)
 		{
-			if( (Data.TYPE >= 1)&(Data.TYPE <= 4) )			//TYPE is valid
+			if( (Data.TYPE >= 1)&&(Data.TYPE <= 4) )			//TYPE is valid
 			{
-				if ((Data.TIME >= CurTime-2)|(CurTime < 2))
+				if ((Data.TIME >= CurTime-2)||(CurTime < 2))
 				{
 					OutFile.write((char*)(&Data.TYPE), 3*(sizeof(uint32_t)));
 					OutFile.write(Data.MSG.c_str(), Data.LEN);
