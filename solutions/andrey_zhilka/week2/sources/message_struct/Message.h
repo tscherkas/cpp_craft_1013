@@ -7,7 +7,7 @@
 class Message {
 private :
 	unsigned type;
-	int time;
+	unsigned time;
 	unsigned length;
 	char* text;
 
@@ -21,12 +21,12 @@ public :
 	void operator=( const Message& );
 
 	void setType(unsigned);
-	void setTime(int);
+	void setTime(unsigned);
 	void setLength(unsigned);
 	void setText(char*);
 
 	unsigned getLength() const;
-	int getTime() const;
+	unsigned getTime() const;
 
 	friend std::ostream& operator<<(std::ostream& binary_os, Message message);
 	friend std::istream& operator>>(std::istream& binary_is, Message& message);

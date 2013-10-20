@@ -3,8 +3,6 @@
 #include <fstream>
 #include <sys/stat.h>
 
-int maxT = 0;
-
 void filterMessages();
 
 int main()
@@ -15,6 +13,7 @@ int main()
 }
 
 void filterMessages() {
+	unsigned maxT = 0;
 	struct stat file_statistics;
 	const char* input_file_path = SOURCE_DIR "/tests/2_4/2.4_example.in";
 	const char* output_file_path = SOURCE_DIR "/tests/2_4/2.4_output.out";
@@ -34,7 +33,7 @@ void filterMessages() {
 	while ( remaining_bytes != 0 ) {
 		input >> new_message;
 
-		if ( message.getTime() > maxT - 2 ) {
+		if ( maxT < 2 || message.getTime() > maxT - 2 ) {
 			output << new_message;
 			output.write("\0", sizeof(char) );
 			maxT = ( maxT < message.getTime() ) ? message.getTime() : maxT;
