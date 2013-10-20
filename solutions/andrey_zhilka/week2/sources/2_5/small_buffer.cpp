@@ -11,6 +11,7 @@ typedef std::map< unsigned, std::vector< unsigned > >::const_iterator const_map_
 
 void reading_storingProcess( std::map< unsigned, std::vector< unsigned > >& );
 void init_new_type( std::map< unsigned, std::vector< unsigned > >&, const Message& );
+void update_report( std::map< unsigned, std::vector< unsigned > >&, const Message&, unsigned);
 void flush_summary( const std::map< unsigned, std::vector< unsigned > >& );
 void check_is_file_open( const std::fstream&, const char* ); 
 
@@ -42,30 +43,36 @@ void reading_storingProcess( std::map< unsigned, std::vector< unsigned > >& mess
 		new_message_capacity = 3 * sizeof( unsigned ) + newMessage.getLength();
 		file_size -= new_message_capacity;
 
-		map_iterator existing_statistics = message_report.find( newMessage.getType() );
+		update_report( message_report, newMessage, new_message_capacity );
+	}
+
+	input_file.close();
+}
+
+void update_report( std::map< unsigned, std::vector< unsigned > >& message_report, 
+				   const Message& message, unsigned new_message_capacity )
+{
+	map_iterator existing_statistics = message_report.find( message.getType() );
 		
 		if ( existing_statistics == message_report.end() )
 		{
-			init_new_type( message_report, newMessage);
-			existing_statistics = message_report.find( newMessage.getType() );
+			init_new_type( message_report, message);
+			existing_statistics = message_report.find( message.getType() );
 		}
 		
-		if ( existing_statistics->second[1] == newMessage.getTime()
+		if ( existing_statistics->second[1] == message.getTime()
 			&& existing_statistics->second[0] < new_message_capacity ) 
 		{
-			continue;
+			return;
 		}
 		
-		if ( existing_statistics->second[1] != newMessage.getTime() )
+		if ( existing_statistics->second[1] != message.getTime() )
 		{
 			existing_statistics->second[0] = 2048;
 		}
 
 		existing_statistics->second[0] -= new_message_capacity;
 		existing_statistics->second[2]++;
-	}
-
-	input_file.close();
 }
 
 void flush_summary( const std::map< unsigned, std::vector< unsigned > >& message_report)
