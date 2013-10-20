@@ -40,4 +40,7 @@ void filterMessages() {
 
 		remaining_bytes -= 3 * sizeof( unsigned ) + new_message.getLength();
 	}
+
+	input.close();
+	output.close();
 }
