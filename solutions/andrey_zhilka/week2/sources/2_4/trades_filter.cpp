@@ -35,7 +35,6 @@ void filterMessages() {
 
 		if ( maxT < 2 || message.getTime() > maxT - 2 ) {
 			output << new_message;
-			output.write("\0", sizeof(char) );
 			maxT = ( maxT < message.getTime() ) ? message.getTime() : maxT;
 		}
 
