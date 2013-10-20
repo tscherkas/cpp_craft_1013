@@ -47,7 +47,7 @@ unsigned Message::getLength() const {
 	return this->length;
 }
 
-int Message::getTime() const {
+unsigned Message::getTime() const {
 	return this->time;	
 }
 

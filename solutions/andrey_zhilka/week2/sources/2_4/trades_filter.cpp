@@ -33,9 +33,9 @@ void filterMessages() {
 	while ( remaining_bytes != 0 ) {
 		input >> new_message;
 
-		if ( maxT < 2 || message.getTime() > maxT - 2 ) {
+		if ( maxT < 2 || new_message.getTime() > maxT - 2 ) {
 			output << new_message;
-			maxT = ( maxT < message.getTime() ) ? message.getTime() : maxT;
+			maxT = ( maxT < new_message.getTime() ) ? new_message.getTime() : maxT;
 		}
 
 		remaining_bytes -= 3 * sizeof( unsigned ) + new_message.getLength();
