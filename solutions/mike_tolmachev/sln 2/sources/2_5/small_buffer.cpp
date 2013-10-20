@@ -19,9 +19,9 @@ int main()
         size_t file_size = in.tellg();
         in.seekg(0, std::ios::beg);
     
-        std::map<uint32_t, std::map<uint32_t, uint32_t>> msgs;//<TYPE,<TIME,LEN>>
+        std::map<uint32_t, std::map<uint32_t, std::pair<uint32_t, double>>> msgs;//<TYPE,<TIME<LEN, count>>>
 
-        while(file_size)
+        while(file_size && in.good())
         {
             uint32_t msg[3];//TYPE,TIME,LEN
             in.read(reinterpret_cast<char*>(msg), DATA_SIZE);
@@ -32,14 +32,14 @@ int main()
             auto it = msgs[msg[0]].find(msg[1]);
             if (it == msgs[msg[0]].end())
             {
-                msgs[msg[0]][msg[1]] = 0;
-                auto new_elem = msgs[msg[0]].insert(std::make_pair(msg[1], 0));
+                auto new_elem = msgs[msg[0]].insert(std::make_pair(msg[1], std::make_pair(0, 0)));
                 it = new_elem.first;
             }
 
-            if ((it->second + msg_size) <= MSG_SIZE)
+			if ((it->second.first + msg_size) <= MSG_SIZE)
             {
-                it->second += msg_size;
+				it->second.first += msg_size;
+				++it->second.second;
             }
 
             file_size -= msg_size;
@@ -49,8 +49,13 @@ int main()
         {
             uint32_t type = it->first;
             out.write(reinterpret_cast<char*>(&type), sizeof(uint32_t));
-            uint32_t count = it->second.size();
-            out.write(reinterpret_cast<char*>(&count), sizeof(uint32_t));
+			double count = 0;
+			for (auto it_t = it->second.begin(); it_t != it->second.end(); ++it_t)
+			{
+				count += it_t->second.second;
+			}
+			count /= it->second.size();
+			out.write(reinterpret_cast<char*>(&count), sizeof(double));
         }
     }
 

@@ -1,5 +1,6 @@
 #include <fstream>
 #include <stdint.h>
+#include <memory>
 #include <map>
 
 
@@ -19,7 +20,7 @@ int main()
         size_t file_size = in.tellg();
         in.seekg(0, std::ios::beg);
     
-        while(file_size)
+        while(file_size && in.good())
         {
             uint32_t data[3];//TYPE,TIME,LEN
             in.read(reinterpret_cast<char*>(data), DATA_SIZE);

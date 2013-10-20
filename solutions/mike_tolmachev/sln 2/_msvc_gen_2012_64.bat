@@ -1,6 +1,6 @@
 @echo off
 
-set SOLUTION_NAME=sln1
+set SOLUTION_NAME=sln2
 
 set BUILD_TYPE=Debug
 if [%1]==[Release] (
