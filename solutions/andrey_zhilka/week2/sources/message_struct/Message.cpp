@@ -25,7 +25,7 @@ void Message::operator=( const Message& message) {
 	strcpy( text, message.text );
 }
 
-void Message::setTime( int time ) {
+void Message::setTime( unsigned time ) {
 	this->time = time;
 }
 
@@ -51,7 +51,7 @@ int Message::getTime() const {
 
 std::istream& operator>>( std::istream& binary_is, Message& message ) {
 	binary_is.read( reinterpret_cast< char* > ( &message.type ), sizeof( unsigned ) );
-	binary_is.read( reinterpret_cast< char* > ( &message.time ), sizeof( int ) );
+	binary_is.read( reinterpret_cast< char* > ( &message.time ), sizeof( unsigned ) );
 	binary_is.read( reinterpret_cast< char* > ( &message.length ), sizeof( unsigned ) );
 	message.text = new char[ message.length + 1 ];
 	binary_is.read( message.text, message.length );
@@ -62,7 +62,7 @@ std::istream& operator>>( std::istream& binary_is, Message& message ) {
 
 std::ostream& operator<<( std::ostream& binary_os, Message message ) {
 	binary_os.write( reinterpret_cast< const char* > ( &message.type ), sizeof( unsigned ) );
-	binary_os.write( reinterpret_cast< const char* > ( &message.time ), sizeof( int ) );
+	binary_os.write( reinterpret_cast< const char* > ( &message.time ), sizeof( unsigned ) );
 	binary_os.write( reinterpret_cast< const char* > ( &message.length ), sizeof( unsigned ) );
 	binary_os.write( message.text, message.length );
 
