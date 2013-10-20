@@ -8,5 +8,5 @@ class SmallBuffer {
     private:
         SmallBuffer();
         SmallBuffer(const SmallBuffer&);
-        void operator<<(const SmallBuffer&);
+        void operator=(const SmallBuffer&);
 };
