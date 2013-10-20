@@ -7,9 +7,12 @@
 #include <map>
 
 typedef std::map< unsigned, std::vector< unsigned > >::iterator map_iterator;
+typedef std::map< unsigned, std::vector< unsigned > >::const_iterator const_map_iterator;
 
-void reading_storingProcess( std::map< unsigned, std::vector< unsigned > > );
+void reading_storingProcess( std::map< unsigned, std::vector< unsigned > >& );
 void init_new_type( std::map< unsigned, std::vector< unsigned > >&, const Message& );
+void flush_summary( const std::map< unsigned, std::vector< unsigned > >& );
+void check_is_file_open( const std::fstream&, const char* ); 
 
 int main()
 {
@@ -21,7 +24,9 @@ int main()
 void reading_storingProcess( std::map< unsigned, std::vector< unsigned > >& message_report) 
 {
 	const char *input_file_path = SOURCE_DIR "/tests/2_5/2.5_example.in";
-	std::ifstream input_file( input_file_path, std::ios::binary );
+	std::fstream input_file( input_file_path, std::ios::binary | std::ios::in );
+
+	check_is_file_open( input_file, input_file_path );
 
 	struct stat file_statistics;
 	stat( input_file_path, &file_statistics );
@@ -59,7 +64,25 @@ void reading_storingProcess( std::map< unsigned, std::vector< unsigned > >& mess
 		existing_statistics->second[0] -= new_message_capacity;
 		existing_statistics->second[2]++;
 	}
+
+	input_file.close();
+}
+
+void flush_summary( const std::map< unsigned, std::vector< unsigned > >& message_report)
+{
+	const char* output_file_path = SOURCE_DIR "/tests/2_5/2.5_output.out";
+	std::fstream output_file( output_file_path, std::ios::binary | std::ios::in );
 	
+	check_is_file_open( output_file, output_file_path );
+	
+	for (const_map_iterator it = message_report.begin(); it != message_report.end(); it++ )
+	{
+		output_file.write( reinterpret_cast< const char* > ( &it->first ), sizeof( unsigned ) );
+		double average = double ( it->second[2] ) / it->second[1];
+		output_file.write( reinterpret_cast< const char* > ( &average ), sizeof( double ) );
+	}
+
+	output_file.close();
 }
 
 void init_new_type( std::map< unsigned, std::vector< unsigned > >& message_report,
@@ -71,4 +94,12 @@ void init_new_type( std::map< unsigned, std::vector< unsigned > >& message_repor
 	message_type_statistics.push_back( 0 );	// total number
 
 	message_report.insert( std::make_pair(message.getType(), message_type_statistics ) );
+}
+void check_is_file_open( const std::fstream& file, const char *path)
+{
+	if ( !file.is_open() )
+	{
+		std::cerr << "Failed to open file " << path << std::endl;
+		exit( 1 );
+	}
 }
