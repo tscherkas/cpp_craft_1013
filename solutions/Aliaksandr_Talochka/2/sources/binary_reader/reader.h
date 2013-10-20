@@ -17,7 +17,7 @@ namespace binary_reader
 		std::string MSG;
 	} stock_ex_dat;
 
-	int read_binary();
+	int read_binary(std::fstream &fid, stock_ex_dat &data);
 }
 
 #endif // _BINARY_READER_READER_H_
