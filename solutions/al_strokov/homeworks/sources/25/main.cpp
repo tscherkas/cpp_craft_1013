@@ -4,11 +4,6 @@
 #include <map>
 #include <string>
 
-struct dataStruct_t {
-	uint32_t type;
-	uint32_t time;
-	std::string msg;
-};
 
 int main(int argc, char** argv) {
 	std::cout << "*Hometask 25*" << std::endl;
@@ -19,7 +14,7 @@ int main(int argc, char** argv) {
 
 	if (!iFile.is_open()) {
 		std::cout << "cannot open input bin file" << std::endl;
-		return false;
+		return 1;
 	}
 
 	std::string sBuff;
