@@ -17,13 +17,8 @@ float stringToFloat(std::string &str){
     return result;
 }
 
-void writeResult(bool result){
-    std::fstream resultFile( "output.txt", std::fstream::out | std::fstream::app );
-    if(!resultFile.good()){
-        cout << "Can't open file to write a result" << endl;
-    }
+void writeResult(bool result, std::fstream& resultFile){
     resultFile << (result ? "YES" : "NO") << std::endl;
-    resultFile.close();
 }
 
 int main(){
@@ -32,6 +27,11 @@ int main(){
     int count = 0;
     int keyRowCount = 0;
     vector<float> codes;
+
+    std::fstream resultFile( "output.txt", std::fstream::out | std::fstream::trunc );
+    if(!resultFile.good()){
+        cout << "Can't open file to write a result" << endl;
+    }
 
     if(input.good()){
         while(!input.eof()){
@@ -60,13 +60,14 @@ int main(){
                         isCodeFound = true;
                     }
                 }
-                writeResult(isCodeFound);
+                writeResult(isCodeFound, resultFile);
                 std::cout << (isCodeFound ? "YES" : "NO") << std::endl;
             }
         }
     } else {
         std::cout << "Can't open file " << std::endl;
     }
+    resultFile.close();
     input.close();
     return 0;
 }
