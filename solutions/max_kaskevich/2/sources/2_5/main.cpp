@@ -1,4 +1,4 @@
-#include "../message/message.h"
+#include "message.h"
 #include <stdint.h>
 #include <map>
 
