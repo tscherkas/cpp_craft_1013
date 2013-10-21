@@ -21,9 +21,8 @@ int main()
 	deal current_deal ={0};
 	bool store_deal = false;
 
-	std::ifstream input_file(BINARY_DIR"input.txt", std::ifstream::binary);
-	std::ofstream output_file(BINARY_DIR"output.txt", std::ifstream::binary);
-
+	std::ifstream input_file(BINARY_DIR"\\input.txt", std::ifstream::binary);
+	std::ofstream output_file(BINARY_DIR"\\output.txt", std::ifstream::binary);
 
 	if(input_file.is_open() && output_file.is_open())
 	{

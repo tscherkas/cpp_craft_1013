@@ -9,7 +9,7 @@ static const int MaxPackageType = 100000;
 
 struct Package
 {
-	char stock_name[9];
+	char stock_name[8];
 	char data_time[8];
 	double price;
 	double vwap;
@@ -45,7 +45,7 @@ std::ostream& operator<< (std::ostream& s, const Package &p)
     int year;
 
 	std::sscanf(p.data_time, "%4d%2d%2d", &year, &month, &day);
-	date = (year - 1) * 372 +  (month  - 1)* 31 + (day - 1);
+	date = (year - 1) * 372 +  (month  - 1)* 31 + day;
 	
 	s.write(p.stock_name, sizeof(p.stock_name));
 	s.write(reinterpret_cast<const char*>(&date), sizeof(date));
@@ -61,8 +61,8 @@ int main()
 { 
 	Package current_package ={0};
 	
-	std::ifstream input_file(BINARY_DIR"input.txt", std::ifstream::binary);
-	std::ofstream output_file(BINARY_DIR"output.txt", std::ifstream::binary);
+	std::ifstream input_file(BINARY_DIR"\\input.txt", std::ifstream::binary);
+	std::ofstream output_file(BINARY_DIR"\\output.txt", std::ifstream::binary);
 
 	if(input_file.is_open() && output_file.is_open())
 	{
