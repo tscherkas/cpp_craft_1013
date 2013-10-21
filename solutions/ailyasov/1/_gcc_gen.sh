@@ -1,5 +1,5 @@
 
-export SOLUTION_NAME=cmake_example
+export SOLUTION_NAME=homework1
 
 export BUILD_TYPE=Debug
 if [ "$1" == 'Release' ];
@@ -17,4 +17,3 @@ fi
 cd $BUILD_FOLDER
 cmake -DVERBOSE=ON -DSOLUTION_NAME=$SOLUTION_NAME -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G "Unix Makefiles" ../ 
 cd ../
-
