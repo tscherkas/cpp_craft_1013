@@ -5,7 +5,7 @@
 
 struct Data
 {
-    char stock_name[9];//8?
+    char stock_name[8];//8?
     char date_time[8];
     double price;
     double vwap;
@@ -19,8 +19,8 @@ static const size_t DATA_SIZE = 16 + sizeof(uint32_t) + 7*sizeof(double);
 
 void WriteToFile(std::ofstream& out, Data& data)
 {
-    out.write(data.stock_name, 9);//stock_name 8?
-    //out.write('\0', 1); 8?
+    out.write(data.stock_name, 8);//stock_name 8?
+    out.write('\0', 1); 8?
     //write date
 	uint32_t day = 0;
 	uint32_t month = 0;
@@ -31,7 +31,7 @@ void WriteToFile(std::ofstream& out, Data& data)
 	//
     out.write(reinterpret_cast<char*>(&data.vwap), sizeof(double));//price=vwap
     out.write(reinterpret_cast<char*>(&data.volume), sizeof(uint32_t));//volume
-	out.write(reinterpret_cast<char*>(&data.datas[2]), sizeof(double));//f1
+	out.write(reinterpret_cast<char*>(&data.datas[2]), sizeof(double));//f2
 }
 
 
@@ -49,7 +49,7 @@ int main()
 		while(file_size && in.good())
 		{
 			Data data;
-			in.read(data.stock_name, 9);//8?
+			in.read(data.stock_name, 8);//8?
 			in.read(data.date_time, 8);
 			in.read(reinterpret_cast<char*>(&data.price), sizeof(double));
 			in.read(reinterpret_cast<char*>(&data.vwap), sizeof(double));
