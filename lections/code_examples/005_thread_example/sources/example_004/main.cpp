@@ -23,15 +23,16 @@ namespace day_3
 	};
 	class multithread
 	{
-		factorial f_;	
+		factorial f_;
 	public:
 		explicit multithread()
-		{			
+		{
 		}
 		void process()
 		{
 			static const size_t module = 100;
-			const int random = std::rand() % module;
+			srand ( static_cast< unsigned int >( clock() ) );
+			const int random = rand() % module;
 			std::cout << random << "! is " << f_.process( random ) << std::endl;
 		}
 	};
@@ -39,12 +40,14 @@ namespace day_3
 
 int main()
 {	
-	std::srand ( static_cast< unsigned int >( std::time( NULL ) ) );
 	day_3::multithread mth;
 	boost::thread_group thg;
 	static const size_t threads_amount = 4;
 	for( size_t i = 0; i < threads_amount; ++i )
+	{
 		thg.create_thread( boost::bind( &day_3::multithread::process, &mth ) );
+		boost::this_thread::sleep( boost::posix_time::milliseconds( 5 ) );		
+	}
 
 	thg.join_all();
 }

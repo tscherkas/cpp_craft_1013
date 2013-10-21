@@ -47,16 +47,19 @@ namespace day_3
 			:search_( i )
 			, module_( module )
 		{
-			std::srand ( static_cast< unsigned int >( std::time( NULL ) ) );
 
 			for( size_t i = 0; i < thread_size; ++i )
+			{
 				tg_.create_thread( boost::bind( &test::generate_i, this ));
+				boost::this_thread::sleep( boost::posix_time::milliseconds( 10 ) );
+			}
 
 			tg_.join_all();
 		}
 		void generate_i()
 		{
 			size_t i = 0;
+			std::srand ( static_cast< unsigned int >( clock() ) );
 			while( !search_.is_i( std::rand() % module_ ) )
 			{
 				++i;
