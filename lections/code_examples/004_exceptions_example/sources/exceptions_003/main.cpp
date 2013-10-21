@@ -2,26 +2,29 @@
 #include <iostream>
 #include <exception>
 
-class my_exception : public std::exception
+namespace day_3
 {
-public:
-	virtual const char * what() const
+	class my_exception : public std::exception
 	{
-		return "my_exception";
-	}
-	const std::string hello() const
-	{
-		return "hello exception!";
-	}
-};
+	public:
+		virtual const char * what() const throw()
+		{
+			return "my_exception";
+		}
+		const std::string hello() const
+		{
+			return "hello exception!";
+		}
+	};
+}
 
 int main()
 {
 	try
 	{
-		throw my_exception();
+		throw day_3::my_exception();
 	}
-	catch( const my_exception& e )
+	catch( const day_3::my_exception& e )
 	{
 		std::cout << e.hello() << std::endl;
 	}

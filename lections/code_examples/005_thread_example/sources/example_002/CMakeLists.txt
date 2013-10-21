@@ -1,4 +1,5 @@
 find_package( Boost 1.41 ${SEARCH_PARAMETERS} COMPONENTS
+	date_time
 	system
 	thread
 )

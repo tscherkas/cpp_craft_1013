@@ -1,35 +1,38 @@
 #include <string>
 #include <iostream>
 
-class base_exception
+namespace day_3
 {
-public:
-	virtual void what() const
+	class base_exception
 	{
-		std::cout << "base_exception" << std::endl;
-	}
-};
+	public:
+		virtual void what() const
+		{
+			std::cout << "base_exception" << std::endl;
+		}
+	};
 
-class nested_exception : public base_exception
-{
-public:
-	virtual void what() const
+	class nested_exception : public base_exception
 	{
-		std::cout << "nested_exception" << std::endl;
-	}
-};
+	public:
+		virtual void what() const
+		{
+			std::cout << "nested_exception" << std::endl;
+		}
+	};
+}
 
 int main()
 {
 	try
 	{
-		throw nested_exception();
+		throw day_3::nested_exception();
 	}
-	catch( const base_exception& e )
+	catch( const day_3::nested_exception& e )
 	{
 		e.what();
 	}
-	catch( const nested_exception& e )
+	catch( const day_3::base_exception& e )
 	{
 		e.what();
 	}

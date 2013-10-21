@@ -1,13 +1,18 @@
 #include <string>
 #include <iostream>
 
-class my_exception
+namespace day_3
 {
-};
+	class my_exception
+	{
+	};
 
-class another_exception
-{
-};
+	class another_exception
+	{
+	};
+}
+
+using namespace day_3;
 
 int main()
 {
