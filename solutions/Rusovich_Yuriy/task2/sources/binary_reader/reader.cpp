@@ -37,4 +37,13 @@ namespace binary_reader
 		delete [] msg;
 		return true;
 	}
+
+	bool Reader::readDataFeed(DataFeed *dataFeed)
+	{
+		if(!inputFile.read((char*)dataFeed, sizeof(DataFeed)))
+		{
+			return false;
+		}
+		return true;
+	}
 }
