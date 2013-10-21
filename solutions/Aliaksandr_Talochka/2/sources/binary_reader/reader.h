@@ -9,6 +9,9 @@
 
 namespace binary_reader
 {
+
+	#pragma pack(push,1)
+
 	typedef struct stock_ex_dat
 	{
 		uint32_t TYPE;
@@ -16,6 +19,8 @@ namespace binary_reader
 		uint32_t LEN;
 		std::string MSG;
 	} stock_ex_dat;
+
+	#pragma pack(pop)
 
 	int read_binary(std::fstream &fid, stock_ex_dat &data);
 }
