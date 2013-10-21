@@ -22,16 +22,11 @@ string prepareString (const std::string& str){
 }
 
 
-void writeResult(bool result){
-    std::fstream resultFile( "output.txt", std::fstream::out | std::fstream::app );
-    if(!resultFile.is_open()){
-        cout << "Can't open file to write a result" << endl;
-    }
+void writeResult(bool result, std::fstream& resultFile){
     resultFile << (result ? "YES" : "NO") << std::endl;
-    resultFile.close();
 }
 
-bool extractStringAndKeysFromFile(){
+bool extractStringAndKeysFromFile(std::fstream& resultFile){
     std::ifstream input_file("input.txt");
     std::string line;
     std::string str;
@@ -51,7 +46,7 @@ bool extractStringAndKeysFromFile(){
         }
         else{
             string key = prepareString (line);
-            writeResult((str.find (key) == string::npos ? false : true));
+            writeResult((str.find (key) == string::npos ? false : true), resultFile);
         }
     }
     input_file.close();
@@ -59,8 +54,13 @@ bool extractStringAndKeysFromFile(){
 }
 
 int main(){
+    std::fstream resultFile( "output.txt", std::fstream::out | std::fstream::trunc );
+    if(!resultFile.is_open()){
+        cout << "Can't open file to write a result" << endl;
+    }
     setlocale(LC_ALL, "Russian");
-    extractStringAndKeysFromFile();
+    extractStringAndKeysFromFile(resultFile);
+    resultFile.close();
 }
 
 
