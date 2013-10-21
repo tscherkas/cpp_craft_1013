@@ -1,10 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <stdint.h>
-#include <set>
 #include <map>
 #include <string>
-#include <vector>
 
 struct dataStruct_t {
 	uint32_t type;
