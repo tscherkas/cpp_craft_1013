@@ -6,7 +6,7 @@
 
 struct message2_6
 {
-    char stock_name[9];
+    char stock_name[8];
     char date_time[8];
 
     double price;        
@@ -23,7 +23,7 @@ struct message2_6
 
 std::istream& operator >> (std::istream& input, message2_6& m)
 {
-    read(input, m.stock_name, 9);
+    read(input, m.stock_name, sizeof(m.stock_name));
     read(input, m.date_time, sizeof(m.date_time));
     read(input, &m.price);
     read(input, &m.vwap);
@@ -38,7 +38,8 @@ std::istream& operator >> (std::istream& input, message2_6& m)
 
 std::ostream& operator << (std::ostream& output, message2_6& m)
 {
-    write(output, &m.stock_name, sizeof(m.stock_name));
+    write(output, m.stock_name, sizeof(m.stock_name));
+    output << '\0';
 
     uint32_t year, month, day;
     using boost::spirit::qi::int_parser;
