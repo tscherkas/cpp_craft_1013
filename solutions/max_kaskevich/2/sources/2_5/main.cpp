@@ -65,7 +65,7 @@ int main( int argc, char* argv[] )
     for(msg_stats_map::value_type& m_stat_pair: msg_stats)
     {
         avg = m_stat_pair.second.msg_count /  m_stat_pair.second.seconds;
-        output.write(reinterpret_cast<char*>(const_cast<uint32_t*>(&m_stat_pair.first)), sizeof(uint32_t));
-        output.write(reinterpret_cast<char*>(&avg), sizeof(double));
+        write(output, const_cast<uint32_t*>(&m_stat_pair.first));
+        write(output, &avg);
     }
 }

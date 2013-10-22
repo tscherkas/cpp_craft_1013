@@ -1,11 +1,10 @@
 #include <stdint.h>
 #include <fstream>
-#include <sstream>
-#include <regex>
-#include <iostream>
 #include <boost/spirit/include/qi.hpp>
+#include "message.h"
 
-struct message
+
+struct message2_6
 {
     char stock_name[9];
     char date_time[8];
@@ -21,30 +20,25 @@ struct message
     double f3;
     double f4;
 }; 
-// 9 + 8
-// + 8 * 2
-// + 4
-// + 8 * 5
-// = 77
 
-std::istream& operator >> (std::istream& input, message& m)
+std::istream& operator >> (std::istream& input, message2_6& m)
 {
-    input.read(m.stock_name, sizeof(m.stock_name));
-    input.read(m.date_time, sizeof(m.date_time));
-    input.read(reinterpret_cast<char*>(&m.price), sizeof(m.price));
-    input.read(reinterpret_cast<char*>(&m.vwap), sizeof(m.vwap));
-    input.read(reinterpret_cast<char*>(&m.volume), sizeof(m.volume));
-    input.read(reinterpret_cast<char*>(&m.f1), sizeof(m.f1));
-    input.read(reinterpret_cast<char*>(&m.t1), sizeof(m.t1));
-    input.read(reinterpret_cast<char*>(&m.f2), sizeof(m.f2));
-    input.read(reinterpret_cast<char*>(&m.f3), sizeof(m.f3));
-    input.read(reinterpret_cast<char*>(&m.f4), sizeof(m.f4));
+    read(input, m.stock_name, 9);
+    read(input, m.date_time, sizeof(m.date_time));
+    read(input, &m.price);
+    read(input, &m.vwap);
+    read(input, &m.volume);
+    read(input, &m.f1);
+    read(input, &m.t1);
+    read(input, &m.f2);
+    read(input, &m.f3);
+    read(input, &m.f4);
     return input;
 }
 
-std::ostream& operator << (std::ostream& output, message& m)
+std::ostream& operator << (std::ostream& output, message2_6& m)
 {
-    output.write(reinterpret_cast<char*>(&m.stock_name), sizeof(m.stock_name));
+    write(output, &m.stock_name, sizeof(m.stock_name));
 
     uint32_t year, month, day;
     using boost::spirit::qi::int_parser;
@@ -60,13 +54,13 @@ std::ostream& operator << (std::ostream& output, message& m)
         return output;
     }
     uint32_t all_days = (year - 1) * 372 + (month - 1) * 31 + day;
-    output.write(reinterpret_cast<char*>(&all_days), sizeof(all_days));
+    write(output, &all_days);
 
-    output.write(reinterpret_cast<char*>(&m.vwap), sizeof(m.vwap));
-    output.write(reinterpret_cast<char*>(&m.volume), sizeof(m.volume));
-    output.write(reinterpret_cast<char*>(&m.f1), sizeof(m.f1));
-    output.write(reinterpret_cast<char*>(&m.f4), sizeof(m.f4));
-    output.write(reinterpret_cast<char*>(&m.f3), sizeof(m.f3));
+    write(output, &m.vwap);
+    write(output, &m.volume);
+    write(output, &m.f1);
+    write(output, &m.f4);
+    write(output, &m.f3);
     return output;
 }
 
@@ -78,7 +72,7 @@ int main( int argc, char* argv[] )
     {
         return 1;
     }
-    message m;
+    message2_6 m;
     while (input >> m && output << m)
     {}
 
