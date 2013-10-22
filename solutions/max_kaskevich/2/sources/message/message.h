@@ -10,13 +10,13 @@ struct message
 };
 
 template<typename T>
-void read(std::istream& input, T* value, size_t size = sizeof(T))
+inline void read(std::istream& input, T* value, size_t size = sizeof(T))
 {
     input.read(reinterpret_cast<char*>(value), size);
 }
 
 template<typename T>
-void write(std::ostream& output, T* value, size_t size = sizeof(T))
+inline void write(std::ostream& output, T* value, size_t size = sizeof(T))
 {
     output.write(reinterpret_cast<char*>(value), size);
 }
