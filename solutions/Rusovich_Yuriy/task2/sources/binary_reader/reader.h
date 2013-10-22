@@ -14,24 +14,25 @@ struct TradesData
 	std::string message;
  };
 
+#pragma pack(push,1)
+
 struct DataFeed
 {
 	char stockName[9];
 	char year[4];
 	char month[2];
 	char day[2];
-
 	double price;
 	double vwap;
-	
 	unsigned __int32 volume;
-	
 	double f1;
 	double t1;
 	double f2;
 	double f3;
 	double f4;
 };
+
+#pragma pack(pop)
 
 namespace binary_reader
 {

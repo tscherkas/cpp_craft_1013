@@ -15,7 +15,7 @@ namespace binary_reader
 
 	bool Reader::isOpenedFile()
 	{
-		return inputFile;
+		return inputFile.is_open();
 	}
 
 	bool Reader::readTradesData(TradesData *tradesData)
@@ -40,7 +40,7 @@ namespace binary_reader
 
 	bool Reader::readDataFeed(DataFeed *dataFeed)
 	{
-		if(!inputFile.read((char*)dataFeed, sizeof(DataFeed)))
+		if(!inputFile.read(reinterpret_cast<char*>(dataFeed), sizeof(DataFeed)))
 		{
 			return false;
 		}
