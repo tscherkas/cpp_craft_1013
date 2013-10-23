@@ -23,7 +23,7 @@ int main()
 		return -1;
 	binary_reader::Data net_data;
 
-	test_no_throw( binary_reader::read_bin_file(std::ifstream& file, Data &data; );
+	test_no_throw( binary_reader::read_bin_file(std::ifstream& file, Data &data) );
 	file.close();
 	return 0;
 }
