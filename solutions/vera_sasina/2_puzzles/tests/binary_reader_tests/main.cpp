@@ -16,8 +16,13 @@
 } \
 
 
-
 int main()
 {
-	test_no_throw( binary_reader::proxy_function_that_was_created_only_for_compiling_goals() );
+	//std::ifstream file( BINARY_DIR "/input.txt",  std::ios::binary|std::ios::ate );
+	//if ( !file.is_open() )
+	//	return -1;
+	//binary_reader::Data net_data;
+
+	//test_no_throw( binary_reader::read_bin_file(std::ifstream& file, Data &data; );
+	//file.close();
 }

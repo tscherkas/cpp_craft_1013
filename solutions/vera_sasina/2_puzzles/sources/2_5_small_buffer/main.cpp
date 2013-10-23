@@ -1,8 +1,9 @@
-#include <iostream>
-#include <boost/shared_array.hpp>
-#include <boost/shared_ptr.hpp>
-#include <fstream>
-#include "small_buffer.h"
+#include "reader.h"
+#include <map>
+
+typedef std::map<uint32_t, uint32_t> uint32_map;
+const static uint32_t max_type = 100000;
+const static size_t size_buffer = 2048;
 
 int main()
 {
@@ -15,20 +16,38 @@ int main()
 	size_t file_size;
 	file_size = static_cast<size_t>(input_file.tellg());
 	input_file.seekg (0, std::ios::beg);
+	
+	binary_reader::Data net_data;
+	uint32_map results;
+	uint32_map buffer;
+	
+	size_t read_size = 0;
+	while(read_size < file_size)
 	{
-		boost::shared_ptr<NetMessage> net_data(new NetMessage());
-		boost::shared_array<Result> results(new Result [max_type]);
-		size_t read_size = 0;
-		while(read_size < file_size)
+		binary_reader::read_bin_file(input_file, net_data, max_type);
+		read_size = static_cast<size_t>(input_file.tellg());
+
+
+		uint32_t current_time = 0;
+		if(net_data.time+1 != current_time)
 		{
-			net_data->set_data(input_file);
-			read_size = static_cast<size_t>(input_file.tellg());
-			results[net_data->get_type()-1].set_result(*net_data);
+			buffer.clear();
+			current_time = net_data.time+1;
 		}
-		
-		for(uint32_t i = 0; i < max_type; i++)
+		buffer[net_data.type] += net_data.len + sizeof(uint32_t)*3;
+		if(buffer[net_data.type] <= size_buffer)
+			results[net_data.type]++;
+	}
+
+	uint32_t full_time = net_data.time;
+	double average;
+	for(uint32_map::iterator it = results.begin(); it != results.end(); ++it)
+	{
+		if(it->second > 0)
 		{
-			results[i].get_result(output_file);
+			average = static_cast<double>(it->second) / static_cast<double>(full_time);
+			output_file.write((char*) &it->first, sizeof(it->first));
+			output_file.write((char*) &average, sizeof(average));
 		}
 	}
 	input_file.close();

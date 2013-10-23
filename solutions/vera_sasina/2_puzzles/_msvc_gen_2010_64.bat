@@ -1,5 +1,6 @@
 @echo off
 
+set BOOST_ROOT=d:\My_Projects\GitHub\boost_1_54_0\boost_1_54_0\
 set SOLUTION_NAME=2_puzzles
 
 set BUILD_TYPE=Debug
