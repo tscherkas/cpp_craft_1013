@@ -1,6 +1,6 @@
-#include <iostream>
-#include <boost/shared_ptr.hpp>
-#include "trades_filter.h"
+#include <reader.h>
+#include <stdint.h>
+#include <fstream>
 
 int main()
 {
@@ -13,16 +13,26 @@ int main()
 	size_t file_size;
 	file_size = static_cast<size_t>(input_file.tellg());
 	input_file.seekg (0, std::ios::beg);
+	
+	size_t read_size = 0;
+	binary_reader::Data data;
+	uint32_t maxTime = 0;
+	while(read_size < file_size)
 	{
-		size_t read_size = 0;
-		boost::shared_ptr<Trades> data(new Trades());
+		binary_reader::read_bin_file(input_file, data);
+		read_size = static_cast<size_t>(input_file.tellg());
+		if(data.type > 4)
+			continue;
+		if((data.time+2) <= maxTime)
+			continue;
+		if(data.time > maxTime)
+			maxTime = data.time;
 
-		while(read_size < file_size)
-		{
-			data->set_trade(input_file);
-			read_size = static_cast<size_t>(input_file.tellg());
-			data->get_trade(output_file);
-		}
+		output_file.write((char*) &data.type, sizeof(data.type));
+		output_file.write((char*) &data.time, sizeof(data.time));
+		output_file.write((char*) &data.len, sizeof(data.len));
+		output_file.write((char*) data.msg, data.len);
+		delete [] data.msg;
 	}
 	input_file.close();
 	output_file.close();
