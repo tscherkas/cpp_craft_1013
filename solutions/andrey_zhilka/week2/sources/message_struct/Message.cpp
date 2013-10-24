@@ -1,30 +1,7 @@
 #include "Message.h"
 
-Message::Message(const Message &message) {
-	this->type = message.type;
-	this->time = message.time;
-	this->length = message.length;	
-	this->text = new char[ message.length + 1 ];
-	if ( message.text ) {
-		strcpy(this->text, message.text );
-	}
-}
-
 Message::~Message() {
-	if ( this->text ) {
-		delete [] this->text;
-	}
-}
-
-void Message::operator=( const Message& message) {
-	this->time = message.time;
-	this->type = message.type;
-	if (this->length != message.length && this->text ) {
-		delete [] text;
-	}
-	this->length = message.length;
-	text = new char[ message.length + 1 ];
-	strcpy( text, message.text );
+	delete [] this->text;
 }
 
 void Message::setTime( unsigned time ) {
@@ -40,6 +17,12 @@ void Message::setLength( unsigned length ) {
 }
 
 void Message::setText( char* text ) {
+	if ( !this->text || strlen(this->text) < strlen( text ) )
+	{
+		delete [] this->text;
+		this->length = strlen( text );
+		this->text = new char[ length ];
+	}
 	strcpy( this->text, text );
 }
 
@@ -66,7 +49,7 @@ std::istream& operator>>( std::istream& binary_is, Message& message ) {
 	return binary_is;
 }
 
-std::ostream& operator<<( std::ostream& binary_os, Message message ) {
+std::ostream& operator<<( std::ostream& binary_os, const Message& message ) {
 	binary_os.write( reinterpret_cast< const char* > ( &message.type ), sizeof( unsigned ) );
 	binary_os.write( reinterpret_cast< const char* > ( &message.time ), sizeof( unsigned ) );
 	binary_os.write( reinterpret_cast< const char* > ( &message.length ), sizeof( unsigned ) );

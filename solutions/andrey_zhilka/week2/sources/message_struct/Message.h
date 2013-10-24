@@ -11,14 +11,14 @@ private :
 	unsigned length;
 	char* text;
 
+	void operator=( const Message& ){};
+	Message(const Message& message);
+
 public :
 	Message(){
 		text = 0;
 	}
-	Message(const Message& message);
 	~Message();
-
-	void operator=( const Message& );
 
 	void setType(unsigned);
 	void setTime(unsigned);
@@ -29,7 +29,7 @@ public :
 	unsigned getTime() const;
 	unsigned getType() const;
 
-	friend std::ostream& operator<<(std::ostream& binary_os, Message message);
+	friend std::ostream& operator<<(std::ostream& binary_os, const Message& message);
 	friend std::istream& operator>>(std::istream& binary_is, Message& message);
 };
 
