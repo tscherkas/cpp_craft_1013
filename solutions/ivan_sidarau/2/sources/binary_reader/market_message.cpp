@@ -1,4 +1,5 @@
 #include "market_message.h"
+#include <cstring>
 
 binary_reader::market_message::market_message( std::ifstream& in )
 	: msg_( NULL )
