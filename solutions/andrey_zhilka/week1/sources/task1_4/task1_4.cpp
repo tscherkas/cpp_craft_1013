@@ -90,7 +90,7 @@ bool myBinarySearch( const std::vector< double >& codes, int left,
 	if ( left == right - 1 ) 
 	{
 		double difference = fabs( element ) - fabs( codes.at(left) );
-		return (  difference < eps && difference > 0);
+		return (  difference < eps && difference >= 0);
 	}
 	
 	if( element < 0 && element <= codes.at(middle)
