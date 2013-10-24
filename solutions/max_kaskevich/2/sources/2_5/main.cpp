@@ -64,7 +64,9 @@ int main( int argc, char* argv[] )
     double avg = 0;
     for(msg_stats_map::value_type& m_stat_pair: msg_stats)
     {
-        avg = m_stat_pair.second.msg_count /  m_stat_pair.second.seconds;
+        avg = (m_stat_pair.second.msg_count
+            ? m_stat_pair.second.msg_count /  m_stat_pair.second.seconds
+            : 0.0);
         write(output, const_cast<uint32_t*>(&m_stat_pair.first));
         write(output, &avg);
     }
