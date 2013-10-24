@@ -1,6 +1,7 @@
 #include "reader.h"
+#include <iostream>
 
-void binary_reader::read_bin_file(std::ifstream& file, Data &data, uint32_t type_max)
+void binary_reader::read_struct(std::ifstream& file, Data &data, uint32_t type_max)
 {
 	file.read((char*) &data.type, sizeof(data.type));
 	if(data.type > type_max)

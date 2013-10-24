@@ -19,7 +19,7 @@ int main()
 	uint32_t maxTime = 0;
 	while(read_size < file_size)
 	{
-		binary_reader::read_bin_file(input_file, data);
+		binary_reader::read_struct(input_file, data);
 		read_size = static_cast<size_t>(input_file.tellg());
 		if(data.type > 4)
 			continue;
@@ -31,8 +31,12 @@ int main()
 		output_file.write((char*) &data.type, sizeof(data.type));
 		output_file.write((char*) &data.time, sizeof(data.time));
 		output_file.write((char*) &data.len, sizeof(data.len));
-		output_file.write((char*) data.msg, data.len);
-		delete [] data.msg;
+		if(data.len > 0)
+		{
+			//if message isn't empty
+			output_file.write((char*) data.msg, data.len);
+			delete [] data.msg;
+		}
 	}
 	input_file.close();
 	output_file.close();

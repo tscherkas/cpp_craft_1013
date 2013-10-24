@@ -20,16 +20,14 @@ int main()
 	binary_reader::Data net_data;
 	uint32_map results;
 	uint32_map buffer;
-	
 	size_t read_size = 0;
+
 	while(read_size < file_size)
 	{
-		binary_reader::read_bin_file(input_file, net_data, max_type);
+		binary_reader::read_struct(input_file, net_data, max_type);
 		read_size = static_cast<size_t>(input_file.tellg());
-
-
 		uint32_t current_time = 0;
-		if(net_data.time+1 != current_time)
+		if(net_data.time+1 != current_time)	//time+1 for time == 0
 		{
 			buffer.clear();
 			current_time = net_data.time+1;
@@ -37,6 +35,9 @@ int main()
 		buffer[net_data.type] += net_data.len + sizeof(uint32_t)*3;
 		if(buffer[net_data.type] <= size_buffer)
 			results[net_data.type]++;
+
+		if(net_data.len > 0)
+			delete [] net_data.msg;
 	}
 
 	uint32_t full_time = net_data.time;
