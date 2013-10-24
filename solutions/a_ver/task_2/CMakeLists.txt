@@ -8,5 +8,7 @@ if(UNIX)
 endif(UNIX)
 
 add_subdirectory(outdated_deal)
+add_subdirectory(small_buffer)
+add_subdirectory(binary_data)
 
 
