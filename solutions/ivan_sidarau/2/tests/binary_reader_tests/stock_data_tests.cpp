@@ -24,12 +24,12 @@ void binary_reader::tests_::test_stock_data()
 	std::string test_file_path = BINARY_DIR "/test_out.txt";
 	BOOST_CHECK_NO_THROW( stock_data( "AAPL", "20130101", 100.0, 101.1, 20000, 1.1, 2.1, 2.2, 3.3, 4.4 ) );
 	{
-		std::ofstream out( test_file_path, std::ios_base::binary );
+		std::ofstream out( test_file_path.c_str(), std::ios_base::binary );
 		stock_data sd( "AAPL", "20130101", 100.0, 101.1, 20000, 1.1, 2.1, 2.2, 3.3, 4.4 );
 		sd.write_raw( out );
 	}
 	{
-		std::ifstream in( test_file_path, std::ios_base::binary );
+		std::ifstream in( test_file_path.c_str(), std::ios_base::binary );
 		stock_data sd( in );
 		BOOST_CHECK_EQUAL( std::strcmp( sd.stock_name_, "AAPL" ), 0 );
 		BOOST_CHECK_EQUAL( std::strcmp( sd.date_time_, "20130101" ), 0 );
@@ -49,21 +49,21 @@ void binary_reader::tests_::test_stock_data()
 void binary_reader::tests_::generate_2_6_tests()
 {
 	{
-		std::ofstream out( BINARY_DIR "/input_261.txt" );
-		stock_data( "AAPL", "20130101", 100.0, 101.1, 10000, 1.1, 2.1, 2.21, 3.3, 4.4 ).write( out );
-		stock_data( "CIA", "20130201", 100.0, 101.1, 20000, 1.1, 2.1, 2.22, 3.3, 4.4 ).write( out );
-		stock_data( "GOOG", "20130301", 100.0, 101.1, 30000, 1.1, 2.1, 2.23, 3.3, 4.4 ).write( out );
-		stock_data( "XLI", "20130401", 100.0, 101.1, 40000, 1.1, 2.1, 2.24, 3.3, 4.4 ).write( out );
-		stock_data( "FGD", "20130501", 100.0, 101.1, 50000, 1.1, 2.1, 2.25, 3.3, 4.4 ).write( out );
-		stock_data( "NET", "20130601", 100.0, 101.1, 60000, 1.1, 2.1, 2.26, 3.3, 4.4 ).write( out );
-		stock_data( "XLK", "20130701", 100.0, 101.1, 70000, 1.1, 2.1, 2.27, 3.3, 4.4 ).write( out );
+		std::ofstream out( BINARY_DIR "/input_261.txt", std::ios_base::binary );
+		stock_data( "AAPL", "20130101", 100.0, 101.1, 10000, 1.1, 2.1, 2.21, 3.3, 4.4 ).write_raw( out );
+		stock_data( "CIA", "20130201", 100.0, 101.1, 20000, 1.1, 2.1, 2.22, 3.3, 4.4 ).write_raw( out );
+		stock_data( "GOOG", "20130301", 100.0, 101.1, 30000, 1.1, 2.1, 2.23, 3.3, 4.4 ).write_raw( out );
+		stock_data( "XLI", "20130401", 100.0, 101.1, 40000, 1.1, 2.1, 2.24, 3.3, 4.4 ).write_raw( out );
+		stock_data( "FGD", "20130501", 100.0, 101.1, 50000, 1.1, 2.1, 2.25, 3.3, 4.4 ).write_raw( out );
+		stock_data( "NET", "20130601", 100.0, 101.1, 60000, 1.1, 2.1, 2.26, 3.3, 4.4 ).write_raw( out );
+		stock_data( "XLK", "20130701", 100.0, 101.1, 70000, 1.1, 2.1, 2.27, 3.3, 4.4 ).write_raw( out );
 	}
 	{
-		std::ofstream out( BINARY_DIR "/input_262.txt" );
+		std::ofstream out( BINARY_DIR "/input_262.txt", std::ios_base::binary );
 		for( boost::uint32_t i = 0; i < 1000000; ++i )
 		{
-			stock_data( "AAPL", "20130101", i * 100.0, i * 101.1, i * 10000, i * 1.1, i * 2.1, i * 2.21, i * 3.3, i * 4.4 ).write( out );
-			stock_data( "GOOG", "20130101", i * 100.0, i * 101.1, i * 10000, i * 1.1, i * 2.1, i * 2.21, i * 3.3, i * 4.4 ).write( out );
+			stock_data( "AAPL", "20130101", i * 100.0, i * 101.1, i * 10000, i * 1.1, i * 2.1, i * 2.21, i * 3.3, i * 4.4 ).write_raw( out );
+			stock_data( "GOOG", "20130101", i * 100.0, i * 101.1, i * 10000, i * 1.1, i * 2.1, i * 2.21, i * 3.3, i * 4.4 ).write_raw( out );
 		}
 	}
 }
