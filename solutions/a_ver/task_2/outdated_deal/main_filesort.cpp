@@ -228,6 +228,7 @@ int main(){
         cout << " len: " << message.len;
         cout << " data: ";
         buffered_copy(io_fs, cout, io_fs.tellg(), message.len);
+        //copy_n(istreambuf_iterator<char>(io_fs), message.len, ostream_iterator<int>(cout, " "));
         cout << endl;
     }
     return 0;
