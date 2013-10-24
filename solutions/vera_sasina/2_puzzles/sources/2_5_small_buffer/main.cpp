@@ -21,12 +21,12 @@ int main()
 	uint32_map results;
 	uint32_map buffer;
 	size_t read_size = 0;
+	uint32_t current_time = 0;
 
 	while(read_size < file_size)
 	{
 		binary_reader::read_struct(input_file, net_data, max_type);
 		read_size = static_cast<size_t>(input_file.tellg());
-		uint32_t current_time = 0;
 		if(net_data.time+1 != current_time)	//time+1 for time == 0
 		{
 			buffer.clear();

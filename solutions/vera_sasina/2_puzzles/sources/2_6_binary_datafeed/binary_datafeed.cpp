@@ -4,8 +4,8 @@
 
 struct Data
 {
-	std::string stock_name;
-	std::string date_time;
+	char stock_name[8];
+	char date_time[8];
     double price;
     double vwap;
     uint32_t volume;
@@ -16,22 +16,19 @@ struct Data
     double f4;
 };
 
-uint32_t days_count(const std::string &date)
+uint32_t days_count(const char* date)
 {
 	int month;
     int day;
     int year;
-	std::sscanf(date.c_str(), "%4d%2d%2d", &year, &month, &day);
+	std::sscanf(date, "%4d%2d%2d", &year, &month, &day);
 	return ((year - 1) * 372 +  (month  - 1)* 31 + day);
 }
 
 void get_data(std::ifstream &file, Data &data)
 {
-	char str[8];
-	file.read(str, sizeof(str));
-	data.stock_name = str;
-	file.read(str, sizeof(str));
-	data.date_time = str;
+	file.read(data.stock_name, sizeof(data.stock_name));
+	file.read(data.date_time, sizeof(data.date_time));
 	file.read(reinterpret_cast<char*>(&data.price), sizeof(data.price));
 	file.read(reinterpret_cast<char*>(&data.vwap), sizeof(data.vwap));
 	file.read(reinterpret_cast<char*>(&data.volume), sizeof(data.volume));
@@ -44,7 +41,7 @@ void get_data(std::ifstream &file, Data &data)
 
 void set_data(std::ofstream &file, Data &data)
 {
-	file.write(reinterpret_cast<char*>(&data.stock_name), 9);
+	file.write(data.stock_name, 9);
 	uint32_t days = days_count(data.date_time);
 	file.write(reinterpret_cast<char*>(&days), sizeof(days));
 	data.price = data.vwap;
