@@ -1,5 +1,4 @@
 #include "reader.h"
-#include <iostream>
 
 void binary_reader::read_struct(std::ifstream& file, Data &data, uint32_t type_max)
 {

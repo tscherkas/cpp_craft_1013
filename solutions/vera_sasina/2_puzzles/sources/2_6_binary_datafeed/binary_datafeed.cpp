@@ -1,10 +1,11 @@
 #include <stdint.h>
 #include <fstream>
+#include <string>
 
 struct Data
 {
 	std::string stock_name;
-	char date_time[8];
+	std::string date_time;
     double price;
     double vwap;
     uint32_t volume;
@@ -15,19 +16,22 @@ struct Data
     double f4;
 };
 
-uint32_t days_count(const char *date)
+uint32_t days_count(const std::string &date)
 {
 	int month;
     int day;
     int year;
-	std::sscanf(date, "%4d%2d%2d", &year, &month, &day);
+	std::sscanf(date.c_str(), "%4d%2d%2d", &year, &month, &day);
 	return ((year - 1) * 372 +  (month  - 1)* 31 + day);
 }
 
 void get_data(std::ifstream &file, Data &data)
 {
-	file.read(reinterpret_cast<char*>(&data.stock_name), 8);
-	file.read(data.date_time, sizeof(data.date_time));
+	char str[8];
+	file.read(str, sizeof(str));
+	data.stock_name = str;
+	file.read(str, sizeof(str));
+	data.date_time = str;
 	file.read(reinterpret_cast<char*>(&data.price), sizeof(data.price));
 	file.read(reinterpret_cast<char*>(&data.vwap), sizeof(data.vwap));
 	file.read(reinterpret_cast<char*>(&data.volume), sizeof(data.volume));
@@ -60,7 +64,6 @@ int main()
 	size_t file_size;
 	file_size = static_cast<size_t>(input_file.tellg());
 	input_file.seekg (0, std::ios::beg);
-	
 	size_t read_size = 0;
 	struct Data data;
 
