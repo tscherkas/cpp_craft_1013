@@ -16,7 +16,7 @@ int main()
 	{
 		while((binary_reader::read_binary(InFile, Data))==0)
 		{
-			if( (Data.TYPE >= 1)&&(Data.TYPE <= 4) )			//TYPE is valid
+			if( (Data.TYPE >= 1)&&(Data.TYPE <= 4) )
 			{
 				if ((Data.TIME >= CurTime-2)||(CurTime < 2))
 				{

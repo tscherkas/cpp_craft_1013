@@ -15,16 +15,29 @@ void count(std::map<uint32_t, uint32_t> &Msg_cnt, uint32_t Type)
 		Msg_cnt.insert(std::pair<uint32_t,uint32_t>(Type, 1));
 }
 
+void len_count(std::map<uint32_t, uint32_t> &Msg_len_cnt, const uint32_t Type, const uint32_t Len)
+{
+	std::map<uint32_t, uint32_t>::iterator it;
+	
+	it = Msg_len_cnt.find(Type);
+	if(it != Msg_len_cnt.end())
+		it->second += Len;
+	else
+		Msg_len_cnt.insert(std::pair<uint32_t,uint32_t>(Type, Len));
+}
+
+
+
 int main()
 {
 	std::fstream InFile;
 	std::fstream OutFile;
 	std::map<uint32_t, uint32_t> Msg_cnt;
+	std::map<uint32_t, uint32_t> Msg_len_cnt;
 	std::map<uint32_t, uint32_t>::iterator it;
 	binary_reader::stock_ex_dat Data;
 	uint32_t CurTime = 0;
 	uint32_t StartTime = -1;
-	uint32_t NumBytes = 0;
 	double rate;
 
 
@@ -44,12 +57,13 @@ int main()
 			if(Data.TIME!=CurTime)
 			{
 				CurTime = Data.TIME;
-				NumBytes = 3*sizeof(uint32_t) + Data.LEN;	
+				Msg_len_cnt.clear();
+				//len_count(Msg_len_cnt, Data.TYPE, Data.LEN + 3*sizeof(uint32_t));
 			}
-			else
-				NumBytes += 3*sizeof(uint32_t) + Data.LEN; 
+			//else
+				len_count(Msg_len_cnt, Data.TYPE, Data.LEN + 3*sizeof(uint32_t));
 
-			if (NumBytes < BUF_SIZE)
+			if (Msg_len_cnt[Data.TYPE] <= BUF_SIZE)
 				count(Msg_cnt, Data.TYPE);
 		}
 
