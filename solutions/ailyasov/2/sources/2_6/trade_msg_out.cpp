@@ -25,9 +25,9 @@ std::ostream& operator<<(std::ostream& os, const TradeMsgOut& msg) {
 void TradeMsgOut::write(const std::vector<TradeMsgOut> messages, Writer& out) {
     for(std::vector<TradeMsgOut>::const_iterator it = messages.begin(); it != messages.end(); ++it) {
         out.save_string((*it).get_stock_name());
-        out.save_int((*it).get_date());
-        out.save_double((*it).get_price());
-        out.save_double((*it).get_volume());
-        out.save_double((*it).get_f2());
+        out.save_binary((*it).get_date());
+        out.save_binary((*it).get_price());
+        out.save_binary((*it).get_volume());
+        out.save_binary((*it).get_f2());
     }
 }

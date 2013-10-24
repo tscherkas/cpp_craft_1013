@@ -33,14 +33,14 @@ vector<TradeMsg> TradeMsg::read(Reader& in) {
     while(!in.eof()) {
         std::string stock_name = in.get_string(9);
         std::string date_time = in.get_string(8);
-        double price = in.get_double();
-        double vwap = in.get_double();
-        unsigned int volume = in.get_int();
-        double f1 = in.get_double();
-        double t1 = in.get_double();
-        double f2 = in.get_double();
-        double f3 = in.get_double();
-        double f4 = in.get_double();
+        double price = in.get_binary<double>();
+        double vwap = in.get_binary<double>();
+        uint32_t volume = in.get_binary<uint32_t>();
+        double f1 = in.get_binary<double>();
+        double t1 = in.get_binary<double>();
+        double f2 = in.get_binary<double>();
+        double f3 = in.get_binary<double>();
+        double f4 = in.get_binary<double>();
         if(in.eof()) break; 
         TradeMsg msg(stock_name, date_time, price, vwap, volume, f1, t1, f2,
                 f3 ,f4);

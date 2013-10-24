@@ -5,6 +5,8 @@
 #include <iterator>
 #include <cstdio>
 
+#include <boost/cstdint.hpp>
+
 #include "binary_datafeed.h"
 #include "trade_msg.h"
 #include "trade_msg_out.h"
@@ -29,13 +31,12 @@ void BinaryDatafeed::process(const std::string& input, const std::string&
 }
 
 TradeMsgOut BinaryDatafeed::msg_converter(const TradeMsg& m) {
-    unsigned int day, month, year;
+    int day, month, year;
     std::sscanf(m.get_date_time().c_str(), "%4d%2d%2d", &year, &month, &day);
-    unsigned int date = day + (month - 1) * 31 + 372 * (year - 1);
+    uint32_t date = day + (month - 1) * 31 + 372 * (year - 1);
 
-    TradeMsgOut o(m.get_stock_name(), date, m.get_price(), m.get_volume(),
+    return TradeMsgOut(m.get_stock_name(), date, m.get_price(), m.get_volume(),
             m.get_f2());
-    return o;
 }
 
 const std::vector<TradeMsgOut> BinaryDatafeed::get_messages_for_output(const std::vector<TradeMsg>& msg) {

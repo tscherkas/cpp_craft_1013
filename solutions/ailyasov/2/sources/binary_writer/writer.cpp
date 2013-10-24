@@ -13,14 +13,6 @@ namespace binary_writer {
         }
     }
 
-    void Writer::save_int(int v) {
-        out.write(reinterpret_cast<char*>(&v), sizeof(v));
-    }
-
-    void Writer::save_double(double v) {
-        out.write(reinterpret_cast<char*>(&v), sizeof(v));
-    }
-
     void Writer::save_string(const std::string& s) {
         out.write(s.c_str(), s.size());
     }

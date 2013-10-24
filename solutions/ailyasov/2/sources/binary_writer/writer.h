@@ -10,8 +10,10 @@ namespace binary_writer
     class Writer {
         public:
             Writer(const std::string filename);
-            void save_int(int);
-            void save_double(double);
+            template <typename T> void save_binary( const T & v)
+            {
+                out.write(reinterpret_cast<const char*>(&v), sizeof( T ) );
+            }
             bool eof() const;
             void save_string(const std::string&);
             ~Writer();

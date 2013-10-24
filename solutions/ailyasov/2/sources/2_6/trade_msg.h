@@ -3,6 +3,9 @@
 #include <vector>
 #include <string>
 #include <iostream>
+
+#include <boost/cstdint.hpp>
+
 #include "reader.h"
 #include "writer.h"
 
@@ -16,7 +19,7 @@ class TradeMsg {
                 std::string date_time,
                 double price,
                 double vwap,
-                unsigned int volume,
+                uint32_t volume,
                 double f1,
                 double t1,
                 double f2,
@@ -42,7 +45,7 @@ class TradeMsg {
         std::string get_date_time() const { return date_time_; }
         double get_price() const { return price_; }
         double vwap() const { return vwap_; }
-        unsigned int get_volume() const { return volume_; }
+        uint32_t get_volume() const { return volume_; }
         double get_f1() const { return f1_; }
         double get_t1() const { return t1_; }
         double get_f2() const { return f2_; }
@@ -54,7 +57,7 @@ class TradeMsg {
         std::string date_time_;
         double price_;
         double vwap_;
-        unsigned int volume_;
+        uint32_t volume_;
         double f1_;
         double t1_;
         double f2_;

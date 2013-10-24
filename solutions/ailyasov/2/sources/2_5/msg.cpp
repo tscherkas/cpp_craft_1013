@@ -21,9 +21,9 @@ std::ostream& operator<<(std::ostream& os, const Msg& msg) {
 
 void MsgBuf::read(Reader& in) {
     while(!in.eof()) {
-        Type type = in.get_int();
-        size_t time = in.get_int();
-        size_t len = in.get_int();
+        Type type = in.get_binary<uint32_t>();
+        uint32_t time = in.get_binary<uint32_t>();
+        uint32_t len = in.get_binary<uint32_t>();
         if(!in.eof()) {
             std::string str_msg = in.get_string(len);
             if(len == str_msg.size()) {
@@ -36,16 +36,16 @@ void MsgBuf::read(Reader& in) {
 
 void MsgBuf::write_type_map(Writer& out) {
     for(MsgTypeMap::const_iterator it = type_map.begin(); it != type_map.end(); ++it) {
-        out.save_int((*it).first);
-        out.save_double((*it).second.get_avg());
+        out.save_binary((*it).first);
+        out.save_binary((*it).second.get_avg());
     }
 }
 
 void MsgBuf::write_data(const std::vector<Msg> messages, Writer& out) {
     for(std::vector<Msg>::const_iterator it = messages.begin(); it != messages.end(); ++it) {
-        out.save_int((*it).get_type());
-        out.save_int((*it).get_time());
-        out.save_int((*it).get_len());
+        out.save_binary((*it).get_type());
+        out.save_binary((*it).get_time());
+        out.save_binary((*it).get_len());
         out.save_string((*it).get_msg());
     }
 }
@@ -69,7 +69,7 @@ void MsgBuf::add(const Msg& m) {
     }
 }
 
-const bool MsgBuf::is_full(const size_t type) const {
+bool MsgBuf::is_full(const uint32_t type) const {
     return this->get_size(type) < MsgBuf::MAX_SIZE;
 }
 
@@ -87,7 +87,7 @@ const MsgTypeMap& MsgBuf::get_type_map() const {
     return type_map;
 } 
 
-const size_t MsgBuf::get_size(Type type) const {
+size_t MsgBuf::get_size(Type type) const {
     MsgTypeMap::const_iterator it = type_map.find(type);
     if(it == type_map.end()) return 0;
     return (*it).second.get_size();
