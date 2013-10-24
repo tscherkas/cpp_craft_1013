@@ -24,12 +24,12 @@ void binary_reader::tests_::test_stock_data()
 	std::string test_file_path = BINARY_DIR "/test_out.txt";
 	BOOST_CHECK_NO_THROW( stock_data( "AAPL", "20130101", 100.0, 101.1, 20000, 1.1, 2.1, 2.2, 3.3, 4.4 ) );
 	{
-		std::ofstream out( test_file_path, std::ios_base::binary );
+		std::ofstream out( test_file_path.c_str(), std::ios_base::binary );
 		stock_data sd( "AAPL", "20130101", 100.0, 101.1, 20000, 1.1, 2.1, 2.2, 3.3, 4.4 );
 		sd.write_raw( out );
 	}
 	{
-		std::ifstream in( test_file_path, std::ios_base::binary );
+		std::ifstream in( test_file_path.c_str(), std::ios_base::binary );
 		stock_data sd( in );
 		BOOST_CHECK_EQUAL( std::strcmp( sd.stock_name_, "AAPL" ), 0 );
 		BOOST_CHECK_EQUAL( std::strcmp( sd.date_time_, "20130101" ), 0 );
