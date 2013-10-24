@@ -13,7 +13,6 @@ int main()
 
 void filterMessages() {
 	unsigned maxT = 0;
-	struct stat file_statistics;
 	const char* input_file_path = SOURCE_DIR "/tests/2_4/2.4_example.in";
 	const char* output_file_path = SOURCE_DIR "/tests/2_4/2.4_output.out";
 	
@@ -39,8 +38,6 @@ void filterMessages() {
 			output << new_message;
 			maxT = ( maxT < new_message.getTime() ) ? new_message.getTime() : maxT;
 		}
-
-		remaining_bytes -= 3 * sizeof( unsigned ) + new_message.getLength();
 	}
 
 	input.close();
