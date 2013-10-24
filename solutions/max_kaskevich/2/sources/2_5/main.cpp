@@ -8,11 +8,11 @@ struct meassage_stats
 {
     uint32_t seconds;
     uint32_t msg_data_size_by_time;
-    uint32_t last_second;
+    int64_t  last_second;
     uint32_t msg_count;
-    meassage_stats() : seconds(1),
+    meassage_stats() : seconds(0),
                        msg_data_size_by_time(0),
-                       last_second(0),
+                       last_second(-1),
                        msg_count(0)
     {}
 };
@@ -31,7 +31,7 @@ int main( int argc, char* argv[] )
     message m;
     while(input >> m)
     {
-        // clear size info when new time comming
+        // clear size info when new time coming
         if (m.time >= next_time)
         {
             for(msg_stats_map::value_type& m_stat: msg_stats)

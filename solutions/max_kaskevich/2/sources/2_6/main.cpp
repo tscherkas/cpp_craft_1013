@@ -1,6 +1,5 @@
 #include <stdint.h>
 #include <fstream>
-#include <boost/spirit/include/qi.hpp>
 #include "message.h"
 
 
@@ -28,11 +27,7 @@ std::istream& operator >> (std::istream& input, message2_6& m)
     read(input, &m.price);
     read(input, &m.vwap);
     read(input, &m.volume);
-    read(input, &m.f1);
-    read(input, &m.t1);
     read(input, &m.f2);
-    read(input, &m.f3);
-    read(input, &m.f4);
     return input;
 }
 
@@ -42,18 +37,7 @@ std::ostream& operator << (std::ostream& output, message2_6& m)
     output << '\0';
 
     uint32_t year, month, day;
-    using boost::spirit::qi::int_parser;
-    int_parser<uint32_t, 10U, 4, 4> year_parser;
-    int_parser<uint32_t, 10U, 2, 2> month_day_parser;
-    std::string text(m.date_time, 8);
-
-    if (!boost::spirit::qi::parse(text.begin(), text.end(),
-        year_parser >> month_day_parser >> month_day_parser,
-        year, month, day))
-    {
-        output.flags( std::ios::badbit);
-        return output;
-    }
+    std::sscanf(m.date_time, "%4d%2d%2d", &year, &month, &day);
     uint32_t all_days = (year - 1) * 372 + (month - 1) * 31 + day;
     write(output, &all_days);
 
