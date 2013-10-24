@@ -72,4 +72,30 @@ void binary_reader::tests_::generate_2_4_tests()
 		}
 	}
 }
-
+void binary_reader::tests_::generate_2_5_tests()
+{
+	{
+		std::ofstream out( BINARY_DIR "/input_251.txt" );
+		market_message( 1ul,1ul, detail::generate_string().c_str() ).write( out );
+		market_message( 2ul,1ul, detail::generate_string().c_str() ).write( out );
+		market_message( 3ul,1ul, detail::generate_string().c_str() ).write( out );
+		market_message( 4ul,1ul, detail::generate_string().c_str() ).write( out );
+		market_message( 5ul,1ul, detail::generate_string().c_str() ).write( out );
+		market_message( 1ul,2ul, detail::generate_string().c_str() ).write( out );
+		market_message( 2ul,2ul, detail::generate_string().c_str() ).write( out );
+		market_message( 3ul,2ul, detail::generate_string().c_str() ).write( out );
+		market_message( 4ul,2ul, detail::generate_string().c_str() ).write( out );
+		market_message( 5ul,2ul, detail::generate_string().c_str() ).write( out );
+	}
+	{
+		std::ofstream out( BINARY_DIR "/input_252.txt" );
+		market_message( 1ul,1ul, detail::generate_string( 2048 ).c_str() ).write( out );
+	}
+	{
+		std::ofstream out( BINARY_DIR "/input_253.txt" );
+		market_message( 1ul,1ul, detail::generate_string( 2020 ).c_str() ).write( out );
+		market_message( 2ul,1ul, detail::generate_string( 2000 ).c_str() ).write( out );
+		market_message( 1ul,1ul, detail::generate_string( 2020 ).c_str() ).write( out );
+		market_message( 2ul,1ul, detail::generate_string( 20 ).c_str() ).write( out );
+	}
+}

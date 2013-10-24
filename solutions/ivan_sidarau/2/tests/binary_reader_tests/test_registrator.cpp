@@ -14,6 +14,7 @@ boost::unit_test_framework::test_suite* init_unit_test_suite( int argc, char* ar
 	ts1->add( BOOST_TEST_CASE( &test_market_message ) );	
 
 	ts1->add( BOOST_TEST_CASE( &generate_2_4_tests ) );	
+	ts1->add( BOOST_TEST_CASE( &generate_2_5_tests ) );	
 
 #ifdef RUN_PERFORMANCE_TESTS
 #endif

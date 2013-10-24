@@ -6,5 +6,6 @@ namespace binary_reader
 	{
 		void test_market_message();
 		void generate_2_4_tests();
+		void generate_2_5_tests();
 	}
 }
