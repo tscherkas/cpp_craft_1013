@@ -1,5 +1,4 @@
 #include "Message.h"
-#include <sys/stat.h>
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -29,19 +28,19 @@ void reading_storingProcess( std::map< unsigned, std::vector< unsigned > >& mess
 
 	check_is_file_open( input_file, input_file_path );
 
-	struct stat file_statistics;
-	stat( input_file_path, &file_statistics );
-	unsigned file_size = file_statistics.st_size;
-
 	unsigned new_message_capacity;
 	Message newMessage;
 
-	while ( file_size != 0 ) 
+	while ( true ) 
 	{
 		input_file >> newMessage;
 
+		if ( input_file.eof() )
+		{
+			break;
+		}
+
 		new_message_capacity = 3 * sizeof( unsigned ) + newMessage.getLength();
-		file_size -= new_message_capacity;
 
 		update_report( message_report, newMessage, new_message_capacity );
 	}

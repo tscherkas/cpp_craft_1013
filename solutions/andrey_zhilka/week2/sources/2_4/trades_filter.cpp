@@ -1,7 +1,6 @@
 #include "Message.h"
 #include <iostream>
 #include <fstream>
-#include <sys/stat.h>
 
 void filterMessages();
 
@@ -26,12 +25,15 @@ void filterMessages() {
 		exit(1);
 	}
 	
-	stat( input_file_path, &file_statistics );
-	int remaining_bytes = file_statistics.st_size;
 	Message new_message;
 
-	while ( remaining_bytes != 0 ) {
+	while ( true ) {
 		input >> new_message;
+
+		if ( input.eof() )
+		{
+			break;
+		}
 
 		if ( maxT < 2 || new_message.getTime() > maxT - 2 ) {
 			output << new_message;
