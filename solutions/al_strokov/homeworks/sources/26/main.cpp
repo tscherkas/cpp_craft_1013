@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 
-	static const uint32_t stringSize = 9;
+	static const uint32_t stringSize = 8;
 	static const uint32_t dateLength = 8;
 	std::string stockName;
 	std::string date;

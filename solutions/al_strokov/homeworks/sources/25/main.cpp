@@ -22,7 +22,6 @@ int main(int argc, char** argv) {
 	uint32_t tm;
 	uint32_t ln;
 	uint32_t messageSize;
-	dataStruct_t dataRecord;
 	uint32_t currentTime = 0;
 	uint32_t secondsCount = 0;
 	static const int buffSize = 2048;
