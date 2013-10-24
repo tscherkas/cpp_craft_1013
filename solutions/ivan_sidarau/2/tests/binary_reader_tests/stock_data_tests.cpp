@@ -3,6 +3,7 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
+#include <cmath>
 
 #include <boost/filesystem.hpp>
 
@@ -31,8 +32,8 @@ void binary_reader::tests_::test_stock_data()
 	{
 		std::ifstream in( test_file_path.c_str(), std::ios_base::binary );
 		stock_data sd( in );
-		BOOST_CHECK_EQUAL( std::strcmp( sd.stock_name_, "AAPL" ), 0 );
-		BOOST_CHECK_EQUAL( std::strcmp( sd.date_time_, "20130101" ), 0 );
+		BOOST_CHECK_EQUAL( memcmp( sd.stock_name_, "AAPL", 4 ), 0 );
+		BOOST_CHECK_EQUAL( memcmp( sd.date_time_, "20130101", 8 ), 0 );
 		BOOST_CHECK_EQUAL( fabs( sd.price_ - 100.0 ) < eps, true );
 		BOOST_CHECK_EQUAL( fabs( sd.vwap_ - 101.1 ) < eps, true );
 		BOOST_CHECK_EQUAL( fabs( sd.f1_ - 1.1 ) < eps, true );
