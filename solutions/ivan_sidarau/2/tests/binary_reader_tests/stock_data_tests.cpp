@@ -3,6 +3,7 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
+#include <cmath>
 
 #include <boost/filesystem.hpp>
 
