@@ -17,6 +17,7 @@ namespace binary_reader {
                 in.read(reinterpret_cast<char *>(&t), sizeof( T ) );
                 return t;
             } 
+            bool is_open() const;
             bool eof() const;
             std::string get_string(size_t);
             ~Reader();

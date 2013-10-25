@@ -19,6 +19,18 @@ void BinaryDatafeed::process(const std::string& input, const std::string&
     Reader in(input);
     Writer out(output);
 
+    if(!in.is_open()) 
+    {
+        std::cerr << "Cannot open file " << input << std::endl;
+        exit(0);
+    }
+
+    if(!out.is_open()) 
+    {
+        std::cerr << "Cannot open file " << output << std::endl;
+        exit(0);
+    }
+
     const std::vector<TradeMsg> messages = TradeMsg::read(in);
     std::vector<TradeMsgOut> messages_out = get_messages_for_output(messages);
     TradeMsgOut::write(messages_out, out);

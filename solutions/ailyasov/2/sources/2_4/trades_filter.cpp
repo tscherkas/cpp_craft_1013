@@ -12,7 +12,17 @@ using binary_writer::Writer;
 void TradesFilter::filter_trades_and_save(const std::string& input, const std::string&
         output) {
     Reader in(input);
+    if(!in.is_open()) 
+    {
+        std::cerr << "Cannot open file " << input << std::endl;
+        exit(0);
+    }
     Writer out(output);
+    if(!out.is_open()) 
+    {
+        std::cerr << "Cannot open file " << output << std::endl;
+        exit(0);
+    }
     std::vector<TradeMsg> messages = TradeMsg::read_data(in);
     std::sort(messages.begin(), messages.end(), cmp_by_time);
     TradeMsg::write_data(messages, out);	

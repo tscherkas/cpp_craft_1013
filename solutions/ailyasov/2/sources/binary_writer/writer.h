@@ -15,6 +15,7 @@ namespace binary_writer
                 out.write(reinterpret_cast<const char*>(&v), sizeof( T ) );
             }
             bool eof() const;
+            bool is_open() const;
             void save_string(const std::string&);
             ~Writer();
         private:

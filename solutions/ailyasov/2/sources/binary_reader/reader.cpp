@@ -11,10 +11,10 @@
 namespace binary_reader {
 
     Reader::Reader(const std::string filename)  {
+#ifndef NDEBUG
+        std::cout << "Input: " << filename << std::endl;
+#endif
         in.open(filename.c_str(), std::ios::in | std::ios::binary);
-        if(!in.is_open()) {
-            throw std::runtime_error("Unable to open file.");
-        }
     }
 
     std::string Reader::get_string(const size_t len) {
@@ -25,6 +25,10 @@ namespace binary_reader {
         in.read(str_msg, len);        
         std::string s(str_msg, len);
         return s;
+    }
+
+    bool Reader::is_open() const {
+        return in.is_open();
     }
 
 	bool Reader::eof() const {

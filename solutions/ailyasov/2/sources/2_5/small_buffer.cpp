@@ -14,6 +14,17 @@ void SmallBuffer::read_to_buff_and_save_stats(const std::string& input, const st
     Reader in(input);
     Writer out(output);
 
+    if(!in.is_open()) 
+    {
+        std::cerr << "Cannot open file " << input << std::endl;
+        exit(0);
+    }
+    if(!out.is_open()) 
+    {
+        std::cerr << "Cannot open file " << output << std::endl;
+        exit(0);
+    }
+
     MsgBuf buf;
     buf.read(in);
 
