@@ -21,7 +21,7 @@ void Message::setText( char* text ) {
 	{
 		delete [] this->text;
 		this->length = strlen( text );
-		this->text = new char[ length ];
+		this->text = new char[ length+1 ];
 	}
 	strcpy( this->text, text );
 }
