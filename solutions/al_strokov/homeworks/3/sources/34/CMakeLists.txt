@@ -1,2 +1,2 @@
-compile_project( ${module_name} "*.cpp" "*.h" BINARY binaries binReader )
+compile_project( ${module_name} "*.cpp" "*.h" BINARY binaries binFileRW )
 

@@ -4,7 +4,7 @@ set( CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE} CACHE STRING "Configurations"
 project( ${SOLUTION_NAME} )
 include( environment.cmake required )
 
-modules( binReader )
+modules( binFileRW )
 binaries( 34 35 36 )
 
 compile()
