@@ -13,7 +13,7 @@ int main()
     std::ifstream in(BINARY_DIR "/input.txt", std::ifstream::binary);
     std::ofstream out(BINARY_DIR "/output.txt", std::ofstream::binary);
 
-    if (in)
+    if (in.is_open())
     {
         in.seekg(0, std::ios::end);
         size_t file_size = in.tellg();

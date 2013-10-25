@@ -3,9 +3,30 @@
 #include <memory>
 #include <map>
 
+static const size_t size = 4096;
 
-static const uint32_t DATA_SIZE = 3*sizeof(uint32_t);
+struct Msg
+{
+    uint32_t type;
+    uint32_t time;
+    uint32_t len;
+};
 
+std::istream& operator >> (std::istream& in, Msg& msg)
+{
+    in.read(reinterpret_cast<char*>(&msg.type), sizeof(uint32_t));
+    in.read(reinterpret_cast<char*>(&msg.time), sizeof(uint32_t));
+    in.read(reinterpret_cast<char*>(&msg.len), sizeof(uint32_t));
+    return in;
+}
+
+std::ostream& operator << (std::ostream& out, Msg& msg)
+{
+    out.write(reinterpret_cast<char*>(&msg.type), sizeof(uint32_t));
+    out.write(reinterpret_cast<char*>(&msg.time), sizeof(uint32_t));
+    out.write(reinterpret_cast<char*>(&msg.len), sizeof(uint32_t));
+    return out;
+}
 
 int main()
 {
@@ -14,32 +35,31 @@ int main()
 
     uint32_t T = 2;
     
-    if (in)
+    if (in.is_open())
     {
-        in.seekg(0, std::ios::end);
-        size_t file_size = in.tellg();
-        in.seekg(0, std::ios::beg);
-    
-        while(file_size && in.good())
+        Msg msg;
+
+        while(in >> msg)
         {
-            uint32_t data[3];//TYPE,TIME,LEN
-            in.read(reinterpret_cast<char*>(data), DATA_SIZE);
-            std::unique_ptr<char> msg = std::unique_ptr<char>(new char[data[2]]);
-            in.read(msg.get(), data[2]);
-        
-
-            if ((data[1] > (T - 2)) && (1 <= data[0]) && (data[0] <= 4))
+            if ((msg.time > (T - 2)) && (1 <= msg.type) && (msg.type <= 4))
             {
-                out.write(reinterpret_cast<char*>(data), DATA_SIZE);
-                out.write(msg.get(), data[2]);
+                out << msg;
 
-                if (data[1] > T)
+                for (int len = msg.len; len > 4096; len + 4096)
                 {
-                    T = data[1];
+
+                    in.read();
+                }
+
+                if (msg.time > T)
+                {
+                    T = msg.time;
                 }
             }
-
-            file_size -= DATA_SIZE + data[2];
+            else
+            {
+                in.seekg(msg.len, std::ios::cur);
+            }
         }
     }
 
