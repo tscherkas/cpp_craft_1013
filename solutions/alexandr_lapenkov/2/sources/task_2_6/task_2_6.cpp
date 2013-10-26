@@ -17,7 +17,8 @@ class Solution
        
 	struct Data
 	{
-		double f1,t1,f2,f3,f4,volume;
+		double f1,t1,f2,f3,f4;
+		unsigned volume;
 		string stock_name;
 		string date_time;
 		double price, vwap;
@@ -29,16 +30,9 @@ class Solution
 
 	friend binreader& operator>>(binreader& in, Data& a)
 	{
-		a.stock_name = in.get_line(9);
+		a.stock_name = in.get_line(8);
 		a.date_time = in.get_line(8);
-		a.price = in.get_unsigned();
-		a.vwap = in.get_double();
-		a.volume = in.get_double();
-		a.f1 = in.get_double();
-		a.t1 = in.get_double();
-		a.f2 = in.get_double();
-		a.f3 = in.get_double();
-		a.f4 = in.get_double();
+		in>>a.price>>a.vwap>>a.volume>>a.f1>>a.t1>>a.f2>>a.f3>>a.f4;
 		return in;
 	}
 
@@ -61,17 +55,18 @@ public:
        void process()
        {
 		   Data x;
+		   
 		   while(in.good())
 		   {
 			   in>>x;
 			   if(!in.good())break;
-			   out.write_line(x.stock_name.c_str(),9);
+
+			   out.write_line(x.stock_name.c_str());
+
 			   unsigned day,month,year;
-			   sscanf(x.date_time.c_str(),"%4d%2d%2d",&day,&month,&year);
-			   out.write_unsigned(year*372+month*31+day-1);
-			   out.write_double(x.vwap);
-			   out.write_double(x.volume);
-			   out.write_double(x.f2);
+			   sscanf(x.date_time.c_str(),"%4d%2d%2d",&year,&month,&day);
+			   
+			   out<<x.stock_name<<((year-1)*372u+(month-1)*31u+day)<<x.vwap<<x.volume<<x.f2;
 		   }
 	   }	
             

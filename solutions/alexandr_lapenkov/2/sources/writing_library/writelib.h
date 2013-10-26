@@ -6,6 +6,10 @@ class binwriter
 {
 	std::ofstream out;
 	bool error;
+	friend binwriter& operator << (binwriter&, const unsigned);
+	friend binwriter& operator << (binwriter&, const double);
+	friend binwriter& operator << (binwriter& out, const char * a);
+	friend binwriter& operator << (binwriter& out, std::string a);
 
 public:
 

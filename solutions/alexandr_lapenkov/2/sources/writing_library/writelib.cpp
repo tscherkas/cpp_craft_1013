@@ -46,3 +46,27 @@ bool binwriter::good()
 {
 	return !error;
 }
+
+binwriter& operator << (binwriter& out, const unsigned a)
+{
+	out.write_unsigned(a);
+	return out;
+}
+
+binwriter& operator << (binwriter& out, const double a)
+{
+	out.write_double(a);
+	return out;
+}
+
+binwriter& operator << (binwriter& out, const char * a)
+{
+	out.write_line(a);
+	return out;
+}
+
+binwriter& operator << (binwriter& out, std::string a)
+{
+	out.write_line(a.c_str());
+	return out;
+}

@@ -72,3 +72,21 @@ bool binreader::is_open()
 {
 	return in.is_open();
 }
+
+binreader& operator>>(binreader& in, char& c)
+{
+	c = in.get_char();
+	return in;
+}
+
+binreader& operator>>(binreader& in, unsigned& c)
+{
+	c = in.get_unsigned();
+	return in;
+}
+
+binreader& operator>>(binreader& in, double& c)
+{
+	c = in.get_double();
+	return in;
+}

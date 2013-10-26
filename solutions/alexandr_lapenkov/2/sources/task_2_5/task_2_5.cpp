@@ -4,7 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <map>
+#include <boost/unordered_map.hpp>
 #include "readlib.h"
 #include "writelib.h"
 
@@ -30,14 +30,8 @@ class Solution
 
 	friend binreader& operator>>(binreader& in, Data& a)
 	{
-		if(in.good())
-			a.type = in.get_unsigned();
-		if(in.good())
-			a.time = in.get_unsigned();
-		if(in.good())
-			a.len = in.get_unsigned();
-		if(in.good())
-			in.get_line(a.len);	
+		in>>a.type>>a.time>>a.len;
+		in.get_line(a.len);	
 		return in;
 	}
 
@@ -59,8 +53,8 @@ public:
        
        void process()
        {
-		   map<unsigned, size_t> takes;
-		   map<unsigned, int> saved, diff, last;
+		   boost::unordered_map<unsigned, size_t> takes;
+		   boost::unordered_map<unsigned, int> saved, diff, last;
 		   Data x;
 		   
 		   in>>x;
@@ -69,6 +63,7 @@ public:
 		      takes[x.type]+=x.getSize();
 			  saved[x.type]++;
 		   }
+		   else saved[x.type] = 0;
 		   diff[x.type] = 1;
 		   last[x.type] = x.time;
 
@@ -78,26 +73,26 @@ public:
 			   if(!in.good())break;
 
 			   size_t size = x.getSize();
+			   if(takes.count(x.type))
+				   size+=takes[x.type];
 			   
 			   if(!last.count(x.type)||x.time!=last[x.type])
 			   {
-				   takes.clear();
+				   takes[x.type] = 0;
 				   diff[x.type]++;
 			   }
 
-			   if(x.getSize()<=2048)
+			   if(size<=2048)
 			   {
-				   takes[x.type]+=x.getSize();
+				   takes[x.type]+=size;
 				   saved[x.type]++;
 			   }
 			   
 			   last[x.type] = x.time;
+			   if(!saved.count(x.type))saved[x.type] = 0;
 		   }
-		   for(map<unsigned, int>::iterator it = saved.begin();it!=saved.end();it++)
-		   {
-			   out.write_unsigned(it->first);
-			   out.write_double(double(it->second)/diff[it->first]);
-		   }
+		   for(boost::unordered_map<unsigned, int>::iterator it = saved.begin();it!=saved.end();it++)
+			   out<<it->first<<double(it->second)/diff[it->first];
 	   }	
             
 };

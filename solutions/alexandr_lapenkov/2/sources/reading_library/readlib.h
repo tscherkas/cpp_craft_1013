@@ -7,6 +7,11 @@ class binreader
 	std::ifstream in;
 	bool error;
 
+	friend binreader& operator>>(binreader&, char&);
+	friend binreader& operator>>(binreader&, unsigned&);
+	friend binreader& operator>>(binreader&, double&);
+
+
 public:
 
 	binreader();

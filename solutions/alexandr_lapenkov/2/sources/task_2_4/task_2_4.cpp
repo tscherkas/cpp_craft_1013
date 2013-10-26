@@ -16,7 +16,7 @@ class Solution
        
 	struct Data
 	{
-		int type,time,len;
+		unsigned type,time,len;
 		string msg;
 		
 		friend binreader& operator>>(binreader&, Data&);
@@ -31,22 +31,14 @@ class Solution
 
 	friend binreader& operator>>(binreader& in, Data& a)
 	{
-		if(in.good())
-			a.type = in.get_unsigned();
-		if(in.good())
-			a.time = in.get_unsigned();
-		if(in.good())
-			a.len = in.get_unsigned();
-		if(in.good())
+		in>>a.type>>a.time>>a.len;
 			a.msg = in.get_line(a.len);	
 		return in;
 	}
 
 	friend binwriter& operator<<(binwriter& out, const Data& a)
 	{
-		out.write_unsigned(a.type);
-		out.write_unsigned(a.time);
-		out.write_unsigned(a.len);
+		out<<a.type<<a.time<<a.len;
 		out.write_line(a.msg.c_str(),a.len);
 
 		return out;
@@ -70,9 +62,9 @@ public:
        
        void process()
        {
-		   Data x,last;
+		   Data x;
 		   bool f=0;
-		   int max_t;
+		   long long max_t;
 		   vector<Data>a;
 
 		   while(in.good())
@@ -83,15 +75,15 @@ public:
 
 			   if(!f)
 			   {
-				   max_t = x.time;
+				   max_t = (long long)x.time;
 				   a.push_back(x);
 				   f=1;
 			   }
 			   else
 			   {
-				   if(x.time>(max_t-2))
+				   if((long long)x.time>(max_t-2))
 					   a.push_back(x);
-				   max_t=max(max_t,x.time);
+				   max_t=max(max_t,(long long)x.time);
 			   }
 				
 		   }
@@ -99,7 +91,7 @@ public:
 		   sort(a.begin(),a.end());
 		   
 		   for(vector<Data>::iterator it = a.begin(); it<a.end(); it++)
-			   out<<(*it);
+			   out<<it->type<<it->time<<it->len<<it->msg;
 	   }	
             
 };
