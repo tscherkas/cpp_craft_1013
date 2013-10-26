@@ -31,7 +31,7 @@ std::ostream& operator<<(std::ostream& os, const TradeMsg& msg) {
 vector<TradeMsg> TradeMsg::read(Reader& in) {
     vector<TradeMsg> messages;
     while(!in.eof()) {
-        std::string stock_name = in.get_string(9);
+        std::string stock_name = in.get_string(8);
         std::string date_time = in.get_string(8);
         double price = in.get_binary<double>();
         double vwap = in.get_binary<double>();
