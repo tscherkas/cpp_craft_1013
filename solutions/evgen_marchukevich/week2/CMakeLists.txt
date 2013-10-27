@@ -6,4 +6,6 @@ include( environment.cmake required )
 
 binaries( task2_4 task2_5 task2_6 )
 
+modules( BinRW )
+
 compile()

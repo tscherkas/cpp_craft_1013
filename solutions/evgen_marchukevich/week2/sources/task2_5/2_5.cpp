@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <algorithm>
 #include <vector>
+#include "BinRW.h"
 
 
 using namespace std;
@@ -19,136 +20,95 @@ using namespace std;
 class Solution
 {
 
-private :
-		
-		struct msg{
-			unsigned int type;
-			unsigned int time;
-			unsigned int len;
-			string m;
-			};
+private :	
 
-
-		ifstream f1;
-		ofstream f2;
-
-
-		bool err;	
-		map<unsigned int,int> a,kol;
-		map<unsigned int,size_t> z;
-		map<unsigned int,int> u;
-		map<unsigned int,double> ans;
+		map<int,int> a,kol;
+		map<int,size_t> z;
+		map<int,int> u;
+		map<int,double> ans;
 		int time;
-		vector<unsigned int> types,all_types;
-	
+		vector<int> types,all_types;
 
-		void reader(msg &t)
-		{	
-			if(f1.read(reinterpret_cast<char*>(&t.type),sizeof (unsigned int))==0) 
-			{
-				err=1;
-				return;
-			}
-			f1.read(reinterpret_cast<char*>(&t.time),sizeof (unsigned int));
-			f1.read(reinterpret_cast<char*>(&t.len),sizeof (unsigned int));
-			for(unsigned int i=0;i<t.len;i++)
-			{
-				char c;
-				f1.read(reinterpret_cast<char*>(&c),sizeof (char));
-				t.m+=c;
-			}
-		}
-
+		BinRW RR;
 
 		void writer()
 		{
 			sort(all_types.begin(),all_types.end());
-			vector<unsigned int> :: iterator it;
+			vector<int> :: iterator it;
 			for(it=all_types.begin();it!=all_types.end();it++)
 			{
-				f2.write(reinterpret_cast<char*>(&(*it)),sizeof (*it));
-				double w=ans[*it]/(1.0*kol[*it]);
-				f2.write(reinterpret_cast<char*>(&w),sizeof (double));
+				RR.BinWriter(*it);
+				double w=0;
+				if (kol[*it]!=0) w=ans[*it]/(1.0*kol[*it]);
+				cout << *it << " " << w<< endl;
+				RR.BinWriter(w);
 			}
 
 		}
 
-
-		bool check(const msg &x)
+		bool check(const BinRW :: msg &x)
 		{
-			return (z[x.type]+sizeof(x)<=2048);
+			return (z[x.type]+sizeof(x.time)+sizeof(x.type)+sizeof(x.len)+sizeof(char)*x.len<=2048);
 		}
 
-		void calc(const msg &x)
+		void calc(const BinRW :: msg &x)
 		{
 			if (time!=x.time) 
 				{
-					vector<unsigned int> :: iterator it;
+					vector<int> :: iterator it;
 					for(it=types.begin();it!=types.end();it++)
-					{
-						if (ans[*it]==0)
-						{
-							ans[*it]=a[*it]; 
-							kol[*it]++;
-						}
-						else 
-						{
-							ans[*it]+=a[*it];
-							kol[*it]++;
-						}
+					{					
+						ans[*it]+=a[*it];
+						kol[*it]++;
 						a[*it]=0;
 						z[*it]=0;
 					}
 					types.clear();
 					time=x.time;
 				} 
-				if (!check(x)) return;
-				a[x.type]++;
-				if (a[x.type] == 1 && x.type!=-1) 
-					{
-						types.push_back(x.type);	
-						if (u[x.type]==0)
+				if (u[x.type]==0 && x.type!=-1)
 						{
 							all_types.push_back(x.type);
 							u[x.type]++;
 						}
+				if (!check(x)) return;
+				a[x.type]++;
+				if (a[x.type] == 1 && x.type!=-1) 
+					{
+						types.push_back(x.type);						
 					}
 				z[x.type]+=sizeof(x);
-
 		}
 
 public :
 
 		Solution()
 		{
-			f1.open("input.txt", ios_base::in | ios_base::binary);
-			f2.open("output.txt",ios_base::out| ios_base::binary);	
-			if (!f1.is_open() || !f2.is_open()) 
+			RR.BinOpen(SOURCE_DIR"/input.txt",SOURCE_DIR"/output.txt");
+			if (!RR.Bin_isOpen()) 
 			{
 				throw new exception();				
-			}	
-			err=0;
+			}				
 			time=-1;	
 		}
 
 		~Solution()
 		{
 			types.clear();
-			f1.close();
-			f2.close();	
+			RR.BinClose();
 		}
 
 
 		void process()
 		{
-			while (!f1.eof())
+			while (1)
 			{
-				msg x;
-				reader(x);
-				if (err) break;
+				BinRW :: msg x;
+				RR.BinReader(x);
+				if (!RR.Bin_nice()) break;
 				calc(x);
 			}
-			msg x;
+			BinRW :: msg x;
 			x.time=-1;
 			x.type=-1;
 			calc(x);

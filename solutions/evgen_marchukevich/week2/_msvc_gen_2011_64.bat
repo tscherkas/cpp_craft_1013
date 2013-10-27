@@ -1,7 +1,7 @@
 @echo off
 
 set PATH="C:\Program Files (x86)\CMake 2.8\bin\";%PATH%
-set SOLUTION_NAME=Week1
+set SOLUTION_NAME=Week2
 
 set BUILD_TYPE=Debug
 if [%1]==[Release] (
