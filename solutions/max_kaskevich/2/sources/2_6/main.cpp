@@ -27,7 +27,11 @@ std::istream& operator >> (std::istream& input, message2_6& m)
     read(input, &m.price);
     read(input, &m.vwap);
     read(input, &m.volume);
+    read(input, &m.f1);
+    read(input, &m.t1);
     read(input, &m.f2);
+    read(input, &m.f3);
+    read(input, &m.f4);
     return input;
 }
 
@@ -43,9 +47,7 @@ std::ostream& operator << (std::ostream& output, message2_6& m)
 
     write(output, &m.vwap);
     write(output, &m.volume);
-    write(output, &m.f1);
-    write(output, &m.f4);
-    write(output, &m.f3);
+    write(output, &m.f2);
     return output;
 }
 
