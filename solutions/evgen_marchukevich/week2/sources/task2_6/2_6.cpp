@@ -72,7 +72,7 @@ public :
 
 	void writer(msg &x, unsigned int &t)
 	{
-		for(int i=0;i<10;i++)
+		for(int i=0;i<9;i++)
 			f2.write(reinterpret_cast<char*>(&x.name[i]),sizeof (char));
 		f2.write(reinterpret_cast<char*>(&t),sizeof (t));
 		f2.write(reinterpret_cast<char*>(&x.vwap),sizeof (x.vwap));
