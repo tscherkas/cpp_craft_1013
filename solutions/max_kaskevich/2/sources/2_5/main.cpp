@@ -27,18 +27,18 @@ int main( int argc, char* argv[] )
     }
     typedef  std::map<uint32_t, meassage_stats> msg_stats_map;
     msg_stats_map msg_stats;
-    uint32_t next_time = 0;
+    uint32_t cur_time = 0;
     message m;
     while(input >> m)
     {
         // clear size info when new time coming
-        if (m.time >= next_time)
+        if (m.time > cur_time)
         {
             for(msg_stats_map::value_type& m_stat: msg_stats)
             {
                 m_stat.second.msg_data_size_by_time = 0;
             }
-            next_time = m.time + 1;
+            cur_time = m.time;
         }
 
         auto& m_stat = msg_stats.insert(msg_stats_map::value_type(m.type, meassage_stats())).first->second;
@@ -65,7 +65,7 @@ int main( int argc, char* argv[] )
     for(msg_stats_map::value_type& m_stat_pair: msg_stats)
     {
         avg = (m_stat_pair.second.msg_count
-            ? m_stat_pair.second.msg_count /  m_stat_pair.second.seconds
+            ? (double)m_stat_pair.second.msg_count /  m_stat_pair.second.seconds
             : 0.0);
         write(output, const_cast<uint32_t*>(&m_stat_pair.first));
         write(output, &avg);
