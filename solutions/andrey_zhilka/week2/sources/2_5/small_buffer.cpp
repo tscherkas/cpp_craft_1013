@@ -40,6 +40,11 @@ void reading_storingProcess( std::map< unsigned, std::vector< unsigned > >& mess
 			break;
 		}
 
+		if ( newMessage.getType() > 100000 )
+		{
+			continue;
+		}
+
 		new_message_capacity = 3 * sizeof( unsigned ) + newMessage.getLength();
 
 		update_report( message_report, newMessage, new_message_capacity );

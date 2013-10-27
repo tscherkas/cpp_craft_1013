@@ -16,7 +16,7 @@ void filterMessages() {
 	const char* input_file_path = SOURCE_DIR "/tests/2_4/2.4_example.in";
 	const char* output_file_path = SOURCE_DIR "/tests/2_4/2.4_output.out";
 	
-	std::ifstream input( input_file_path, std::ios::binary );
+	std::ifstream input( SOURCE_DIR "/tests/2_4/input24.txt", std::ios::binary );
 	std::ofstream output( output_file_path, std::ios::binary );
 
 	if ( !input.is_open() || !output.is_open() ) {
@@ -32,6 +32,11 @@ void filterMessages() {
 		if ( input.eof() )
 		{
 			break;
+		}
+
+		if ( !new_message.isOk() )
+		{
+			continue;
 		}
 
 		if ( maxT < 2 || new_message.getTime() > maxT - 2 ) {
