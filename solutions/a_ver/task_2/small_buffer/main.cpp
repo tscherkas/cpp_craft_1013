@@ -1,18 +1,12 @@
-//#include <cstdint>
 #include <stdint.h>
-#include <algorithm>
+//#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <iterator>
 #include <map>
+#include <deal.h>
 
 using namespace std;
-
-struct MessageHeader{
-    uint32_t type;
-    uint32_t time;
-    uint32_t len;
-};
 
 struct Aggregated{
     uint32_t count;
@@ -41,7 +35,7 @@ int main(){
     map<uint32_t, Aggregated> aggregated_data;
 
     while(i_fs.good()){
-        i_fs.read((char *)&m_header, sizeof(MessageHeader));
+        i_fs >> m_header;
         if(i_fs.fail()){
             break;
         }

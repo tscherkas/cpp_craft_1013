@@ -7,6 +7,9 @@ if(UNIX)
 
 endif(UNIX)
 
+project(Task_2)
+
+add_subdirectory(lib)
 add_subdirectory(outdated_deal)
 add_subdirectory(small_buffer)
 add_subdirectory(binary_data)

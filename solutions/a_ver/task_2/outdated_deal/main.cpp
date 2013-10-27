@@ -3,19 +3,9 @@
 #include <fstream>
 #include <iterator>
 #include <algorithm>
+#include <deal.h>
 
 using namespace std;
-
-struct MessageHeader{
-    uint32_t type;
-    uint32_t time;
-    uint32_t len;
-};
-
-const static uint32_t MARKET_OPEN = 1u;
-const static uint32_t TRADE = 2u;
-const static uint32_t QUOTE = 3u;
-const static uint32_t MARKET_CLOSE = 4u;
 
 bool is_valid(MessageHeader &item){
     static uint32_t max_time = 0;
@@ -45,7 +35,8 @@ int main(){
     MessageHeader m_header;
 
     while(i_fs.good()){
-        i_fs.read((char *)&m_header, sizeof(MessageHeader));
+        i_fs >> m_header;
+
         if(i_fs.fail()){
             break;
         }
@@ -63,7 +54,7 @@ int main(){
 
     i_fs.open(SOURCE_DIR "/Output.bin", ifstream::binary);
     while(i_fs.good()){
-        i_fs.read((char *)&m_header, sizeof(MessageHeader));
+        i_fs >> m_header;
         if(i_fs.fail()){
             break;
         }
