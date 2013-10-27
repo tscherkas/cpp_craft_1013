@@ -44,9 +44,7 @@ int main(){
         if(i_fs.fail()){
             break;
         }
-        cout << "- type: " << m_header.type;
-        cout << " time: " << m_header.time;
-        cout << " len: " << m_header.len;
+        cout << m_header.as_string();
         cout << " data: ";
         copy_n(istreambuf_iterator<char>(i_fs), m_header.len, ostreambuf_iterator<char>(cout));
         i_fs.seekg(1, ios_base::cur);

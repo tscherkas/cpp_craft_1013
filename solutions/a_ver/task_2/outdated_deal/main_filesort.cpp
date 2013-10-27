@@ -15,154 +15,171 @@
 #include <fstream>
 #include <algorithm>
 #include <vector>
-#include <iterator> 
+#include <queue>
+#include <iterator>
+#include <deal.h>
 
 using namespace std;
 
 typedef unsigned short int chunk_size_t;
+//const chunk_size_t QSORT_BUFFER_SIZE = -1; // 65535
+const chunk_size_t QSORT_BUFFER_SIZE = 5;
 
-// Original header of message
-struct MessageHeader{
-    uint32_t type;
-    uint32_t time;
-    uint32_t len;
-};
-
-struct MetaHeader: MessageHeader{
+struct ExtMessageHeader: MessageHeader{
     uint64_t offset;
 };
+
+const uint32_t SIZEOF_EXT = sizeof(uint32_t)*3 + sizeof(uint64_t);
+
+
+istream& operator>> (istream& is, ExtMessageHeader &m){
+    is >> static_cast<MessageHeader &>(m);
+    is.read((char *)&m.offset, sizeof(m.offset));
+    return is;
+}
+
+
+ostream& operator<< (ostream& os, const ExtMessageHeader &m){
+    os << static_cast<const MessageHeader &>(m);
+    os.write((char *)&m.offset, sizeof(m.offset));
+    return os;
+}
+
 
 struct Chunk{
     uint64_t offset;
     chunk_size_t count;
+
+    Chunk(): offset(0), count(0){}
+    Chunk(uint64_t arg_offset, chunk_size_t arg_count): offset(arg_offset), count(arg_count){}
 };
 
-const chunk_size_t QSORT_BUFFER_SIZE = -1; // 65535
-const static unsigned short int COPY_BUFFER_SIZE = 255;
 
-const static uint32_t MARKET_OPEN = 1u;
-const static uint32_t TRADE = 2u;
-const static uint32_t QUOTE = 3u;
-const static uint32_t MARKET_CLOSE = 4u;
-
-bool comparator(const MetaHeader &item1, const MetaHeader &item2){
+bool comparator(const ExtMessageHeader &item1, const ExtMessageHeader &item2){
     return item1.time < item2.time;
 }
 
-void buffered_copy(istream &src, ostream &dst, streampos offset, streamoff length){
-    static char* copy_buffer = new char[COPY_BUFFER_SIZE];
-    src.seekg(offset, ios_base::beg);
-    
-    // write message
-    while(length > COPY_BUFFER_SIZE){
-        src.read(copy_buffer, COPY_BUFFER_SIZE);
-        dst.write(copy_buffer, COPY_BUFFER_SIZE);
-        length -= COPY_BUFFER_SIZE;
+
+void flush_buffer(vector<ExtMessageHeader> &qsort_buffer, fstream &t_fs, queue<Chunk> &msort_queue){
+    msort_queue.push(Chunk(t_fs.tellp(), (chunk_size_t) qsort_buffer.size()));
+
+    sort(qsort_buffer.begin(), qsort_buffer.end(), comparator);
+
+    for(vector<ExtMessageHeader>::iterator it = qsort_buffer.begin(); it < qsort_buffer.end(); it++){
+        t_fs << (*it);
     }
-    src.read(copy_buffer, length);
-    dst.write(copy_buffer, length);
 }
 
-bool is_valid(Header &item){
-    static uint32_t max_time = 0;
-    bool result = false;
-    if((item.type == MARKET_OPEN || item.type == TRADE ||
-        item.type == QUOTE || item.type == MARKET_CLOSE) &&
-       (item.time > (max_time - 2) || max_time < 2)){
-        result = true;
-    }
-    if(max_time < item.time){
-        max_time = item.time;
-    }
-    return result;
-}
 
-void flush_buffer(vector<Header> &buffer, ofstream &o_fs){
-    for(vector<Header>::iterator it = buffer.begin(); it < buffer.end(); it ++){
-        o_fs.write((char *)&(*it), sizeof(Header));
-    }
-    buffer.resize(0);
-}
+void merge_by_one(fstream &from_fs, fstream &to_fs, Chunk &first, Chunk &second){
+    ExtMessageHeader item_first, item_second;
+    chunk_size_t first_number = 0;
+    chunk_size_t second_number = 0;
 
-void merge_by_one(fstream &i_fs, fstream &o_fs, Chunk &first, Chunk &second){
-    MetaHeader item_first, item_second;
-    chunk_size_t first_number = first.count;
-    chunk_size_t second_number = second.count;
+    from_fs.clear();
+    to_fs.clear();
 
-    i_fs.clear();
-    o_fs.clear();
+    from_fs.seekg(first.offset);
+    from_fs >> item_first;
 
-    i_fs.seekg(first.offset);
-    i_fs.read((char *)&item_first, sizeof(MetaHeader))
+    from_fs.seekg(second.offset);
+    from_fs >> item_second;
 
-    i_fs.seekg(second.offset);
-    i_fs.read((char *)&item_second, sizeof(MetaHeader))
-
-    while(first_number < first.count && second_number > second_count){
+    while(first_number < first.count && second_number < second.count){
         if(comparator(item_first, item_second)){
-            o_fs.write((char *)&item_first, sizeof(MetaHeader));
+            to_fs << item_first;
 
-            i_fs.seekg(first.offset + first_number * sizeof(MetaHeader));
-            i_fs.read((char *)&item_first, sizeof(MetaHeader));
             first_number++;
+            from_fs.seekg(first.offset + first_number * SIZEOF_EXT);
+            from_fs >> item_first;
         }else{
-            o_fs.write((char *)&item_second, sizeof(MetaHeader));
+            to_fs << item_second;
 
-            i_fs.seekg(second.offset + second_number * sizeof(MetaHeader));
-            i_fs.read((char *)&item_second, sizeof(MetaHeader));
             second_number++;
+            from_fs.seekg(second.offset + second_number * SIZEOF_EXT);
+            from_fs >> item_second;
         }
     }
+
     if(first_number > 0){
-        buffered_copy(
-            i_fs, o_fs,
-            first.offset + first_number * sizeof(MetaHeader),
-            first.count * sizeof(MetaHeader))
+        from_fs.seekg(first.offset + first_number * SIZEOF_EXT);
+        copy_n(istreambuf_iterator<char>(from_fs),
+               (first.count - first_number) * SIZEOF_EXT,
+               ostreambuf_iterator<char>(to_fs));
     }
     if(second_number > 0){
-        buffered_copy(
-            i_fs, o_fs,
-            second.offset + second_number * sizeof(MetaHeader),
-            second.count * sizeof(MetaHeader))
+        from_fs.seekg(second.offset + second_number * SIZEOF_EXT);
+        copy_n(istreambuf_iterator<char>(from_fs),
+               (second.count - second_number) * SIZEOF_EXT,
+               ostreambuf_iterator<char>(to_fs));
     }
 }
-
+/*
 void merge_bulk(fstream &i_fs, fstream &o_fs, Chunk &first, Chunk &second){
     // to read with buffering more than one elements
 }
+*/
 
-void merge_sort(fstream &i_fs, queue<Chunk> &msort_queue){
-    Chunk &first;
-    Chunk &second;
+
+void merge_sort(fstream &from_fs, queue<Chunk> &msort_queue){
     size_t size = msort_queue.size();
-    fstream o_fs(SOURCE_DIR "/Temporary2.bin";);
+    if(size < 2){
+        return;
+    }
 
-    while(msort_queue.size() < 2){
-        i_fs.open(tmp_file1);
-        o_fs.open(tmp_file2);
+    fstream to_fs(SOURCE_DIR "/Temporary2.bin",
+                  fstream::binary | fstream::in | fstream::out | fstream::trunc);
 
-        first = msort_queue.front();
+    if(!to_fs){
+        cout << "Could not open swap file" << endl;
+        return;
+    }
+
+    fstream *from_fs_p = &from_fs;
+    fstream *to_fs_p = &to_fs;
+
+    while(msort_queue.size() > 1){
+        Chunk &first = msort_queue.front();
         msort_queue.pop();
-        second = msort_queue.front();
+        Chunk &second = msort_queue.front();
         msort_queue.pop();
 
-        merge(i_fs, first, second);
-        msort_queue.push(Chunk(first.offset, first.count + second.count));
+        merge_by_one(*from_fs_p, *to_fs_p, first, second);
+        size -= 2;
+        msort_queue.push(
+            Chunk(first.offset, (chunk_size_t) (first.count + second.count)));
+
+        if(size == 1){
+            Chunk &first = msort_queue.front();
+            msort_queue.pop();
+
+            copy_n(istreambuf_iterator<char>(from_fs),
+                   first.count * SIZEOF_EXT,
+                   ostreambuf_iterator<char>(to_fs));
+
+            msort_queue.push(first);
+        }
         if(size == 0){
             size = msort_queue.size();
-            i_fs.swap(o_fs);
+            swap(from_fs_p, to_fs_p);
         }
-        size--;
     }
-    i_fs.swap(o_fs);
-    o_fs.close();
+    if(from_fs_p == &from_fs){
+        to_fs.close();
+    }else{
+        to_fs.close();
+        from_fs.close();
+        from_fs.open(SOURCE_DIR "/Temporary2.bin",
+                   fstream::binary | fstream::in | fstream::out);
+    }
 }
+
 
 int main(){
     ifstream i_fs(SOURCE_DIR "/Input.in", ifstream::binary);
     ofstream o_fs(SOURCE_DIR "/Output.bin", ofstream::binary);
-  
-    fstream io_fs(SOURCE_DIR "/Temporary.in", ifstream::binary);
+    fstream t_fs(SOURCE_DIR "/Temporary.bin",
+                 fstream::binary | fstream::out | fstream::in | fstream::trunc);
 
     if(!i_fs){
         cout << "Could not open input file" << endl;
@@ -172,64 +189,73 @@ int main(){
         cout << "Could not open output file" << endl;
         return 1;
     }
-    if(!io_fs){
+    if(!t_fs){
         cout << "Could not open temporary file" << endl;
         return 1;
     }
 
-    vector<MetaHeader> qsort_buffer;
     queue<Chunk> msort_queue;
-
+    vector<ExtMessageHeader> qsort_buffer;
+    vector<ExtMessageHeader>::iterator it;
     qsort_buffer.reserve(QSORT_BUFFER_SIZE);
+    qsort_buffer.resize(1);
+    it = qsort_buffer.begin();
 
-
-    vector<Header>::iterator it = qsort_buffer.begin();
-
-    qsort_buffer.resize(qsort_buffer.size()+1);
     while(i_fs.good()){
-        i_fs.read((char *)&(*it), sizeof(BaseHeader));
-        (*it).offset = i_fs.tellg();
+        i_fs >> static_cast<MessageHeader &>(*it);
+        if(i_fs.fail()){
+            break;
+        }
+        it->offset = i_fs.tellg();
+
         // pass data
         i_fs.seekg(it->len, ios_base::cur);
 
-        if(is_valid(*it)){
-            it++;
-            qsort_buffer.resize(qsort_buffer.size()+1);
+        if(is_outdated_deal(*it)){
+            continue;
         }
+
         if(qsort_buffer.capacity() == qsort_buffer.size()){
-            sort(qsort_buffer.begin(), qsort_buffer.end(), comparator);
-
-            msort_queue.push(Chunk(o_fs.tellg(), qsort_buffer.size()));
-            flush_buffer(qsort_buffer, o_fs);
+            cout << "flush buffer" << endl;
+            flush_buffer(qsort_buffer, t_fs, msort_queue);
+            qsort_buffer.resize(1);
             it = qsort_buffer.begin();
+            continue;
         }
+        it++;
+        qsort_buffer.resize(qsort_buffer.size()+1);
     }
-    qsort_buffer.resize(qsort_buffer.size()-1);
+    if(qsort_buffer.size() > 0){
+        qsort_buffer.resize(qsort_buffer.size()-1);
+        flush_buffer(qsort_buffer, t_fs, msort_queue);
+    }
 
-    i_fs.close();
+    merge_sort(t_fs, msort_queue);
 
-    merge_sort(io_fs, msort_queue);
+    t_fs.clear();
+    i_fs.clear();
 
-    // create result file
+    ExtMessageHeader ext_m;
 
-
-
-    o_fs.close();
-    // print result data
-    ifstream io_fs(SOURCE_DIR "/Output.bin", ifstream::binary);
-    BaseHeader message;
-    while(io_fs.good()){
-        io_fs.read((char *)&message, sizeof(BaseHeader));
-        if(io_fs.fail()){
+    t_fs.seekg(0);
+    while(t_fs.good()){
+        t_fs >> ext_m;
+        if(t_fs.fail()){
             break;
         }
-        cout << "- type: " << message.type;
-        cout << " time: " << message.time;
-        cout << " len: " << message.len;
-        cout << " data: ";
-        buffered_copy(io_fs, cout, io_fs.tellg(), message.len);
-        //copy_n(istreambuf_iterator<char>(io_fs), message.len, ostream_iterator<int>(cout, " "));
-        cout << endl;
+        i_fs.seekg(ext_m.offset);
+        o_fs << static_cast<const MessageHeader>(ext_m);
+        copy_n(istreambuf_iterator<char>(i_fs),
+               ext_m.len,
+               ostreambuf_iterator<char>(o_fs));
     }
+
+    i_fs.close();
+    t_fs.close();
+    o_fs.close();
+
+    i_fs.open(SOURCE_DIR "/Output.bin", ifstream::binary);
+    dump_to_stream(i_fs, cout);
+    i_fs.close();
     return 0;
 }
