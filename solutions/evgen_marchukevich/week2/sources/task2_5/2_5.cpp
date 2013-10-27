@@ -40,7 +40,6 @@ private :
 				RR.BinWriter(*it);
 				double w=0;
 				if (kol[*it]!=0) w=ans[*it]/(1.0*kol[*it]);
-				cout << *it << " " << w<< endl;
 				RR.BinWriter(w);
 			}
 

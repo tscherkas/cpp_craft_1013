@@ -78,7 +78,6 @@ public :
 		f2.write(reinterpret_cast<char*>(&vwap),sizeof (vwap));
 		f2.write(reinterpret_cast<char*>(&volume),sizeof (volume));
 		f2.write(reinterpret_cast<char*>(&f2),sizeof (ff2));
-		cout << s << " " << t << " " << vwap << " " << volume << " " << ff2 << endl;
 	}
 
 	void calc(msg &x)
