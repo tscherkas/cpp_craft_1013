@@ -19,7 +19,7 @@ using namespace std;
 class Solution{
 
 	struct msg{
-		string name;
+		char name[9];
 		string date;
 		double price;
 		double vwap;
@@ -45,14 +45,13 @@ public :
 		for(unsigned int i=0;i<8;i++)
 		{
 			char c;
-			if(f1.read(reinterpret_cast<char*>(&c),sizeof (char))==0) 
+			if(f1.read(reinterpret_cast<char*>(&t.name[i]),sizeof (char))==0) 
 				{
 					error=1;
 					return;
 				}
-			t.name+=c;
 		}
-		t.name+='\0';
+		t.name[8]='\0';
 		for(unsigned int i=0;i<8;i++)
 		{
 			char c;
@@ -71,22 +70,22 @@ public :
 	}
 
 
-	void writer(string &s,long long &t,double vwap,unsigned int volume,double ff2)
+	void writer(msg &x, unsigned int &t)
 	{
-		for(int i=0;i<s.length();i++)
-			f2.write(reinterpret_cast<char*>(&s[i]),sizeof (char));
+		for(int i=0;i<10;i++)
+			f2.write(reinterpret_cast<char*>(&x.name[i]),sizeof (char));
 		f2.write(reinterpret_cast<char*>(&t),sizeof (t));
-		f2.write(reinterpret_cast<char*>(&vwap),sizeof (vwap));
-		f2.write(reinterpret_cast<char*>(&volume),sizeof (volume));
-		f2.write(reinterpret_cast<char*>(&f2),sizeof (ff2));
+		f2.write(reinterpret_cast<char*>(&x.vwap),sizeof (x.vwap));
+		f2.write(reinterpret_cast<char*>(&x.volume),sizeof (x.volume));
+		f2.write(reinterpret_cast<char*>(&x.f2),sizeof (x.f2));
 	}
 
 	void calc(msg &x)
 	{
 		int year, month, day;
 		sscanf(x.date.c_str(),"%4d%2d%2d",&year,&month,&day);
-		long long pp= 1ll*(year-1)*372+1ll*(month-1)*31+1ll*day;
-		writer(x.name,pp,x.vwap,x.volume,x.f2);
+		unsigned int pp= 1ll*(year-1)*372+1ll*(month-1)*31+1ll*day;
+		writer(x,pp);
 	}
 
 
