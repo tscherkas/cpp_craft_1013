@@ -47,7 +47,7 @@ bool StockDealer::StockDeal::read_deal( std::ifstream& stock_info )
 	{
 		return false;
 	}
-
+	this->stock_name[8] = 0;
 	stock_info.read( day_buffer, 8 );
 	sscanf( day_buffer, "%4d%2d%2d", &years, &monthes, &days );
 
