@@ -10,6 +10,7 @@ private :
 	unsigned time;
 	unsigned length;
 	char* text;
+	bool is_ok;
 
 	void operator=( const Message& ){};
 	Message(const Message& message);
@@ -17,6 +18,7 @@ private :
 public :
 	Message(){
 		text = 0;
+		is_ok = false;
 	}
 	~Message();
 
@@ -28,6 +30,7 @@ public :
 	unsigned getLength() const;
 	unsigned getTime() const;
 	unsigned getType() const;
+	bool isOk() const;
 
 	friend std::ostream& operator<<(std::ostream& binary_os, const Message& message);
 	friend std::istream& operator>>(std::istream& binary_is, Message& message);

@@ -38,6 +38,10 @@ unsigned Message::getType() const {
 	return this->type;
 }
 
+bool Message::isOk() const {
+	return this->is_ok;
+}
+
 std::istream& operator>>( std::istream& binary_is, Message& message ) {
 	binary_is.read( reinterpret_cast< char* > ( &message.type ), sizeof( unsigned ) );
 	binary_is.read( reinterpret_cast< char* > ( &message.time ), sizeof( unsigned ) );
@@ -45,6 +49,8 @@ std::istream& operator>>( std::istream& binary_is, Message& message ) {
 	message.text = new char[ message.length + 1 ];
 	binary_is.read( message.text, message.length );
 	message.text[ message.length ] = 0;
+
+	message.is_ok = ( message.type >= 1 && message.type <= 4 );
 
 	return binary_is;
 }
