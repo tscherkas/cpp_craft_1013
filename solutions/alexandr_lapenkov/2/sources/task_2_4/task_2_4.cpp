@@ -82,16 +82,16 @@ public:
 			   else
 			   {
 				   if((long long)x.time>(max_t-2))
+				   {
 					   a.push_back(x);
-				   max_t=max(max_t,(long long)x.time);
+					   max_t=max(max_t,(long long)x.time);
+				   }
 			   }
 				
 		   }
 		   
-		   sort(a.begin(),a.end());
-		   
 		   for(vector<Data>::iterator it = a.begin(); it<a.end(); it++)
-			   out<<it->type<<it->time<<it->len<<it->msg;
+			   out<<(*it);
 	   }	
             
 };

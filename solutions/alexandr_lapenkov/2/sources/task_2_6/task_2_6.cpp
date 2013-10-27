@@ -61,12 +61,13 @@ public:
 			   in>>x;
 			   if(!in.good())break;
 
-			   out.write_line(x.stock_name.c_str());
-
 			   unsigned day,month,year;
 			   sscanf(x.date_time.c_str(),"%4d%2d%2d",&year,&month,&day);
 			   
-			   out<<x.stock_name<<((year-1)*372u+(month-1)*31u+day)<<x.vwap<<x.volume<<x.f2;
+			   char c[9];
+			   strcpy(c,x.stock_name.c_str());
+			   out.write_line(c,9);
+			   out<<((year-1)*372u+(month-1)*31u+day)<<x.vwap<<x.volume<<x.f2;
 		   }
 	   }	
             
@@ -83,6 +84,6 @@ int main()
 	{
 		cerr<<"Can't open files!";
 	}
-	
+	system("pause");
 	return 0;  
 }
