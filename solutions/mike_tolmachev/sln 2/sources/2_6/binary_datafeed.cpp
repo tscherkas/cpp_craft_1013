@@ -13,14 +13,21 @@ struct Data
     double datas[5];
 };
 
+std::istream& operator >> (std::istream& in, Data& data)
+{
+	in.read(data.stock_name, 8);//8?
+	in.read(data.date_time, 8);
+	in.read(reinterpret_cast<char*>(&data.price), sizeof(double));
+	in.read(reinterpret_cast<char*>(&data.vwap), sizeof(double));
+	in.read(reinterpret_cast<char*>(&data.volume), sizeof(uint32_t));
+	in.read(reinterpret_cast<char*>(data.datas), sizeof(data.datas));
+    return in;
+}
 
-static const size_t DATA_SIZE = 16 + sizeof(uint32_t) + 7*sizeof(double);
-
-
-void WriteToFile(std::ofstream& out, Data& data)
+std::ostream& operator << (std::ostream& out, Data& data)
 {
     out.write(data.stock_name, 8);//stock_name 8?
-    out.write('\0', 1); 8?
+    out.write("\0", 1);// 8?
     //write date
 	uint32_t day = 0;
 	uint32_t month = 0;
@@ -32,33 +39,22 @@ void WriteToFile(std::ofstream& out, Data& data)
     out.write(reinterpret_cast<char*>(&data.vwap), sizeof(double));//price=vwap
     out.write(reinterpret_cast<char*>(&data.volume), sizeof(uint32_t));//volume
 	out.write(reinterpret_cast<char*>(&data.datas[2]), sizeof(double));//f2
-}
 
+	return out;
+}
 
 int main()
 {
     std::ifstream in(BINARY_DIR "/input.txt", std::ifstream::binary);
     std::ofstream out(BINARY_DIR "/output.txt", std::ofstream::binary);
-        
-    in.seekg(0, std::ios::end);
-    size_t file_size = in.tellg();
-    in.seekg(0, std::ios::beg);
     
-	if (in)
+	if (in.is_open())
 	{
-		while(file_size && in.good())
+		Data data;
+
+		while(in >> data)
 		{
-			Data data;
-			in.read(data.stock_name, 8);//8?
-			in.read(data.date_time, 8);
-			in.read(reinterpret_cast<char*>(&data.price), sizeof(double));
-			in.read(reinterpret_cast<char*>(&data.vwap), sizeof(double));
-			in.read(reinterpret_cast<char*>(&data.volume), sizeof(uint32_t));
-			in.read(reinterpret_cast<char*>(data.datas), sizeof(data.datas));
-
-			WriteToFile(out, data);
-
-			file_size -= DATA_SIZE;
+			out << data;
 		}
 	}
 

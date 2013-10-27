@@ -3,7 +3,7 @@
 #include <memory>
 #include <map>
 
-static const size_t size = 4096;
+static const size_t buf_size = 4096;
 
 struct Msg
 {
@@ -45,11 +45,15 @@ int main()
             {
                 out << msg;
 
-                for (int len = msg.len; len > 4096; len + 4096)
+				char buf[4096];
+				int32_t len = 0;
+                for (len = msg.len; len > buf_size; len - buf_size)
                 {
-
-                    in.read();
+					in.read(buf, buf_size);
+					out.write(buf, buf_size);
                 }
+				in.read(buf, len);
+				out.write(buf, len);
 
                 if (msg.time > T)
                 {

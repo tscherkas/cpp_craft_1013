@@ -7,6 +7,20 @@
 static const uint32_t MSG_SIZE = 2048;
 static const uint32_t DATA_SIZE = 3*sizeof(uint32_t);
 
+struct Msg
+{
+    uint32_t type;
+    uint32_t time;
+    uint32_t len;
+};
+
+std::istream& operator >> (std::istream& in, Msg& msg)
+{
+    in.read(reinterpret_cast<char*>(&msg.type), sizeof(uint32_t));
+    in.read(reinterpret_cast<char*>(&msg.time), sizeof(uint32_t));
+    in.read(reinterpret_cast<char*>(&msg.len), sizeof(uint32_t));
+    return in;
+}
 
 int main()
 {
@@ -15,24 +29,20 @@ int main()
 
     if (in.is_open())
     {
-        in.seekg(0, std::ios::end);
-        size_t file_size = in.tellg();
-        in.seekg(0, std::ios::beg);
-    
+		Msg msg;
+		    
         std::map<uint32_t, std::map<uint32_t, std::pair<uint32_t, double>>> msgs;//<TYPE,<TIME<LEN, count>>>
 
-        while(file_size && in.good())
+		while(in >> msg)
         {
-            uint32_t msg[3];//TYPE,TIME,LEN
-            in.read(reinterpret_cast<char*>(msg), DATA_SIZE);
-            in.seekg(msg[2], std::ios::cur);
+			in.seekg(msg.len, std::ios::cur);
 
-            uint32_t msg_size = DATA_SIZE + msg[2];
+			uint32_t msg_size = DATA_SIZE + msg.len;
 
-            auto it = msgs[msg[0]].find(msg[1]);
-            if (it == msgs[msg[0]].end())
+            auto it = msgs[msg.type].find(msg.time);
+            if (it == msgs[msg.type].end())
             {
-                auto new_elem = msgs[msg[0]].insert(std::make_pair(msg[1], std::make_pair(0, 0)));
+                auto new_elem = msgs[msg.type].insert(std::make_pair(msg.time, std::make_pair(0, 0)));
                 it = new_elem.first;
             }
 
@@ -41,8 +51,6 @@ int main()
 				it->second.first += msg_size;
 				++it->second.second;
             }
-
-            file_size -= msg_size;
         }
 
         for (auto it = msgs.begin(); it != msgs.end(); ++it)
