@@ -6,7 +6,7 @@
 #include <string>
 #include <algorithm>
 
-struct TradesData
+struct MessageData
 {
 	unsigned __int32 type;
 	unsigned __int32 time; 
@@ -18,7 +18,7 @@ struct TradesData
 
 struct DataFeed
 {
-	char stockName[9];
+	char stockName[8];
 	char year[4];
 	char month[2];
 	char day[2];
@@ -43,7 +43,7 @@ namespace binary_reader
 		virtual ~Reader();
 
 		bool isOpenedFile();
-		bool readTradesData(TradesData *tradesData);
+		bool readMessageData(MessageData *messageData);
 		bool readDataFeed(DataFeed *dataFeed);
 	
 	private:

@@ -4,7 +4,7 @@
 namespace binary_reader
 {
 	Reader::Reader(const std::string &nameFile)
-		: inputFile(SOURCE_DIR "/input.txt", std::ifstream::binary)
+		: inputFile(nameFile.c_str(), std::ifstream::binary)
 	{
 	}
 
@@ -18,21 +18,21 @@ namespace binary_reader
 		return inputFile.is_open();
 	}
 
-	bool Reader::readTradesData(TradesData *tradesData)
+	bool Reader::readMessageData(MessageData *messageData)
 	{
-		if (!inputFile.read(reinterpret_cast<char*>(&tradesData->type), sizeof(unsigned __int32)))
+		if (!inputFile.read(reinterpret_cast<char*>(&messageData->type), sizeof(unsigned __int32)))
 			return false;
-		if (!inputFile.read(reinterpret_cast<char*>(&tradesData->time), sizeof(unsigned __int32)))
+		if (!inputFile.read(reinterpret_cast<char*>(&messageData->time), sizeof(unsigned __int32)))
 			return false;
-		if (!inputFile.read(reinterpret_cast<char*>(&tradesData->len), sizeof(unsigned __int32)))
+		if (!inputFile.read(reinterpret_cast<char*>(&messageData->len), sizeof(unsigned __int32)))
 			return false;
-		char *msg = new char[tradesData->len];
-		if (!inputFile.read(reinterpret_cast<char*>(msg), tradesData->len * sizeof(char)))
+		char *msg = new char[messageData->len];
+		if (!inputFile.read(reinterpret_cast<char*>(msg), messageData->len * sizeof(char)))
 		{		
 			delete [] msg;
 			return false;
 		}
-		tradesData->message.assign(msg, tradesData->len);
+		messageData->message.assign(msg, messageData->len);
 
 		delete [] msg;
 		return true;

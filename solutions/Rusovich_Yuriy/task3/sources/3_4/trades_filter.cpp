@@ -17,9 +17,9 @@ void startWorkDataThread(const std::string &input)
 	{
 		std::ofstream outputFile((std::string(SOURCE_DIR) + "/output_" + input + ".txt").c_str());
 
-		TradesData tradesData;
+		MessageData tradesData;
 
-		while (reader.readTradesData(&tradesData))
+		while (reader.readMessageData(&tradesData))
 		{
 			if (tradesData.type > needTypes)
 				continue;

@@ -4,16 +4,16 @@ const static int needTypes = 4;
 
 int main()
 {
-	binary_reader::Reader reader("input.txt");
+	binary_reader::Reader reader(std::string(SOURCE_DIR) + "/input.txt");
 	std::ofstream outputFile(SOURCE_DIR "/output.txt" );
 	
 	unsigned __int32 currentTime = 0;
 
 	if (reader.isOpenedFile())
 	{
-		TradesData tradesData;
+		MessageData tradesData;
 
-		while (reader.readTradesData(&tradesData))
+		while (reader.readMessageData(&tradesData))
 		{
 			if (tradesData.type > needTypes)
 				continue;

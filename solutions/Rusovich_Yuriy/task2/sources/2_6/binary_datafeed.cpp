@@ -4,7 +4,7 @@
 
 struct OutDataFeed
 {
-	char stockName[9];
+	char stockName[8];
     unsigned __int32 date;
     double price;
     unsigned __int32 volume;
@@ -15,7 +15,7 @@ struct OutDataFeed
 
 int main()
 {
-	binary_reader::Reader reader("input.txt");
+	binary_reader::Reader reader(std::string(SOURCE_DIR) + "/input.txt");
 	std::ofstream outputFile(SOURCE_DIR "/output.txt" );
 	
 	if (reader.isOpenedFile())
@@ -27,15 +27,23 @@ int main()
 			OutDataFeed outDataFeed;
 			memcpy(&outDataFeed.stockName, &dataFeed.stockName, 9);
 
-			outDataFeed.date = (atoi(dataFeed.year) - 1) * 372
-				+ (atoi(dataFeed.month) - 1) * 31
-				+ atoi(dataFeed.day);
+			char year[4];
+			char month[2];
+			char day[2];
+
+			memcpy(year, &(dataFeed.year), 4);
+			memcpy(month, &(dataFeed.month), 2);
+			memcpy(day, &(dataFeed.day), 2);
+
+			outDataFeed.date = (atoi(year) - 1) * 372
+				+ (atoi(month) - 1) * 31
+				+ atoi(day);
 
 			outDataFeed.price = dataFeed.vwap;
             outDataFeed.volume = dataFeed.volume;
 			outDataFeed.f2 = dataFeed.f2;
-
-			outputFile.write(reinterpret_cast<char*>(&outDataFeed), sizeof(DataFeed));
+			
+			outputFile.write(reinterpret_cast<char*>(&outDataFeed), sizeof(outDataFeed));
 		}
 	}
 	outputFile.close();
