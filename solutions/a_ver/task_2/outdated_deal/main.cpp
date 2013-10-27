@@ -1,8 +1,8 @@
-//#include <cstdint>
 #include <stdint.h>
 #include <iostream>
 #include <fstream>
-#include <memory>
+#include <iterator>
+#include <algorithm>
 
 using namespace std;
 
@@ -16,23 +16,6 @@ const static uint32_t MARKET_OPEN = 1u;
 const static uint32_t TRADE = 2u;
 const static uint32_t QUOTE = 3u;
 const static uint32_t MARKET_CLOSE = 4u;
-
-const static unsigned short int BUFFER_SIZE = -1; // 65535
-
-void buffered_copy(istream &src, ostream &dst, streampos offset, streamoff length){
-    static char* copy_buffer = new char[BUFFER_SIZE];
-    //static unique_ptr<char[]> copy_buffer(new char[BUFFER_SIZE]);
-    src.seekg(offset, ios_base::beg);
-    
-    // write message
-    while(length > BUFFER_SIZE){
-        src.read(copy_buffer, BUFFER_SIZE);
-        dst.write(copy_buffer, BUFFER_SIZE);
-        length -= BUFFER_SIZE;
-    }
-    src.read(copy_buffer, length);
-    dst.write(copy_buffer, length);
-}
 
 bool is_valid(MessageHeader &item){
     static uint32_t max_time = 0;
@@ -71,12 +54,13 @@ int main(){
             continue;
         }
         o_fs.write((char *)&m_header, sizeof(MessageHeader));
-        buffered_copy(i_fs, o_fs, i_fs.tellg(), m_header.len);
+        copy_n(istreambuf_iterator<char>(i_fs), m_header.len,
+               ostreambuf_iterator<char>(o_fs));
+        i_fs.seekg(1, ios_base::cur);
     }
     i_fs.close();
     o_fs.close();
 
-    // print result data
     i_fs.open(SOURCE_DIR "/Output.bin", ifstream::binary);
     while(i_fs.good()){
         i_fs.read((char *)&m_header, sizeof(MessageHeader));
@@ -87,7 +71,8 @@ int main(){
         cout << " time: " << m_header.time;
         cout << " len: " << m_header.len;
         cout << " data: ";
-        buffered_copy(i_fs, cout, i_fs.tellg(), m_header.len);
+        copy_n(istreambuf_iterator<char>(i_fs), m_header.len, ostreambuf_iterator<char>(cout));
+        i_fs.seekg(1, ios_base::cur);
         cout << endl;
     }
     i_fs.close();
