@@ -1,4 +1,4 @@
-#include "inttypes.h"
+//#include "inttypes.h"
 #include <string.h>
 #include <sstream>
 #include <fstream>
@@ -22,10 +22,16 @@ int main()
 {
 	std::ifstream input_file (SOURCE_DIR "/tests/2.4_example.in",std::ios::in|std::ios::binary);
 	if(!input_file.is_open())
-		return 22;
+	{
+	    std::cout << "Error by opening input file";
+		return 0;
+	}
 	std::ofstream output_file(SOURCE_DIR "/tests/2.4_example.out",std::ios::out|std::ios::binary);
 	if(!output_file.is_open())
-		return 234;
+	{
+	    std::cout << "Error by creating output file";
+		return 0;
+	}
     std::list < MarketEvent > events;
     uint32_t max_time = 0;
 

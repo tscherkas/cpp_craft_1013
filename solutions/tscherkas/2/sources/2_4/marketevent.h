@@ -16,8 +16,8 @@ private:
 	MarketEvent();
 	MarketEvent& operator=(const MarketEvent&);
 public:
-	MarketEvent(uint32_t tp, uint32_t tm,uint32_t len,char* msg);	
-	MarketEvent(const MarketEvent& ev);	
+	MarketEvent(uint32_t tp, uint32_t tm,uint32_t len,char* msg);
+	MarketEvent(const MarketEvent& ev);
 	~MarketEvent();
 	uint32_t getTime() const;
 	uint32_t getType() const;

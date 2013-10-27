@@ -68,7 +68,8 @@ int main()
         )
     {
         memcpy(buf,&it->first,sizeof(uint32_t));
-        memcpy(buf+sizeof(uint32_t)+1,&it->second/current_sec,sizeof(double));
+        double middle = it->second/current_sec;
+        memcpy(buf+sizeof(uint32_t)+1,&middle,sizeof(double));
         output_file.write(buf, bufsize);
     }
 	output_file.close();
