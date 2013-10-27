@@ -26,7 +26,7 @@ class TradeMsgOut {
             volume_(volume),
             f2_(f2)
     {
-        //empty
+        stock_name_.resize(9);
     } 
         TradeMsgOut() {
             //empty
