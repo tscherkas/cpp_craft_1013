@@ -5,6 +5,6 @@ project( ${SOLUTION_NAME} )
 include( environment.cmake required )
 
 modules( message_struct)
-binaries( 2_4 2_5 2_6 )
+binaries( 3_4 3_5 3_6 )
 
 compile()
