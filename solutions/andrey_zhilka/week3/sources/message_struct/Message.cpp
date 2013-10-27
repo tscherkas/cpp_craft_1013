@@ -43,6 +43,8 @@ bool Message::isOk() const {
 }
 
 std::istream& operator>>( std::istream& binary_is, Message& message ) {
+	boost::mutex::scoped_lock lock( message.message_mutex );
+	
 	binary_is.read( reinterpret_cast< char* > ( &message.type ), sizeof( unsigned ) );
 	binary_is.read( reinterpret_cast< char* > ( &message.time ), sizeof( unsigned ) );
 	binary_is.read( reinterpret_cast< char* > ( &message.length ), sizeof( unsigned ) );
@@ -56,6 +58,8 @@ std::istream& operator>>( std::istream& binary_is, Message& message ) {
 }
 
 std::ostream& operator<<( std::ostream& binary_os, const Message& message ) {
+	boost::mutex::scoped_lock lock( message.message_mutex );
+
 	binary_os.write( reinterpret_cast< const char* > ( &message.type ), sizeof( unsigned ) );
 	binary_os.write( reinterpret_cast< const char* > ( &message.time ), sizeof( unsigned ) );
 	binary_os.write( reinterpret_cast< const char* > ( &message.length ), sizeof( unsigned ) );

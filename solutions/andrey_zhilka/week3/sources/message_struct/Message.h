@@ -4,6 +4,8 @@
 #include <iostream>
 #include <cstring>
 
+#include <boost/thread.hpp>
+
 class Message {
 private :
 	unsigned type;
@@ -11,6 +13,7 @@ private :
 	unsigned length;
 	char* text;
 	bool is_ok;
+	mutable boost::mutex message_mutex;
 
 	void operator=( const Message& ){};
 	Message(const Message& message);
