@@ -41,7 +41,7 @@ bool StockDealer::StockDeal::read_deal( std::ifstream& stock_info )
 		monthes,
 		days;
 
-	stock_info.read( this->stock_name, 9 );
+	stock_info.read( this->stock_name, 8 );
 
 	if ( stock_info.eof() )
 	{
