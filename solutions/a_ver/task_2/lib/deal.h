@@ -19,4 +19,6 @@ const static uint32_t MARKET_CLOSE = 4u;
 
 istream& operator>> (istream& is, MessageHeader &m);
 
+bool is_outdated_deal(MessageHeader &item);
+
 #endif // _DEAL_DATA_H

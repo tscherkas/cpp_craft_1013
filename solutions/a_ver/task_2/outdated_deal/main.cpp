@@ -7,20 +7,6 @@
 
 using namespace std;
 
-bool is_valid(MessageHeader &item){
-    static uint32_t max_time = 0;
-    bool result = false;
-    if((item.type == MARKET_OPEN || item.type == TRADE ||
-        item.type == QUOTE || item.type == MARKET_CLOSE) &&
-       (item.time > (max_time - 2) || max_time < 2)){
-        result = true;
-    }
-    if(max_time < item.time){
-        max_time = item.time;
-    }
-    return result;
-}
-
 int main(){
     ifstream i_fs(SOURCE_DIR "/Input.in", ifstream::binary);
     ofstream o_fs(SOURCE_DIR "/Output.bin", ofstream::binary);
@@ -40,7 +26,7 @@ int main(){
         if(i_fs.fail()){
             break;
         }
-        if(!is_valid(m_header)){
+        if(is_outdated_deal(m_header)){
             i_fs.seekg(m_header.len, ios_base::cur);
             continue;
         }
