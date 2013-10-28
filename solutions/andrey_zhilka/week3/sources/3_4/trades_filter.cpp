@@ -6,7 +6,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 
-void filterMessages( std::string );
+void filterMessages( std::string, std::string );
 
 static const size_t max_file_number = 999;
 
