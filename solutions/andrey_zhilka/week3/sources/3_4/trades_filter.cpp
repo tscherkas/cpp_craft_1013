@@ -6,7 +6,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 
-void filterMessages(std::istream*, std::string);
+void filterMessages( std::string );
 
 static const size_t max_file_number = 999;
 
@@ -23,22 +23,9 @@ int main()
 		
 		std::string number;
 		strim >> number;
-
-		std::string input_file_path = SOURCE_DIR "/tests/3_4/input_";
-		input_file_path += number + ".txt";
-
-		boost::filesystem2::path next_file(input_file_path.c_str());
-
-		if ( boost::filesystem2::exists( next_file ) )
-		{
-			std::ifstream input( input_file_path.c_str(), std::ios::in | std::ios::binary );
-			filters.add_thread( new boost::thread( &filterMessages, &input, number) );
-		}
-		else 
-		{
-			break;
-		}
-
+	
+		filters.add_thread( new boost::thread( &filterMessages, number ) );
+		
 		strim.clear();
 	}
 
@@ -47,19 +34,41 @@ int main()
 	return 0;
 }
 
-void filterMessages(std::istream* input, std::string number) {
+void filterMessages( std::string number ) {
 	unsigned maxT = 0;
 
 	Message new_message;
+	std::string input_file_path = SOURCE_DIR "/tests/3_4/input_";
+	input_file_path += number + ".txt";
+	boost::filesystem2::path next_file(input_file_path.c_str());
+		
+	if ( !boost::filesystem2::exists( next_file ) )
+	{
+		return;
+	}
+
+	std::ifstream input( input_file_path.c_str(), std::ios::binary );
+	if ( !input.is_open() )
+	{
+		std::cerr << "Failed to open file " << input_file_path << std::endl;
+		return;
+	}
+
 	std::string output_file_path = SOURCE_DIR "/tests/3_4/output_";
 	output_file_path += number + ".txt";
 
-	std::ofstream output( output_file_path.c_str(), std::ios::out | std::ios::binary );
+	std::ofstream output( output_file_path.c_str(), std::ios::binary );
+
+	if ( !output.is_open() )
+	{
+		std::cerr << "Failed to open file " << output_file_path << std::endl;
+		return;
+	}
 
 	while ( true ) {
-		*input >> new_message;
+		input >> new_message;
 
-		if ( input->eof() )
+		if ( input.eof() )
 		{
 			break;
 		}
