@@ -16,7 +16,7 @@ struct OutDataFeed
 int main()
 {
 	binary_reader::Reader reader(std::string(SOURCE_DIR) + "/input.txt");
-	std::ofstream outputFile(SOURCE_DIR "/output.txt" );
+	std::ofstream outputFile(SOURCE_DIR "/output.txt", std::ios_base::binary|std::ios_base::out|std::ios_base::trunc );
 	
 	if (reader.isOpenedFile())
 	{

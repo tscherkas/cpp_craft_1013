@@ -4,7 +4,7 @@
 namespace binary_reader
 {
 	Reader::Reader(const std::string &nameFile)
-		: inputFile(nameFile.c_str(), std::ifstream::binary)
+		: inputFile(nameFile.c_str(), std::ios_base::binary|std::ios_base::in)
 	{
 	}
 
