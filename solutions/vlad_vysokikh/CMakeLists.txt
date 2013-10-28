@@ -5,6 +5,6 @@ project( ${SOLUTION_NAME} )
 include( environment.cmake required )
 
 modules( binary_reader )
-binaries( 2_4 )
+binaries( 2_4 2_5 )
 
 compile()

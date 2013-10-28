@@ -21,6 +21,7 @@ namespace binary_reader{
 
         boost::uint32_t getTime () const;
         boost::uint32_t getType () const;
+        boost::uint32_t size() const;
 
     private:
         boost::uint32_t type_;
@@ -29,8 +30,6 @@ namespace binary_reader{
 
         char* msg_;
     };
-
-bool operator<( const binary_reader::Message& rhs, const binary_reader::Message& lhs );
 
 } // binary_reader
 

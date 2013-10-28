@@ -35,3 +35,8 @@ boost::uint32_t binary_reader::Message::getType() const
     return type_;
 }
 
+boost::uint32_t binary_reader::Message::size() const
+{
+    return ( sizeof(time_) + sizeof(len_) + sizeof(type_) + sizeof(char)*len_ );
+}
+
