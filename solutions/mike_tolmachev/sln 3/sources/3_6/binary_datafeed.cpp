@@ -1,6 +1,8 @@
 #include <fstream>
 #include <string>
 #include <stdint.h>
+#include <map>
+#include <boost\format.hpp>
 
 
 struct Data
@@ -46,18 +48,28 @@ std::ostream& operator << (std::ostream& out, Data& data)
 int main()
 {
     std::ifstream in(BINARY_DIR "/input.txt", std::ifstream::binary);
-    std::ofstream out(BINARY_DIR "/output.txt", std::ofstream::binary);
-    
+        
 	if (in.is_open())
 	{
 		Data data;
+        std::map<std::string, std::ofstream> out_files;
 
 		while(in >> data)
 		{
-			out << data;
+            std::string stock_name(data.stock_name, 8);
+
+            std::ofstream& out = out_files[stock_name];
+            if (!out.is_open())
+            {
+                out.open((boost::format(BINARY_DIR "/output_%1%.txt") % stock_name).str());
+            }
+            
+            if (out.good())
+            {
+                out << data;
+            }
 		}
 	}
 
     in.close();
-    out.close();
 }
