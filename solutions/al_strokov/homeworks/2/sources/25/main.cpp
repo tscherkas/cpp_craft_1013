@@ -5,11 +5,14 @@
 #include <string>
 
 
+typedef std::map<int, int> counting_map_t;
+
+
 int main(int argc, char** argv) {
 	std::cout << "*Hometask 25*" << std::endl;
 
 	std::ifstream iFile;
-	iFile.open( SOURCE_DIR "/sources/25/input.txt",
+	iFile.open( SOURCE_DIR "/sources/25/input_252.txt",
 			std::ios::in | std::ios::binary);
 
 	if (!iFile.is_open()) {
@@ -25,8 +28,8 @@ int main(int argc, char** argv) {
 	uint32_t currentTime = 0;
 	uint32_t secondsCount = 0;
 	static const int buffSize = 2048;
-	std::map<int, int> buffersSizes;
-	std::map<int, int> messagesCount;
+	counting_map_t buffersSizes;
+	counting_map_t messagesCount;
 
 	while (!iFile.eof()) {
 		iFile.read((char*) &tp, sizeof tp);
@@ -60,10 +63,12 @@ int main(int argc, char** argv) {
 
 		if (!buffersSizes.count(tp)) {
 			buffersSizes[tp] = buffSize - messageSize;
-			messagesCount[tp] += 1;
+			if(buffersSizes[tp] > 0){
+				messagesCount[tp] += 1;
+			}
 		} else {
-			if (buffersSizes[tp] - messageSize >= 0) {
-				buffersSizes[tp] = buffersSizes[tp] - messageSize;
+			buffersSizes[tp] = buffersSizes[tp] - messageSize;
+			if (buffersSizes[tp] > 0) {
 				messagesCount[tp] += 1;
 			} else {
 				std::cout << "cannot save message" << std::endl;
@@ -79,14 +84,14 @@ int main(int argc, char** argv) {
 	std::cout << "secCount\t" << secondsCount << std::endl;
 	std::cout << "--msg stored--" << std::endl;
 	std::cout << "[type]\tsaved\tavg" << std::endl;
-	for (std::map<int, int>::const_iterator it = messagesCount.begin();
+	for (counting_map_t::const_iterator it = messagesCount.begin();
 			it != messagesCount.end(); ++it) {
 		std::cout << "[" << it->first << "]\t" << it->second << "\t"
 				<< (double) it->second / secondsCount << std::endl;
 	}
 
 	std::ofstream oFile;
-	oFile.open( SOURCE_DIR "/sources/25/output.txt", std::ios::out | std::ios::binary);
+	oFile.open( SOURCE_DIR "/sources/25/output_252.txt", std::ios::out | std::ios::binary);
 
 	if (!oFile.is_open()){
 		std::cout << "cannot open output file" << std::endl;
@@ -94,7 +99,7 @@ int main(int argc, char** argv) {
 	}
 
 	double avgMsg;
-	for (std::map<int, int>::const_iterator it = messagesCount.begin();
+	for (counting_map_t::const_iterator it = messagesCount.begin();
 			it != messagesCount.end(); ++it) {
 		oFile.write( (char*) &it->first, sizeof it->first);
 		avgMsg = (double) it->second / secondsCount;
