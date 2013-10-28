@@ -38,8 +38,7 @@ bool readDataVectorFromFile(dataVector_t& vec, const std::string& filename){
 		sBuff = sBuff.substr(0, ln);
 		delete[] buff;
 
-		if ( (!sBuff.length()) ||
-				(!acceptableOperations.count(tp)) ||
+		if ( (!acceptableOperations.count(tp)) ||
 				(tm + 2 <= maxTime) ||
 				(iFile.eof()) ){
 			isRecordValid = false;
@@ -73,7 +72,7 @@ bool writeDataVectorToFile(dataVector_t& vec, const std::string& filename){
 		return false;
 	}
 
-	uint32_t x;
+	size_t x;
 	for (dataVector_t::const_iterator it = vec.begin(); it != vec.end(); ++it){
 		oFile.write( (char*) &(*it).type, sizeof (*it).type );
 		oFile.write( (char*) &(*it).time, sizeof (*it).time );

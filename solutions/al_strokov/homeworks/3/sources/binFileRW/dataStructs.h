@@ -1,9 +1,4 @@
-#ifndef BINFILERW_INCLUDED
-#define BINFILERW_INCLUDED
-
-#include <iostream>
 #include <string>
-#include <fstream>
 #include <stdint.h>
 
 struct dataStruct1_t{
@@ -13,4 +8,3 @@ struct dataStruct1_t{
 	std::string msg;
 };
 
-#endif

@@ -35,7 +35,8 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 
-	static const uint32_t stringSize = 8;
+	static const uint32_t stringSizeInput = 8;
+	static const uint32_t stringSizeOutput = 9;
 	static const uint32_t dateLength = 8;
 	std::string stockName;
 	std::string date;
@@ -48,13 +49,13 @@ int main(int argc, char** argv) {
 	double f3;
 	double f4;
 
-	char buff[stringSize];
+	char buff[stringSizeInput];
 
 	while (!iFile.eof()) {
 		//input
-		iFile.read( (char*)&buff, stringSize);
+		iFile.read( (char*)&buff, stringSizeInput);
 		stockName = buff;
-		stockName = stockName.substr(0, stringSize);
+		stockName = stockName.substr(0, stringSizeInput);
 
 		iFile.read( (char*)&buff, dateLength);
 		date = buff;
@@ -85,15 +86,15 @@ int main(int argc, char** argv) {
 				<< std::endl;
 
 		//output
-		stockName.append("\0\0\0\0\0\0\0\0\0");
-		stockName = stockName.substr(0, stringSize);
+		stockName.append("\0\0\0\0\0\0\0\0\0\0");
+		stockName = stockName.substr(0, stringSizeOutput);
 		std::cout << "OUT\t[" << stockName.c_str() << "]\t";
 
 		uint32_t days = ymd2days(date);
 		std::cout << ymd2days(date) << "\t";
 		std::cout << vwap << "\t" << volume << "\t" << f2 << std::endl;
 
-		oFile.write( (char*)stockName.c_str(), stringSize );
+		oFile.write( (char*)stockName.c_str(), stringSizeOutput );
 		oFile.write( (char*)&days, sizeof days);
 		oFile.write( (char*)&vwap, sizeof vwap);
 		oFile.write( (char*)&volume, sizeof volume);
