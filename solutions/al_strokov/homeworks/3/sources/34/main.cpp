@@ -1,6 +1,8 @@
+#include "binFileReader.h"
 #include <iostream>
 #include <fstream>
-#include "binFileReader.h"
+#include <boost/thread/thread.hpp>
+
 
 int main(int argc, char** argv) {
 	std::cout << "*Homework34*" << std::endl;
