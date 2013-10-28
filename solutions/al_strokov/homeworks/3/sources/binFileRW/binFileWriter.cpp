@@ -4,6 +4,7 @@
 binFileWriter::binFileWriter(const std::string& filename):
     fName(filename), fileOk(false){
     ofs.open( filename.c_str(), std::ios::binary | std::ios::out );
+    fileOk = ofs.is_open();
 }
 
 
@@ -17,4 +18,9 @@ void binFileWriter::writeDataStruct1(dataStruct1_t& dataStruct){
 	writeRawValue(dataStruct.time);
 	writeRawValue(dataStruct.len);
 	writeRawValue(dataStruct.msg, dataStruct.len);
+}
+
+binFileWriter::~binFileWriter(){
+	ofs.close();
+	fileOk = false;
 }

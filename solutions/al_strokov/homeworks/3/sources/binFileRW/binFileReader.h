@@ -11,13 +11,15 @@ class binFileReader{
 private:
     std::string fName;
     std::fstream ifs;
-    bool fileOk;
 
     binFileReader(const binFileReader& that);
     binFileReader operator=(const binFileReader& that);
 
 public:
     binFileReader(const std::string& filename);
+    ~binFileReader();
+
+    bool fileOk;
 
     template<class T>
     bool readRawValue(T& value);
@@ -30,9 +32,10 @@ public:
 template<class T>
 bool binFileReader::readRawValue(T& value){
    if (ifs.eof()){
+	   fileOk = false;
        return false;
    } else {
-       ifs.read( (char*)value, sizeof value);
+       ifs.read( (char*)&value, sizeof value);
        return true;
    }
 }

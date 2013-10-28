@@ -11,13 +11,14 @@ class binFileWriter{
 private:
     std::string fName;
     std::fstream ofs;
-    bool fileOk;
 
     binFileWriter(const binFileWriter& that);
     binFileWriter operator=(const binFileWriter& that);
 
 public:
     binFileWriter(const std::string& filename);
+    ~binFileWriter();
+    bool fileOk;
 
     template<class T>
     void writeRawValue(T& value);
