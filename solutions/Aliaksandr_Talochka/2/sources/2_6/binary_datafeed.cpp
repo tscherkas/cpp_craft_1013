@@ -7,7 +7,7 @@
 
 struct InDataStruct
 {
-	char Stock_name[9];
+	char Stock_name[8];
 	
 	char Year[4];
 	char Month[2];
@@ -15,7 +15,7 @@ struct InDataStruct
 
 	double price;
 	double vwap;
-	int32_t volume;
+	uint32_t volume;
 
 	double f1;
 	double t1;
@@ -55,7 +55,7 @@ int main()
 	{
 		while(InFile.read((char*)&InDat, sizeof(InDat)))
 		{
-			memcpy(&(OutDat.Stock_name), &(InDat.Stock_name), 9);
+			memcpy(&(OutDat.Stock_name), &(InDat.Stock_name), 8);
 
 			memcpy(Year, &(InDat.Year), 4);
 			memcpy(Month, &(InDat.Month), 2);

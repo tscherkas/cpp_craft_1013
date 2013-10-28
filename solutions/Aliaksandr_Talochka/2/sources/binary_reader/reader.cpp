@@ -1,6 +1,7 @@
 #include "reader.h"
 #include <fstream>
 
+
 int binary_reader::read_binary(std::fstream &fid, stock_ex_dat &data)
 {
 
