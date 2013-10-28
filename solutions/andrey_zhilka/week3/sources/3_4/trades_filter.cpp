@@ -23,8 +23,17 @@ int main()
 		
 		std::string number;
 		strim >> number;
-	
-		filters.add_thread( new boost::thread( &filterMessages, number ) );
+
+		
+		std::string input_file_path = SOURCE_DIR "/tests/3_4/input_";
+		input_file_path += number + ".txt";
+
+		boost::filesystem2::path next_file(input_file_path.c_str());
+		
+		if ( boost::filesystem2::exists( next_file ) )
+		{
+			filters.add_thread( new boost::thread( &filterMessages, input_file_path, number ) );
+		}
 		
 		strim.clear();
 	}
@@ -34,18 +43,10 @@ int main()
 	return 0;
 }
 
-void filterMessages( std::string number ) {
+void filterMessages( std::string input_file_path, std::string number ) {
 	unsigned maxT = 0;
 
-	Message new_message;
-	std::string input_file_path = SOURCE_DIR "/tests/3_4/input_";
-	input_file_path += number + ".txt";
-	boost::filesystem2::path next_file(input_file_path.c_str());
-		
-	if ( !boost::filesystem2::exists( next_file ) )
-	{
-		return;
-	}
+	Message new_message;	
 
 	std::ifstream input( input_file_path.c_str(), std::ios::binary );
 	if ( !input.is_open() )
