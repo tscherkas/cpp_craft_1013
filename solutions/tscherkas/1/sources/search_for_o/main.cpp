@@ -21,8 +21,10 @@ int main( int argc, char* argv[] )
 std::string virt_ocean((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
 	std::cout<<virt_ocean.c_str();
 	std::string::iterator beg_oc_iter = virt_ocean.begin(), end_oc_iter = virt_ocean.end();
-	int o_counter=0;
-	int base_width = virt_ocean.find('\n')+1;
+	uint o_counter=0;
+	std::size_t base_width = virt_ocean.find('\n')+1;
+	if(base_width == std::string::npos)
+		base_width = virt_ocean.size()+1;
 	std::list<std::string::iterator> o_neighbor; 
 	for(std::string::iterator it = beg_oc_iter; it != end_oc_iter; )
 	{
@@ -55,7 +57,7 @@ std::string virt_ocean((std::istreambuf_iterator<char>(input_file)), std::istrea
 			o_neighbor.push_back(it-1);
 			*(it-1) = O;
 		}
-		if ( it+base_width != end_oc_iter && *(it + base_width)=='o')
+		if ( end_oc_iter-it > base_width  && *(it + base_width)=='o')
 		{
 			o_neighbor.push_back(it + base_width);
 			*(it+base_width) = O;
