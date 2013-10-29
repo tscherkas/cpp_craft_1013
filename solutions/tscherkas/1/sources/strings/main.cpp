@@ -46,7 +46,6 @@ int main( int argc, char* argv[] )
 			std::string::iterator e = std::remove_if(key_transformed.begin(),
 				key_transformed.end(), symbols_to_remove());
 			key_transformed.resize(e-key_transformed.begin());
-			std::cout<<key<<"   "<<key_transformed<<std::endl;
 			std::reverse(key_transformed.begin(),
 				key_transformed.end());
 			std::string::iterator it = std::search(original_text_transformed.begin(),
