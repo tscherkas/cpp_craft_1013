@@ -72,6 +72,7 @@ int main( int argc, char* argv[] )
 		check ?	output_file << "YES" << std::endl : output_file << "NO" << std::endl;
 				
 	}
+	std::cout<<sizeof(long long int);
 	input_file.close();
 	output_file.close();
 }

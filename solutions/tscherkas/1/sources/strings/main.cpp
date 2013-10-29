@@ -2,24 +2,14 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include <iterator>
-class My_iterator : public std::iterator<std::input_iterator_tag , char>
+
+struct symbols_to_remove
 {
-	std::string::iterator  it;
-public:
-	My_iterator(){};
-	My_iterator(std::string::iterator i):it(i) {while(*it==' '||*it=='/'||*it=='\\'||*it=='-') ++it;}
-	My_iterator(const My_iterator& my_it) : it(my_it.it) {}
-	My_iterator& operator++() {++it;	while(*it==' '||*it=='/'||*it=='\\'||*it=='-') ++it; return *this;}
-	My_iterator operator++(int) {My_iterator tmp(*this); operator++(); return tmp;}
-	bool operator==(const My_iterator& rel_it) {return it==rel_it.it;}
-	bool operator!=(const My_iterator& rel_it) {return it!=rel_it.it;}
-	void operator=(const My_iterator& my_it) { it=my_it.it;}
-	char& operator*() {return *it;}
+	bool operator() (char c) 
+	{ 
+		return (c=='\\'||c==' '||c=='-'); 
+	}
 };
-
-
-
 
 int main( int argc, char* argv[] )
 {
@@ -29,30 +19,41 @@ int main( int argc, char* argv[] )
 	std::ofstream output_file("output.txt" );
 	if(!output_file.is_open())
 		return 0;
-	std::string original_text, key;
+	std::string original_text, key, original_text_transformed, key_transformed;
 	if( !input_file.eof() )
 	{
 		std::getline( input_file, original_text );
+		original_text_transformed.resize(original_text.size());
 		std::transform(original_text.begin(),
 			original_text.end(),
-			original_text.begin(),
+			original_text_transformed.begin(),
 			::tolower);
+		std::string::iterator e = std::remove_if(original_text_transformed.begin(),
+			original_text_transformed.end(),
+			symbols_to_remove());
+		original_text_transformed.resize(e-original_text_transformed.begin());
 	}
     while( !input_file.eof() )
 	{
 		std::getline( input_file, key );
 		if(!key.empty())
 		{
+			key_transformed.resize(key.size());
 			std::transform(key.begin(),
                         	key.end(),
-                        	key.begin(),
-                        	::tolower);
-			std::reverse(key.begin(),key.end());  		
-			std::cout<<original_text<<"   "<<key<<std::endl;
-			My_iterator it1 = key.begin(),end1 = key.end();
-			My_iterator it2=original_text.begin(), end2 = original_text.end();
-			My_iterator it = std::search(it2, end2,it1,end1);
-			if(it==end2)
+                        	key_transformed.begin(),
+                        	::tolower);  		
+			std::string::iterator e = std::remove_if(key_transformed.begin(),
+				key_transformed.end(), symbols_to_remove());
+			key_transformed.resize(e-key_transformed.begin());
+			std::cout<<key<<"   "<<key_transformed<<std::endl;
+			std::reverse(key_transformed.begin(),
+				key_transformed.end());
+			std::string::iterator it = std::search(original_text_transformed.begin(),
+				original_text_transformed.end(),
+				key_transformed.begin(),
+				key_transformed.end());
+			if(it==original_text_transformed.end())
 				output_file << "NO"  << std::endl;
 			else
 				output_file << "YES"  << std::endl;
