@@ -11,6 +11,8 @@
 #include "reader.h"
 #include "writer.h"
 
+using boost::uint32_t;
+
 using binary_reader::Reader;
 using binary_writer::Writer;
 
