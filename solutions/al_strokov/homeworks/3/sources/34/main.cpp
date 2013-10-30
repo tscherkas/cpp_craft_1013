@@ -4,6 +4,9 @@
 #include <fstream>
 #include <set>
 #include <boost/thread/thread.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/path.hpp>
+
 
 uint32_t tmp[] = {1u, 2u, 3u, 4u};
 static const std::set<uint32_t> acceptableOperations(&tmp[0], &tmp[0]+ 4);
@@ -66,6 +69,16 @@ int main(int argc, char** argv) {
 //    processor(filename,SOURCE_DIR "/sources/34/output.txt");
 
 	//boost::thread th( &processor(filenamei, filenameo) );
+
+	if(boost::filesystem::exists(filenamei)){
+		std::cout << "input exists" << std::endl;
+	}
+	else
+	{
+		std::cout << "input NOT exists" << std::endl;
+	}
+
+
 	boost::thread th( &processor, filenamei, filenameo );
 	th.join();
 
