@@ -22,7 +22,7 @@ bool binFileReader::readRawValue(std::string& value, const size_t length){
     }
 }
 
-bool binFileReader::readDataStruct1(dataStruct1_t& dataStruct){
+bool binFileReader::readDataStruct(dataStruct1_t& dataStruct){
     if (ifs.eof()){
     	fileOk = false;
         return false;

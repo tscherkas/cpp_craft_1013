@@ -8,12 +8,12 @@ binFileWriter::binFileWriter(const std::string& filename):
 }
 
 
-void binFileWriter::writeRawValue(std::string& value, const size_t length){
-	ofs.write( value.c_str(), length);
+void binFileWriter::writeRawValue(const std::string& value, const size_t length){
+	ofs.write( value.c_str() , length);
 }
 
 
-void binFileWriter::writeDataStruct1(dataStruct1_t& dataStruct){
+void binFileWriter::writeDataStruct(const dataStruct1_t& dataStruct){
 	writeRawValue(dataStruct.type);
 	writeRawValue(dataStruct.time);
 	writeRawValue(dataStruct.len);

@@ -1,3 +1,6 @@
+#ifndef DATASTRUCTS_INCLUDE
+#define DATASTRUCTS_INCLUDE
+
 #include <string>
 #include <stdint.h>
 
@@ -8,3 +11,4 @@ struct dataStruct1_t{
 	std::string msg;
 };
 
+#endif

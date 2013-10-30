@@ -22,15 +22,15 @@ public:
 
     template<class T>
     void writeRawValue(T& value);
-    void writeRawValue(std::string& value, const size_t length);
+    void writeRawValue(const std::string& value, const size_t length);
 
-    void writeDataStruct1(dataStruct1_t& dataStruct);
+    void writeDataStruct(const dataStruct1_t& dataStruct);
 };
 
 
 template<class T>
 void binFileWriter::writeRawValue(T& value){
-   ofs.write( (char*)value, sizeof value);
+   ofs.write( (char*)&value, sizeof value);
 }
 
 

@@ -3,8 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <set>
-//#include <boost/thread/thread.hpp>
-
+#include <boost/thread/thread.hpp>
 
 uint32_t tmp[] = {1u, 2u, 3u, 4u};
 static const std::set<uint32_t> acceptableOperations(&tmp[0], &tmp[0]+ 4);
@@ -31,7 +30,7 @@ void processor(const std::string& ifname, const std::string& ofname){
 	bool isRecordValid;
 	dataStruct1_t ds1;
 
-	while(bfr.readDataStruct1(ds1)){
+	while(bfr.readDataStruct(ds1)){
 		std::cout << "type" << ds1.type << "\ttime" << ds1.time << "\t["
 					<< ds1.msg << "]=" << ds1.len << std::endl;
 
@@ -49,18 +48,26 @@ void processor(const std::string& ifname, const std::string& ofname){
 		}
         
         if (isRecordValid){
-            bfw.write(ds1);
-            std::cout << "//writed //" << ds1.msg << std::endl;
+            bfw.writeDataStruct(ds1);
         }
 	}
+}
+
+void x(){
+	std::cout << "x " << std::endl;
 }
 
 int main(int argc, char** argv) {
 	std::cout << "*Homework34*" << std::endl;
 
-	std::string filename = SOURCE_DIR "/sources/34/input.txt";
+	std::string filenamei = SOURCE_DIR "/sources/34/input.txt";
+	std::string filenameo = SOURCE_DIR "/sources/34/output.txt";
 
-    processor(filename,SOURCE_DIR "/sources/34/output.txt");
+//    processor(filename,SOURCE_DIR "/sources/34/output.txt");
+
+	//boost::thread th( &processor(filenamei, filenameo) );
+	boost::thread th( &processor, filenamei, filenameo );
+	th.join();
 
 	std::cout << "---===over===---" << std::endl;
 	return 0;
