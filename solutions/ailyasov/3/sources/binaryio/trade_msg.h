@@ -31,7 +31,7 @@ class TradeMsg {
                 const std::string msg) : type_(type), time_(time), len_(len), msg_(msg) { }
 
         friend std::ostream& operator<<(std::ostream& os, const TradeMsg& msg);
-        static bool const read(TradeMsg&, Reader&);
+        static bool read(TradeMsg&, Reader&);
         static void write(std::vector<TradeMsg> const& messages, Writer& out);
         uint32_t get_type() const { return type_; }
         uint32_t get_time() const { return time_; }

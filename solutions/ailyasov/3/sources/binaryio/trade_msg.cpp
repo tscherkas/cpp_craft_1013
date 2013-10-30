@@ -15,7 +15,7 @@ std::ostream& operator<<(std::ostream& os, TradeMsg const & msg)
     return os;
 } 
 
-bool const TradeMsg::read(TradeMsg& msg, Reader& in) 
+bool TradeMsg::read(TradeMsg& msg, Reader& in) 
 {
 	if(in.is_open() && !in.eof())  
     {
