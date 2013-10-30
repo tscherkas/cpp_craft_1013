@@ -32,9 +32,11 @@ int main()
 			buffer.clear();
 			current_time = net_data.time+1;
 		}
-		buffer[net_data.type] += net_data.len + sizeof(uint32_t)*3;
-		if(buffer[net_data.type] <= size_buffer)
+		if((buffer[net_data.type] + net_data.len + sizeof(uint32_t)*3) <= size_buffer)
+		{
+			buffer[net_data.type] += net_data.len + sizeof(uint32_t)*3;
 			results[net_data.type]++;
+		}
 
 		if(net_data.len > 0)
 			delete [] net_data.msg;
