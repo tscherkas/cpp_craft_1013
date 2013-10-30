@@ -49,7 +49,7 @@ void TradesFilter::filter_trades_and_save(
     TradeMsg::write(messages, out);
 
 #ifndef NDEBUG
-    //std::copy(messages.begin(), messages.end(), std::ostream_iterator<TradeMsg>(std::cout, "\n"));
+    std::copy(messages.begin(), messages.end(), std::ostream_iterator<TradeMsg>(std::cout, "\n"));
 #endif
 
 } 

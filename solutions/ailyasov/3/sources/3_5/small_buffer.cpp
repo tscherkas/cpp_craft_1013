@@ -29,7 +29,7 @@ void SmallBuffer::read_to_buff_and_save_stats(const std::string& input, const st
 
     MsgBuf buf;
     buf.read(in);
-/*
+
 #ifndef NDEBUG
     MsgTypeMap const& map = buf.get_type_map();
     std::vector<TradeMsg> const& messages = buf.get_messages();
@@ -41,7 +41,6 @@ void SmallBuffer::read_to_buff_and_save_stats(const std::string& input, const st
         std::cout << "[" << it->first << ", " << it->second << "]" << std::endl;
     }
 #endif
-*/
 
     buf.write_type_map(out);
 }
