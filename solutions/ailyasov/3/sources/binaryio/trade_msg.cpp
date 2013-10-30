@@ -17,14 +17,15 @@ std::ostream& operator<<(std::ostream& os, TradeMsg const & msg)
 
 bool const TradeMsg::read(TradeMsg& msg, Reader& in) 
 {
-    if( !in.eof() )
+	if(in.is_open() && !in.eof())  
     {
         msg.type_ = in.get_binary<uint32_t>();
         msg.time_ = in.get_binary<uint32_t>();
-        msg.len_ = in.get_binary<uint32_t>();
-        msg.msg_ = in.get_string(msg.len_);
-        return true;
-    }
+        msg.len_ = in.get_binary<uint32_t>();		
+		if(in.eof()) return false;
+        msg.msg_ = in.get_string(msg.len_);		
+        return true;    
+	}
     return false;
 } 
 

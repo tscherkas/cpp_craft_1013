@@ -10,6 +10,7 @@
 #include "writer.h"
 
 using namespace binaryio;
+using boost::uint32_t;
 
 class TradeMsg {
     public:

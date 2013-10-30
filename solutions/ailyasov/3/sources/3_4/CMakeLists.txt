@@ -2,6 +2,7 @@ find_package( Boost ${SEARCH_PARAMETERS} COMPONENTS
 	system
 	thread
 	regex
+	date_time
 	filesystem
 )
 

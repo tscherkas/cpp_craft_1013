@@ -13,7 +13,7 @@ namespace binaryio {
             Reader(const std::string filename);
             template <typename T> const T get_binary()
             {
-                T t;
+                T t;				
                 in.read(reinterpret_cast<char *>(&t), sizeof( T ) );
                 return t;
             } 

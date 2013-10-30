@@ -27,8 +27,10 @@ void TradesFilter::filter_trades_and_save(
     std::vector<TradeMsg> messages;
     uint32_t max_time = 0;
     TradeMsg msg;
+	
     for( Reader in( input ); TradeMsg::read( msg, in ) ; )
     {
+		
         if(in.is_open()) 
         {
             if(msg.get_type() <= MARKET_CLOSE && 
@@ -42,10 +44,9 @@ void TradesFilter::filter_trades_and_save(
         {
             std::cerr << "Cannot open input file " << input << std::endl;
         }
-
-    }
-
-    TradeMsg::write(messages, out);	
+		
+    }	
+    TradeMsg::write(messages, out);
 
 #ifndef NDEBUG
     //std::copy(messages.begin(), messages.end(), std::ostream_iterator<TradeMsg>(std::cout, "\n"));
