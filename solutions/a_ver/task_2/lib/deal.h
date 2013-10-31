@@ -19,6 +19,8 @@ const static uint32_t TRADE = 2u;
 const static uint32_t QUOTE = 3u;
 const static uint32_t MARKET_CLOSE = 4u;
 
+const static unsigned short int M_HEADER_SIZEOF = sizeof(uint32_t) * 3;
+
 istream& operator>> (istream& is, MessageHeader &m);
 ostream& operator<< (ostream& os, const MessageHeader &m);
 

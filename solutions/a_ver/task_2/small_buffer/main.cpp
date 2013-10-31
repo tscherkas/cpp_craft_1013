@@ -55,7 +55,7 @@ int main(){
             item.count_seconds++;
             item.current_buffer_size = 0;
         }
-        if( (item.current_buffer_size + m_header.len) > MAX_BUFFER_SIZE){
+        if( (item.current_buffer_size + m_header.len + M_HEADER_SIZEOF) > MAX_BUFFER_SIZE){
             continue;
         }
         item.current_buffer_size += m_header.len;
