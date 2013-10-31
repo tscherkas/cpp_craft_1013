@@ -4,7 +4,7 @@
 
 struct OutDataFeed
 {
-	char stockName[8];
+	char stockName[9];
     unsigned __int32 date;
     double price;
     unsigned __int32 volume;
@@ -25,7 +25,7 @@ int main()
 		while (reader.readDataFeed(&dataFeed))
 		{
 			OutDataFeed outDataFeed;
-			memcpy(&outDataFeed.stockName, &dataFeed.stockName, 9);
+			memcpy(&outDataFeed.stockName, &dataFeed.stockName, 8);
 
 			char year[4];
 			char month[2];
