@@ -38,6 +38,32 @@ namespace templates
 
 	template<>
 	std::string function_4< int >( int t1 );
+
+	//
+	//
+
+	template< typename T1 >
+	std::string function_5_helper( const T1& t1, typename T1::value_type*  )
+	{
+		typename T1::value_type vt;
+		if ( sizeof( vt ) == sizeof( int ) )
+			return "int";
+		if ( sizeof( vt ) == sizeof( double ) )
+			return "double";
+		if ( sizeof( vt ) == sizeof( char ) )
+			return "char";
+	}
+	template< typename T1 >
+	std::string function_5_helper( const T1& t1, ... )
+	{
+		return "unknown";
+	}
+
+	template< typename T1 >
+	std::string function_5( const T1& t1 )
+	{
+		return function_5_helper< T1 >( t1, 0 );
+	}
 }
 
 #endif // _TEMPLATES_FUNCTION_TEMPLATES_H_

@@ -1,5 +1,7 @@
 #include "test_registrator.h"
 
+#include <vector>
+
 #include <function_templates.h>
 
 void templates::tests_::function_1_tests()
@@ -35,4 +37,12 @@ void templates::tests_::function_4_tests()
 	BOOST_CHECK_EQUAL( function_4( 15 ), "t1_int" );
 	BOOST_CHECK_EQUAL( function_4( 15.6 ), "t1_double" );
 	BOOST_CHECK_EQUAL( function_4( "line" ), "casual" );
+}
+
+void templates::tests_::function_5_tests()
+{
+	BOOST_CHECK_EQUAL( function_5( std::vector< int >() ), "int" );
+	BOOST_CHECK_EQUAL( function_5( std::vector< char >() ), "char" );
+	BOOST_CHECK_EQUAL( function_5( std::string() ), "char" );
+	BOOST_CHECK_EQUAL( function_5( int() ) , "unknown" );
 }
