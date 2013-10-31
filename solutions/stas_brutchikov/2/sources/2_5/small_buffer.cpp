@@ -7,7 +7,7 @@
 
 #include <vector>
 
-#include "../base/base.hpp"
+#include "base.hpp"
 
 namespace task25
 {
@@ -85,7 +85,7 @@ namespace task25
 int main()
 {
     std::ifstream in (BINARY_DIR "/input.txt", std::ios::binary);
-    std::ofstream out (BINARY_DIR "/ouput.txt", std::ios::binary);
+    std::ofstream out (BINARY_DIR "/output.txt", std::ios::binary);
     if (!in.is_open() || !out.is_open())
     {
         return 1;
