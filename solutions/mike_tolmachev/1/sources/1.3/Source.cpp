@@ -11,7 +11,7 @@ void PrepareStr(std::string& str)
 
 int main()
 {
-    setlocale(LC_ALL, std::locale("").name().c_str());
+    setlocale(LC_ALL, "");
 
 	std::ifstream in(SOURCE_DIR "/input.txt");
 	std::ofstream out(BINARY_DIR "/output.txt");
