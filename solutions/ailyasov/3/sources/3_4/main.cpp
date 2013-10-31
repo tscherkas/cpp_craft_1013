@@ -12,7 +12,7 @@ int main() {
     std::vector<std::string> inputs;
 
     std::string directory(SOURCE_DIR "/tests/");
-    boost::regex rx("input_34([0-9]{1})[.]txt", boost::regex::extended);
+    boost::regex rx("input_34_([0-9]{3})[.]txt", boost::regex::extended);
     boost::smatch match;
 
     namespace fs = boost::filesystem;
@@ -36,7 +36,7 @@ int main() {
         if(boost::regex_search(input, match, rx))
         {
             std::stringstream output;
-            output << SOURCE_DIR "/tests/output_34";
+            output << SOURCE_DIR "/tests/output_34_";
             output << match[1] << ".txt";
             t_group.create_thread(
                     boost::bind( &TradesFilter::filter_trades_and_save, directory + input, output.str() ) );

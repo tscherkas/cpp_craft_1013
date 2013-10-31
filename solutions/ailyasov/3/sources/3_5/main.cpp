@@ -14,7 +14,7 @@ int main() {
 
     std::string directory(SOURCE_DIR "/tests/");
 
-    boost::regex rx("input_35([0-9]{1})[.]txt", boost::regex::extended);
+    boost::regex rx("input_35_([0-9]{3})[.]txt", boost::regex::extended);
     boost::smatch match;
 
     std::vector<std::string> inputs;
@@ -39,7 +39,7 @@ int main() {
         if(boost::regex_search(input, match, rx))
         {
             std::stringstream output;
-            output << SOURCE_DIR "/tests/output_35";
+            output << SOURCE_DIR "/tests/output_35_";
             output << match[1] << ".txt";
             t_group.create_thread(
                     boost::bind( &SmallBuffer::read_to_buff_and_save_stats, directory + input, output.str() ) );
