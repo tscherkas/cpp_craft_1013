@@ -2,8 +2,12 @@
 #define BASE__BASE_HPP
 #pragma once
 
+#include <stdint.h>
+
 namespace task2
 {
+    static const uint32_t c_fs_cluster_size = 4*1024;
+
     template<typename Type, int size>
     struct fix_array
     {
