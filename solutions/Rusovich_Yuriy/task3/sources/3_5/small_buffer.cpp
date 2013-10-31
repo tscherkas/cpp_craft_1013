@@ -47,22 +47,27 @@ void startWorkDataThread(const std::string &input)
 				++countCurrentTime;
 			}
 
+			unsigned __int32 commonLenghtMessage = messageData.len;
+
 			if ((it = countOfType.find(messageData.type)) == countOfType.end())
 			{
-				std::list <unsigned __int32> listLenght;
-				listLenght.push_back(messageData.len);
-				countOfType.insert(std::pair<unsigned __int32, std::list <unsigned __int32> >(messageData.type, listLenght));
+				if (commonLenghtMessage < 2048)
+                            	{
+					std::list <unsigned __int32> listLenght;
+					listLenght.push_back(messageData.len);
+					countOfType.insert(std::pair<unsigned __int32, std::list <unsigned __int32> >(messageData.type, listLenght));
+                            	}
 			}
 			else
 			{
-				unsigned __int32 commonLenghtMessage = 0;
+				
 				for (std::list <unsigned __int32>::reverse_iterator i = it->second.rbegin(); 
 					i != it->second.rend() && countCurrentTime > 0;
 					++i, --countCurrentTime)
 				{
 					commonLenghtMessage += *i;
 				}
-				commonLenghtMessage += messageData.len;
+
 				if (commonLenghtMessage < 2048)
 				{
 					it->second.push_back(messageData.len);
