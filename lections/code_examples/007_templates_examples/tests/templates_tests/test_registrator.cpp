@@ -16,6 +16,11 @@ boost::unit_test_framework::test_suite* init_unit_test_suite( int argc, char* ar
 	ts1->add( BOOST_TEST_CASE( &function_3_tests ) );
 	ts1->add( BOOST_TEST_CASE( &function_4_tests ) );
 
+	ts1->add( BOOST_TEST_CASE( &vector_tests ) );
+	ts1->add( BOOST_TEST_CASE( &stack_tests ) );
+
+	ts1->add( BOOST_TEST_CASE( &sfinae_tests ) );
+
 #ifdef RUN_PERFORMANCE_TESTS
 #endif
 

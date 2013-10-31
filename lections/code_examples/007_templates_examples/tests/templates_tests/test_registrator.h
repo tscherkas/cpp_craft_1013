@@ -8,5 +8,10 @@ namespace templates
 		void function_2_tests();
 		void function_3_tests();
 		void function_4_tests();
+
+		void vector_tests();
+		void stack_tests();
+
+		void sfinae_tests();
 	}
 }
