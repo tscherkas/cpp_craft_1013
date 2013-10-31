@@ -54,7 +54,6 @@ int main()
 				if (commonLenghtMessage < 2048)
 				{
 					it->second.push_back(messageData.len);
-					break;
 				}
 			}
 		}
