@@ -14,7 +14,7 @@ namespace task26
 
     struct DataIn : boost::noncopyable
     {        
-        fix_array<char, 9>::type stock_name;
+        fix_array<char, 8>::type stock_name;
         fix_array<char, 8>::type date_time;
 
         double price;        
@@ -27,7 +27,7 @@ namespace task26
         double f3;
         double f4;
 
-        explicit DataIn(){};
+        explicit DataIn(){}
     private:
         friend std::istream& operator >> (std::istream& in, DataIn& m);
     };
@@ -61,7 +61,7 @@ namespace task26
     std::ostream& operator << (std::ostream& out, DataOutStream& m)
     {
         WriteValue(out, m.in.stock_name);
-
+        WriteValue(out, '\0');
         WriteValue(out, (boost::lexical_cast<uint32_t>(&m.in.date_time[0], 4)-1) * c_year_days
                         +(boost::lexical_cast<uint32_t>(&m.in.date_time[4], 2)-1) * c_month_days
                         +boost::lexical_cast<uint32_t>(&m.in.date_time[6], 2) );
@@ -91,7 +91,7 @@ namespace task26
 int main()
 {
     std::ifstream in (BINARY_DIR "/input.txt", std::ios::binary);
-    std::ofstream out (BINARY_DIR "/ouput.txt", std::ios::binary);
+    std::ofstream out (BINARY_DIR "/output.txt", std::ios::binary);
     if (!in.is_open() || !out.is_open())
     {
         return 1;
