@@ -2,10 +2,11 @@
 //
 #include <fstream>
 #include <stdint.h>
+#include <vector>
 
 #include <boost\noncopyable.hpp>
 
-#include "../base/base.hpp"
+#include "base.hpp"
 
 namespace task24
 {
@@ -46,10 +47,26 @@ namespace task24
         WriteValue(out, m.length);    
         return out;
     }
+    
+    void CopyNData(std::istream& in, std::ostream& out, uint32_t n_size)
+    {
+        std::vector<char> buffer(c_fs_cluster_size);
+        uint32_t read_size = c_fs_cluster_size;
+        while (read_size < n_size)
+        {
+            in.read(&buffer[0], c_fs_cluster_size);
+            out.write(&buffer[0], c_fs_cluster_size);
+            read_size += c_fs_cluster_size;
+        }
+
+        in.read(&buffer[0], n_size%c_fs_cluster_size);
+        out.write(&buffer[0], n_size%c_fs_cluster_size);
+
+    }
 
     void SortData(std::istream& in, std::ostream& out, uint32_t current_time)
     {
-        Data d;
+        Data d;        
         while (in >> d)
         {
             if (((d.time+2) > current_time) 
@@ -57,8 +74,7 @@ namespace task24
                     && (d.type <= MarketClose)))
             {
                 out << d;
-                std::copy_n(std::istreambuf_iterator<char>(in), d.length, std::ostreambuf_iterator<char>(out));
-                in.ignore(1); //copy_n not put first(source) iterator on next element, destination is ok (MSVC2010)
+                CopyNData(in, out, d.length);
             }
             else
             {
@@ -76,7 +92,7 @@ namespace task24
 int main()
 {
     std::ifstream in (BINARY_DIR "/input.txt", std::ios::binary);
-    std::ofstream out (BINARY_DIR "/ouput.txt", std::ios::binary);
+    std::ofstream out (BINARY_DIR "/output.txt", std::ios::binary);
     if (!in.is_open() || !out.is_open())
     {
         return 1;
