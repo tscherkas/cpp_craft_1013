@@ -66,7 +66,6 @@ void startWorkDataThread(const std::string &input)
 				if (commonLenghtMessage < 2048)
 				{
 					it->second.push_back(messageData.len);
-					break;
 				}
 			}
 		}
