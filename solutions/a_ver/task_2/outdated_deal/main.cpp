@@ -8,8 +8,8 @@
 using namespace std;
 
 int main(){
-    ifstream i_fs(SOURCE_DIR "/Input.in", ifstream::binary);
-    ofstream o_fs(SOURCE_DIR "/Output.bin", ofstream::binary);
+    ifstream i_fs(SOURCE_DIR "/input.txt", ifstream::binary);
+    ofstream o_fs(SOURCE_DIR "/output.txt", ofstream::binary);
     if(!i_fs){
         cout << "Could not open input file" << endl;
         return 1;
@@ -37,19 +37,5 @@ int main(){
     }
     i_fs.close();
     o_fs.close();
-
-    i_fs.open(SOURCE_DIR "/Output.bin", ifstream::binary);
-    while(i_fs.good()){
-        i_fs >> m_header;
-        if(i_fs.fail()){
-            break;
-        }
-        cout << m_header.as_string();
-        cout << " data: ";
-        copy_n(istreambuf_iterator<char>(i_fs), m_header.len, ostreambuf_iterator<char>(cout));
-        i_fs.seekg(1, ios_base::cur);
-        cout << endl;
-    }
-    i_fs.close();
     return 0;
 }

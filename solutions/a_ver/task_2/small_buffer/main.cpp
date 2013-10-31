@@ -20,8 +20,8 @@ const static unsigned short int MAX_BUFFER_SIZE = 2048;
 const static unsigned int MAX_THRESHOLD_TYPE = 100000;
 
 int main(){
-    ifstream i_fs(SOURCE_DIR "/Input.in", ifstream::binary);
-    ofstream o_fs(SOURCE_DIR "/Output.bin", ofstream::binary);
+    ifstream i_fs(SOURCE_DIR "/input.txt", ifstream::binary);
+    ofstream o_fs(SOURCE_DIR "/output.txt", ofstream::binary);
     if(!i_fs){
         cout << "Could not open input file" << endl;
         return 1;
@@ -63,7 +63,7 @@ int main(){
     }
 
     double average_count;
-    for (auto it=aggregated_data.begin(); it!=aggregated_data.end(); ++it){
+    for (auto it=aggregated_data.cbegin(); it!=aggregated_data.cend(); ++it){
         o_fs.write(reinterpret_cast<const char*>(&it->first), sizeof(it->first));
         average_count = (it->second.count / (double)it->second.count_seconds);
         o_fs.write(reinterpret_cast<const char*>(&average_count), sizeof(average_count));

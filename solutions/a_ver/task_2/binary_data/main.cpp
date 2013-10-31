@@ -24,8 +24,8 @@ struct Message{
 };
 
 int main(){
-    ifstream i_fs(SOURCE_DIR "/Input.in", ifstream::binary);
-    ofstream o_fs(SOURCE_DIR "/Output.bin", ofstream::binary);
+    ifstream i_fs(SOURCE_DIR "/input.txt", ifstream::binary);
+    ofstream o_fs(SOURCE_DIR "/output.txt", ofstream::binary);
     if(!i_fs){
         cout << "Could not open input file" << endl;
         return 1;
