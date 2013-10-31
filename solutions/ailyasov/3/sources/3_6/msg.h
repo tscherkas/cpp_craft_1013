@@ -9,9 +9,7 @@
 #include "reader.h"
 #include "writer.h"
 
-using binary_reader::Reader;
-using binary_writer::Writer;
-
+using namespace binaryio;
 using boost::uint32_t;
 
 class TradeMsg {

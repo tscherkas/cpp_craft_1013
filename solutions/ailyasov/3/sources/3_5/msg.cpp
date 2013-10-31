@@ -4,30 +4,30 @@
 #include <iterator>
 #include <cstddef>
 
+#include "trade_msg.h"
 #include "msg.h"
 #include "reader.h"
 #include "writer.h"
 
-using binary_reader::Reader;
-using binary_writer::Writer;
+using namespace binaryio;
 
 const size_t MsgBuf::MAX_SIZE = 2048; 
-const Type MsgBuf::MAX_TYPE = 100000;
+const uint32_t MsgBuf::MAX_TYPE = 100000;
 
-std::ostream& operator<<(std::ostream& os, const Msg& msg) {
+std::ostream& operator<<(std::ostream& os, const TradeMsg& msg) {
     os << "[" << msg.type_ << "," << msg.time_ << "," << msg.len_ << "," << msg.msg_ << "]";
     return os;
 } 
 
 void MsgBuf::read(Reader& in) {
     while(!in.eof()) {
-        Type type = in.get_binary<uint32_t>();
+        uint32_t type = in.get_binary<uint32_t>();
         uint32_t time = in.get_binary<uint32_t>();
         uint32_t len = in.get_binary<uint32_t>();
         if(!in.eof()) {
             std::string str_msg = in.get_string(len);
             if(len == str_msg.size()) {
-                const Msg msg(type, time, len, str_msg);
+                const TradeMsg msg(type, time, len, str_msg);
                 add(msg);
             }
         }
@@ -41,8 +41,8 @@ void MsgBuf::write_type_map(Writer& out) {
     }
 }
 
-void MsgBuf::write_data(const std::vector<Msg>& messages, Writer& out) {
-    for(std::vector<Msg>::const_iterator it = messages.begin(); it != messages.end(); ++it) {
+void MsgBuf::write_data(const std::vector<TradeMsg> messages, Writer& out) {
+    for(std::vector<TradeMsg>::const_iterator it = messages.begin(); it != messages.end(); ++it) {
         out.save_binary((*it).get_type());
         out.save_binary((*it).get_time());
         out.save_binary((*it).get_len());
@@ -55,7 +55,7 @@ std::ostream& operator<<(std::ostream& os, const MsgBufInfo& s) {
     return os;
 }
 
-void MsgBuf::add(const Msg& m) {
+void MsgBuf::add(const TradeMsg& m) {
     size_t sz = m.get_size() + this->get_size(m.get_type());
     bool msg_fit = sz < MAX_SIZE;
     if(msg_fit && m.get_type() < MAX_TYPE) {
@@ -73,13 +73,13 @@ bool MsgBuf::is_full(const uint32_t type) const {
     return this->get_size(type) < MsgBuf::MAX_SIZE;
 }
 
-void MsgBufInfo::add(const Msg& m) {
+void MsgBufInfo::add(const TradeMsg& m) {
     time_set_.insert(m.get_time());
     ++msg_count_;
     size_ += m.get_size();
 }
 
-const std::vector<Msg>& MsgBuf::get_messages() const {
+const std::vector<TradeMsg>& MsgBuf::get_messages() const {
     return messages;
 }
 
@@ -87,7 +87,7 @@ const MsgTypeMap& MsgBuf::get_type_map() const {
     return type_map;
 } 
 
-size_t MsgBuf::get_size(Type type) const {
+size_t MsgBuf::get_size(uint32_t const type) const {
     MsgTypeMap::const_iterator it = type_map.find(type);
     if(it == type_map.end()) return 0;
     return (*it).second.get_size();
