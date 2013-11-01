@@ -7,18 +7,11 @@
 
 using namespace std;
 
-struct Point {
-   int x;
-   int landId;
-   bool isWater;
-};
-
 void logLine(vector<int*> &line){
     std::cout << "Current line" << std::endl;
     std::vector<int*>::iterator it = line.begin();
     for(it; it != line.end(); ++it){
         std::cout << "-" << (*((int*)*it));
-        //std::cout << (*it);
      }
     std::cout << endl;
 }
@@ -43,15 +36,13 @@ class Walker{
                     if(!isWater(*it)){
                         int* id = getLandId(position);
                         pointsBuffer[position] = id;
-                        //std::cout << "Position " << position << " land id " << pointsBuffer.at(position) << " value " << *(pointsBuffer.at(position)) << std::endl;
                     } else {
                         pointsBuffer[position] = &WATER_ID;
-                        //std::cout << "Position " << position << " water id " << pointsBuffer.at(position) << " value " << *(pointsBuffer.at(position)) << std::endl;
                     }
                 }
-                logLine(pointsBuffer);
+                //logLine(pointsBuffer);
             }
-            logLine(landIds);
+            //logLine(landIds);
             std::set<int*> landsUniq( landIds.begin(), landIds.end());
             return landsUniq.size();
         }
@@ -74,17 +65,13 @@ class Walker{
                 return upLandId;
             }
             if (*upLandId != *leftLandId){
-                //return mergeLands(upLandId, leftLandId);
                 return mergeLands(*upLandId, *leftLandId);
             }
             return &WATER_ID;
         }
 
         int* getUpLandId(const int position){
-           // if(pointsBuffer.size() > (position + 1)){
-                return pointsBuffer.at(position);
-            //}
-            //return &WATER_ID;
+            return pointsBuffer.at(position);
         }
 
         int* getLeftLandId(const int position){
@@ -95,7 +82,6 @@ class Walker{
         }
 
         int* mergeLands(int& land1, int& land2){
-            std::cout << "Merge data " << std::endl;
             int* id;
             if(*(&land1) > *(&land2)){
                 landIds[*(&land1)] = &land2;
@@ -142,7 +128,6 @@ int main()
         std::cout << "Can't open file" << std::endl;
     }
     input.close();
-    std::cout << count << std::endl;
     std::fstream resultFile( "output.txt", std::fstream::out | std::fstream::trunc );
     if(!resultFile.is_open()){
         cout << "Can't open file to write a result" << endl;
