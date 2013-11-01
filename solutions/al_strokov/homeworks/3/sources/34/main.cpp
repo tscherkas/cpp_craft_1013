@@ -48,8 +48,8 @@ void processor(const std::string& ifname, const std::string& ofname) {
 int main(int argc, char** argv) {
 	std::cout << "*Homework34*" << std::endl;
 
-	std::string filenamei = SOURCE_DIR "/sources/34/input.txt";
-	std::string filenameo = SOURCE_DIR "/sources/34/output.txt";
+	std::string filenamei;
+	std::string filenameo;
 
 
     boost::thread_group tg;
