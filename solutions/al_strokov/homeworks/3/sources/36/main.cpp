@@ -48,7 +48,7 @@ int main(int argc, char** argv){
     std::stringstream ssFilenameo;
     binFileWriter bfw;
 
-    for(splittedMessages_t::iterator it = splitted.begin(); it != splitted.end(); it++){
+    for(splittedMessages_t::iterator it = splitted.begin(); it != splitted.end(); ++it){
     	ssFilenameo.str("");
     	ssFilenameo << SOURCE_DIR << "/sources/36/output_" << (*it).first << ".txt";
     	std::cout << "-->" << ssFilenameo.str() << std::endl;
@@ -60,7 +60,7 @@ int main(int argc, char** argv){
     		continue;
     	}
 
-    	for(std::vector<dataStruct2_t>::iterator i = (*it).second.begin(); i != (*it).second.end(); i++){
+    	for(std::vector<dataStruct2_t>::iterator i = (*it).second.begin(); i != (*it).second.end(); ++i){
     		(*i).stockName.append("\0\0\0\0\0\0\0\0\0\0");
     		(*i).stockName = (*i).stockName.substr(0, dataStruct2_t::stockNameOutputLength);
     		std::cout << "OUT\t[" << (*i).stockName.c_str() << "]\t";

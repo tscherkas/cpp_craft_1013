@@ -19,7 +19,6 @@ void processor(const std::string& ifname, const std::string& ofname) {
 		return;
 	}
 
-	std::string sBuff;
 	uint32_t messageSize;
 	uint32_t currentTime = 0;
 	uint32_t secondsCount = 0;
