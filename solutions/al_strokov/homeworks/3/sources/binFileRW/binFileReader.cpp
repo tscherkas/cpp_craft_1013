@@ -40,3 +40,23 @@ binFileReader::~binFileReader(){
 	ifs.close();
 	fileOk = false;
 }
+
+bool binFileReader::readDataStruct(dataStruct2_t& dataStruct) {
+    if (ifs.eof()){
+    	fileOk = false;
+        return false;
+    } else {
+    	readRawValue(dataStruct.stockName, dataStruct.stockNameLength);
+    	readRawValue(dataStruct.date, dataStruct.dateLength);
+    	readRawValue(dataStruct.price);
+    	readRawValue(dataStruct.vwap);
+    	readRawValue(dataStruct.volume);
+    	readRawValue(dataStruct.f1);
+    	readRawValue(dataStruct.t1);
+    	readRawValue(dataStruct.f2);
+    	readRawValue(dataStruct.f3);
+    	bool b = readRawValue(dataStruct.f4);
+
+        return b;
+    }
+}

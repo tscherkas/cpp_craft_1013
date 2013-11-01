@@ -16,7 +16,7 @@ private:
     binFileWriter operator=(const binFileWriter& that);
 
 public:
-    binFileWriter(const std::string& filename);
+    binFileWriter(const std::string& filename = "");
     ~binFileWriter();
     bool fileOk;
 
@@ -25,6 +25,8 @@ public:
     void writeRawValue(const std::string& value, const size_t length);
 
     void writeDataStruct(const dataStruct1_t& dataStruct);
+    bool open(const std::string& filename);
+    void close();
 };
 
 

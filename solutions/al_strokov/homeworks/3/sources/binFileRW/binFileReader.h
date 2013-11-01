@@ -26,6 +26,7 @@ public:
     bool readRawValue(std::string& value, const size_t length);
 
     bool readDataStruct(dataStruct1_t& dataStruct);
+    bool readDataStruct(dataStruct2_t& dataStruct);
 };
 
 
