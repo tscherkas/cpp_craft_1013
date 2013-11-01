@@ -16,7 +16,7 @@ void ThreadFun(size_t& file_numb)
 	std::ifstream in(BINARY_DIR "/input_"+numb+".txt", std::ifstream::binary);
     std::ofstream out(BINARY_DIR "/output_"+numb+".txt", std::ofstream::binary);
 
-    uint32_t T = 2;
+    uint32_t T = 0;
     
     if (in.is_open())
     {
@@ -24,13 +24,13 @@ void ThreadFun(size_t& file_numb)
 
         while(in >> msg)
         {
-            if ((msg.time > (T - 2)) && (1 <= msg.type) && (msg.type <= 4))
+            if (((msg.time + 2) > T) && (1 <= msg.type) && (msg.type <= 4))
             {
                 out << msg;
 
 				char buf[4096];
-				int32_t len = 0;
-                for (len = msg.len; len > buf_size; len - buf_size)
+				uint32_t len = 0;
+                for (len = msg.len; len > buf_size; len -= buf_size)
                 {
 					in.read(buf, buf_size);
 					out.write(buf, buf_size);
