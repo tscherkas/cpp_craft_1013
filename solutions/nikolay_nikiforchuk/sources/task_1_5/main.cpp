@@ -17,12 +17,12 @@ void logLine(vector<int*> &line){
 }
 
 class Walker{
-    int WATER_ID = -1;
     vector<int*> landIds;
     vector<int*> pointsBuffer;
     string line;
 
     public:
+        static int WATER_ID;
         static int landUid;
         int walk(std::ifstream& input){
             while(!input.eof()){
@@ -116,6 +116,7 @@ class Walker{
 
 
 int Walker::landUid = 0;
+int Walker::WATER_ID = -1;
 
 int main()
 {
