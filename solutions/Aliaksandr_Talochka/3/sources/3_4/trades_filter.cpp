@@ -71,7 +71,7 @@ int main()
 
 	ThrFilterGroup.join_all();
 
-	system("pause");
+	//system("pause");
 
 }
 
