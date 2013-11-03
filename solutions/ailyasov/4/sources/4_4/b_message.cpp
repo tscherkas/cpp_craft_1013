@@ -7,11 +7,11 @@ task4_4::b_message::b_message( std::istream& inp )
 {
     inp >> length_;
     if(inp.eof() || !inp.good())
-        throw std::logic_error("Empty input");
-    content_ = new char[ length_ + 1 ];
-    content_[length_] = '\0';
+        throw std::logic_error("Empty input");    
+	content_ = boost::shared_ptr<char>(new char[length_+1]);
+    content_.get()[length_] = '\0';	
     inp.get();
-    inp.read( content_, length_);
+    inp.read( content_.get(), length_);
     if(inp.gcount() != length_  )
         throw std::logic_error("Wrong length");
 }
@@ -22,8 +22,7 @@ task4_4::message_ptr task4_4::b_message::create_message( std::istream& inp )
 }
 
 task4_4::b_message::~b_message()
-{
-    delete [] content_;
+{    
 }
 
 const char task4_4::b_message::type() const

@@ -9,7 +9,8 @@ namespace task4_4
 	class b_message : public message
 	{
 		size_t length_;
-		char *content_;
+		boost::shared_ptr<char> content_;
+		//char *content_;
 
 		explicit b_message( std::istream& inp );
 	public:
