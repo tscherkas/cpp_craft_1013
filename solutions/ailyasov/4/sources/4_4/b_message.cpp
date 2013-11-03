@@ -1,27 +1,38 @@
+#include <sstream>
+#include <cstring>
+#include <stdexcept>
 #include "b_message.h"
 
 task4_4::b_message::b_message( std::istream& inp )
 {
-	inp >> length_;
-	content_ = new char[ length_ ];
-	inp.read( content_, length_ );
+    inp >> length_;
+    if(inp.eof() || !inp.good())
+        throw std::logic_error("Empty input");
+    content_ = new char[ length_ + 1 ];
+    content_[length_] = '\0';
+    inp.get();
+    inp.read( content_, length_);
+    if(inp.gcount() != length_  )
+        throw std::logic_error("Wrong length");
 }
 
 task4_4::message_ptr task4_4::b_message::create_message( std::istream& inp )
 {
-	return message_ptr( new b_message( inp ) );
+    return message_ptr( new b_message( inp ) );
 }
 
 task4_4::b_message::~b_message()
 {
-	delete [] content_;
+    delete [] content_;
 }
 
 const char task4_4::b_message::type() const
 {
-	return 'B';
+    return 'B';
 }
 const std::string task4_4::b_message::str() const
 {
-	return std::string();
+    std::stringstream ss;
+    ss << "b_message(" << length_ << "|" << content_ << ")";
+    return ss.str(); 
 }

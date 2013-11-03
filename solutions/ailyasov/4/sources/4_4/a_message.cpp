@@ -1,9 +1,12 @@
 #include "a_message.h"
 
+#include <stdexcept>
+#include <sstream>
+
 task4_4::a_message::a_message( std::istream& inp )
 {
 	inp.read( content_, content_size );
-	if ( inp.eof() )
+	if ( inp.eof() || !inp.good() )
 		throw std::logic_error("bad input stream, a_message cannot be readed");
 }
 
@@ -22,5 +25,9 @@ const char task4_4::a_message::type() const
 }
 const std::string task4_4::a_message::str() const
 {
-	return "";
+    std::stringstream s;
+    s << "a_message(";
+    s << std::string(content_, content_size);
+    s << ")";
+	return s.str();
 }
