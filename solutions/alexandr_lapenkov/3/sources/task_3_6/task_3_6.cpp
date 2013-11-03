@@ -4,14 +4,19 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <map>
+#include <boost/thread.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/shared_ptr.hpp>
 #include "readlib.h"
 #include "writelib.h"
+#include <exception>
 
 using namespace std;
 
 class Solution
 { 
+	
+	static const string prefix;
 	binreader in;
 	binwriter out;
        
@@ -25,6 +30,7 @@ class Solution
 
 		
 		friend binreader& operator>>(binreader&, Data&); 
+		friend binwriter& operator<<(binwriter&, const Data&);
 	
 	};
 
@@ -36,43 +42,52 @@ class Solution
 		return in;
 	}
 
+	friend binwriter& operator<<(binwriter& out, const Data& a)
+	{
+		unsigned day,month,year;
+		sscanf(a.date_time.c_str(),"%4d%2d%2d",&year,&month,&day);
+			   
+		char c[9];
+		strcpy(c,a.stock_name.c_str());
+		out.write_line(c,9);
+		out<<((year-1)*372u+(month-1)*31u+day)<<a.vwap<<a.volume<<a.f2;
+
+		return out;
+	}
+
 public:
 
        Solution()
        {
 		   in.open(SOURCE_DIR"/input.txt");
-		   out.open(SOURCE_DIR"/output.txt");
-		   if(!in.is_open()||!out.is_open())
-			   throw logic_error("Input or output can't be opened");
-       }
+		   if(!in.is_open())
+			   throw logic_error("Can't open input.txt");
+	   }
             
        ~Solution()
        {
 		   in.close();
-		   out.close();
-       }                 	
+	   }                 	
        
        void process()
        {
 		   Data x;
-		   
+
 		   while(in.good())
 		   {
 			   in>>x;
 			   if(!in.good())break;
 
-			   unsigned day,month,year;
-			   sscanf(x.date_time.c_str(),"%4d%2d%2d",&year,&month,&day);
-			   
-			   char c[9];
-			   strcpy(c,x.stock_name.c_str());
-			   out.write_line(c,9);
-			   out<<((year-1)*372u+(month-1)*31u+day)<<x.vwap<<x.volume<<x.f2;
+			   out.open((prefix+"output_"+x.stock_name+".txt").c_str(), ios_base::app);
+			   out<<x;
+			   out.close();
 		   }
-	   }	
+
+	   }
             
 };
 
+const string Solution::prefix = SOURCE_DIR"/";
 
 int main()
 {
@@ -80,10 +95,10 @@ int main()
 	{
 		Solution s;
 		s.process();
-	}catch(exception& e)
+	}
+	catch(exception &e)
 	{
 		cerr<<e.what();
 	}
-
 	return 0;  
 }
