@@ -38,7 +38,7 @@ std::istream& operator >> (std::istream& input, message2_6& m)
     return input;
 }
 
-std::ostream& operator << (std::ostream& output, message2_6& m)
+std::ostream& operator << (std::ostream& output, const message2_6& m)
 {
     write_binary(output, m.stock_name, sizeof(m.stock_name));
     output << '\0';

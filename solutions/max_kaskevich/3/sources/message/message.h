@@ -18,7 +18,7 @@ inline void read_binary(std::istream& input, T* value, size_t size = sizeof(T))
 template<typename T>
 inline void write_binary(std::ostream& output, T* value, size_t size = sizeof(T))
 {
-    output.write(reinterpret_cast<char*>(value), size);
+    output.write(reinterpret_cast<const char*>(value), size);
 }
 
 std::istream& operator >> (std::istream& input, message& m);

@@ -21,8 +21,8 @@ enum msg_type: uint32_t
 
 void proc(const std::string& input_path, const std::string& output_path)
 {
-    std::ifstream input(input_path, std::ios::binary);
-    std::ofstream output(output_path, std::ios::binary);
+    std::ifstream input(input_path.c_str(), std::ios::binary);
+    std::ofstream output(output_path.c_str(), std::ios::binary);
     if(!input || !output)
     {
         return;

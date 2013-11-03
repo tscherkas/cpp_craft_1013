@@ -20,7 +20,7 @@ boost::mutex mtx;
 
 void proc(const std::string& input_path)
 {
-    std::ifstream input(input_path, std::ios::binary);
+    std::ifstream input(input_path.c_str(), std::ios::binary);
     if(!input)
     {
         return;
@@ -39,7 +39,7 @@ void proc(const std::string& input_path)
             cur_time = m.time;
         }
 
-        auto res = msg_size_in_time.emplace(m.type, m.len + 12);
+        auto res = msg_size_in_time.emplace(m.type, m.len + 3 * sizeof(uint32_t));
         if (!res.second)
         {
             res.first->second += m.len + 12;
