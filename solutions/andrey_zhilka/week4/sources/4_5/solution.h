@@ -9,6 +9,7 @@
 namespace task4_5
 {
 	typedef std::vector< std::vector< int > > data_type;
+	typedef std::vector< int >::iterator data_iterator;
 
 	class solution
 	{

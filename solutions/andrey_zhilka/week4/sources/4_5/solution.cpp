@@ -40,7 +40,7 @@ int task4_5::solution::get_max() const
 
 void task4_5::solution::minmax(std::vector<int>& data)
 {	
-	std::pair< std::vector<int>::iterator, std::vector<int>::iterator > result =
+	std::pair< data_iterator, data_iterator > result =
 		boost::minmax_element( data.begin(), data.end() );
 
 	{
