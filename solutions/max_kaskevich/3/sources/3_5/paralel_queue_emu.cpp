@@ -12,6 +12,7 @@ namespace fs = boost::filesystem;
 
 
 static const uint32_t max_data_size = 2048;
+static const size_t message_header_size = 3 *sizeof( uint32_t );
 
 typedef std::map< uint32_t, uint32_t > msg_count_map;
 typedef std::map< uint32_t, msg_count_map > msg_stats_map;
@@ -39,10 +40,10 @@ void proc(const std::string& input_path)
             cur_time = m.time;
         }
 
-        auto res = msg_size_in_time.emplace(m.type, m.len + 3 * sizeof(uint32_t));
+        auto res = msg_size_in_time.emplace(m.type, m.len + message_header_size);
         if (!res.second)
         {
-            res.first->second += m.len + 12;
+            res.first->second += m.len + message_header_size;
         }
 
         local_stats[m.type][m.time];
