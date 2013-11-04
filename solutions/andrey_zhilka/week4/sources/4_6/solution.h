@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 namespace task4_6
 {
@@ -10,6 +11,22 @@ namespace task4_6
 
 	class solution
 	{
+	private :
+		enum Error
+		{
+			NON_DEFINED,
+			REDEFINITION,
+			INVALID_EXP,
+			ZERO_DIVISION
+		};
+
+		mutable std::map< const std::string, int > variables_;
+
+		
+		int evaluate( const char, int, int );
+		std::string error_message( Error, int, char );
+		void evaluate( std::string );
+		void trim( std::string& );
 	public:
 		explicit solution( const lines& calulator_lines );
 		int result_for( const std::string& key ) const;

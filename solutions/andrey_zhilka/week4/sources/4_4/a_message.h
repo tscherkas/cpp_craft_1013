@@ -8,7 +8,7 @@ namespace task4_4
 	class a_message : public message
 	{
 		static const size_t content_size = 16; 
-		char content_[ content_size ];
+		char content_[ content_size + 1 ];
 
 		explicit a_message( std::istream& inp );
 	public:
