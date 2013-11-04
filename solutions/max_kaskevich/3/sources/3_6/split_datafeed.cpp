@@ -44,15 +44,13 @@ std::ostream& operator << (std::ostream& output, const message2_6& m)
     output << '\0';
 
     uint32_t year, month, day;
-    std::sscanf(m.date_time, "%4d%2d%2d", &year, &month, &day);
+    std::sscanf(m.date_time, "%4u%2u%2u", &year, &month, &day);
     uint32_t all_days = (year - 1) * 372 + (month - 1) * 31 + day;
     write_binary(output, &all_days);
 
     write_binary(output, &m.vwap);
     write_binary(output, &m.volume);
-    write_binary(output, &m.f1);
-    write_binary(output, &m.f4);
-    write_binary(output, &m.f3);
+    write_binary(output, &m.f2);
     return output;
 }
 
@@ -71,8 +69,9 @@ int main( int argc, char* argv[] )
         std::ofstream& output = outputs[m.stock_name];
         if (!output.is_open())
         {
+            std::string stock_name(m.stock_name, 8);
             output.open((boost::format(BINARY_DIR "/output_%1%.txt") %
-                std::string(m.stock_name, 8)).str());
+                stock_name.c_str()).str());
         }
         output && output << m;
     }
