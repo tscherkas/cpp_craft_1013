@@ -12,6 +12,7 @@ int main()
     if ( ! (in.is_open() && out.is_open()) ) {
         return 1;
     }
+
     std::vector<boost::uint32_t> counts( maxType, 0 ), buffers( maxType, 0 );
     boost::uint32_t currentTime = 1;
 

@@ -4,9 +4,7 @@
 #include <boost/noncopyable.hpp>
 #include <boost/integer.hpp>
 
-#include <boost/shared_ptr.hpp>
 #include <vector>
-
 #include <fstream>
 
 namespace binary_reader{
@@ -30,6 +28,7 @@ namespace binary_reader{
 
         char* msg_;
     };
+
 
 } // binary_reader
 
