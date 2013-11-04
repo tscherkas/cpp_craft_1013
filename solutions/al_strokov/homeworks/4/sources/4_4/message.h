@@ -3,6 +3,7 @@
 
 #include <string>
 #include <istream>
+#include <stdexcept>
 
 #include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>

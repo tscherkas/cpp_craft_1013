@@ -1,7 +1,5 @@
 #include "a_message.h"
 
-#include <stdexcept>
-
 task4_4::a_message::a_message( std::istream& inp )
 {
 	inp.read( content_, content_size );
@@ -18,11 +16,16 @@ task4_4::a_message::~a_message()
 {
 }
 //
+
 const char task4_4::a_message::type() const
 {
 	return 'A';
 }
+
 const std::string task4_4::a_message::str() const
 {
-	return "";
+	std::string sBuff("a_message(");
+	sBuff.append(content_, content_size);
+	sBuff.append(")");
+	return sBuff;
 }
