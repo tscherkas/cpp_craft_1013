@@ -46,6 +46,7 @@ namespace templates
 	std::string function_5_helper( const T1& t1, typename T1::value_type*  )
 	{
 		typename T1::value_type vt;
+		vt;
 		if ( sizeof( vt ) == sizeof( int ) )
 			return "int";
 		if ( sizeof( vt ) == sizeof( double ) )

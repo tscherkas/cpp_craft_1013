@@ -14,5 +14,7 @@ namespace templates
 		void stack_tests();
 
 		void sfinae_tests();
+
+		void polimorfism_tests();
 	}
 }

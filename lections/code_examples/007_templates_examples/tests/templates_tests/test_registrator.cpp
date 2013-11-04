@@ -22,6 +22,8 @@ boost::unit_test_framework::test_suite* init_unit_test_suite( int argc, char* ar
 
 	ts1->add( BOOST_TEST_CASE( &sfinae_tests ) );
 
+	ts1->add( BOOST_TEST_CASE( &polimorfism_tests ) );	
+
 #ifdef RUN_PERFORMANCE_TESTS
 #endif
 

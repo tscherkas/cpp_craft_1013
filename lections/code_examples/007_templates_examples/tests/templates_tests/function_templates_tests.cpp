@@ -8,6 +8,7 @@ void templates::tests_::function_1_tests()
 {
 	function_1< int, double >( 15, 16.0 );
 
+
 	BOOST_CHECK_EQUAL( ( function_1< int, double >( 15, 16.0 ) ), "15 16" );
 
 	function_1( 15, 16.0 ); 
