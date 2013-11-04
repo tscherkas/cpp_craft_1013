@@ -61,7 +61,7 @@ int main()
             std::ofstream& out = out_files[stock_name];
             if (!out.is_open())
             {
-                out.open((boost::format(BINARY_DIR "/output_%1%.txt") % stock_name).str());
+                out.open((boost::format(BINARY_DIR "/output_%1%.txt") % stock_name.c_str()).str());
             }
             
             if (out.good())
