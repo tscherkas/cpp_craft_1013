@@ -38,10 +38,10 @@ int filter(const std::string &InFileName, const std::string &OutFileName)
 			}
 		}	
 	}
-	else 
-	{
-		std::cout << "Could not read file: " << InFileName.c_str() << std::endl;
-	}
+//	else 
+//	{
+//		std::cout << "Could not read file: " << InFileName.c_str() << std::endl;
+//	}
 
 	InFile.close();
 
