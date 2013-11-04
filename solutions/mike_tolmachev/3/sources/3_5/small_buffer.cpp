@@ -2,9 +2,9 @@
 #include <memory>
 #include <map>
 #include <string>
-#include <boost\thread\thread.hpp>
-#include <boost\format.hpp>
-#include <boost\thread\mutex.hpp>
+#include <boost/thread/thread.hpp>
+#include <boost/format.hpp>
+#include <boost/thread/mutex.hpp>
 
 using namespace binary_reader;
 

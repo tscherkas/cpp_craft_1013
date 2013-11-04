@@ -2,7 +2,7 @@
 #include <string>
 #include <stdint.h>
 #include <map>
-#include <boost\format.hpp>
+#include <boost/format.hpp>
 
 
 struct Data
@@ -26,7 +26,7 @@ std::istream& operator >> (std::istream& in, Data& data)
     return in;
 }
 
-std::ostream& operator << (std::ostream& out, Data& data)
+std::ostream& operator << (std::ostream& out, const Data& data)
 {
     out.write(data.stock_name, 8);//stock_name 8?
     out.write("\0", 1);// 8?
@@ -38,9 +38,9 @@ std::ostream& operator << (std::ostream& out, Data& data)
 	uint32_t date = 372*(year - 1) + 31*(month-1) + day;
 	out.write(reinterpret_cast<char*>(&date), sizeof(uint32_t));
 	//
-    out.write(reinterpret_cast<char*>(&data.vwap), sizeof(double));//price=vwap
-    out.write(reinterpret_cast<char*>(&data.volume), sizeof(uint32_t));//volume
-	out.write(reinterpret_cast<char*>(&data.datas[2]), sizeof(double));//f2
+    out.write(reinterpret_cast<const char*>(&data.vwap), sizeof(double));//price=vwap
+    out.write(reinterpret_cast<const char*>(&data.volume), sizeof(uint32_t));//volume
+	out.write(reinterpret_cast<const char*>(&data.datas[2]), sizeof(double));//f2
 
 	return out;
 }

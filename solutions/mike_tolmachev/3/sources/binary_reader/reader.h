@@ -15,7 +15,7 @@ struct Msg
 };
 
 std::istream& operator >> (std::istream& in, Msg& msg);
-std::ostream& operator << (std::ostream& out, Msg& msg);
+std::ostream& operator << (std::ostream& out, const Msg& msg);
 
 }
 

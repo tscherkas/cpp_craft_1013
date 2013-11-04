@@ -1,8 +1,8 @@
-#include "../binary_reader/reader.h"
+#include "reader.h"
 #include <memory>
 #include <map>
-#include <boost\thread\thread.hpp>
-#include <boost\format.hpp>
+#include <boost/thread/thread.hpp>
+#include <boost/format.hpp>
 
 using namespace binary_reader;
 
