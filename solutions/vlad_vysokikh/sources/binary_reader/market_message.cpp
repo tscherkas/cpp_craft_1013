@@ -25,7 +25,7 @@ void binary_reader::MarketMessage::write(std::fstream &stream)
     boost::gregorian::date startDate = boost::gregorian::from_undelimited_string( "14010101");
     boost::gregorian::date_duration days = date_time_ - startDate;
 
-    long days_num = days.days() - ( 1400 * 372 );
+    long days_num = days.days() + ( 1400 * 372 );
 
 
     stream.write( reinterpret_cast<char*> (&stock_name_), sizeof(char) * message_size );
