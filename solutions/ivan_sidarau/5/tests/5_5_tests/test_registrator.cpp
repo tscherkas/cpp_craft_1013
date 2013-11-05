@@ -11,9 +11,7 @@ boost::unit_test_framework::test_suite* init_unit_test_suite( int, char* [] )
 
 	using namespace task5_5::tests_;
 
-//	ts1->add( BOOST_TEST_CASE( &solution_simple_tests ) );	
-//	ts1->add( BOOST_TEST_CASE( &solution_full_random_tests ) );
-//	ts1->add( BOOST_TEST_CASE( &solution_partially_random_tests ) );
+	ts1->add( BOOST_TEST_CASE( &vector_tests ) );	
 
 #ifdef RUN_PERFORMANCE_TESTS
 #endif

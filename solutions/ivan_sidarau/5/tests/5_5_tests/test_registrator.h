@@ -4,5 +4,6 @@ namespace task5_5
 {
 	namespace tests_
 	{
+		void vector_tests();
 	}
 }

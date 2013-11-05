@@ -1,7 +1,11 @@
+#ifndef _TASK5_4_TEMPLATE_FUNCTIONS_H_
+#define _TASK5_4_TEMPLATE_FUNCTIONS_H_
+
+#include <functional>
 
 namespace task5_4
 {
-	template< bool delete_element, typename Container >
+	template< bool delete_first, typename Container >
 	void clear_container( Container& c )
 	{
 	};
@@ -10,6 +14,8 @@ namespace task5_4
 	void clear_container( Container& c )
 	{
 	};
-
 }
+
+
+#endif // _TASK5_4_TEMPLATE_FUNCTIONS_H_
 

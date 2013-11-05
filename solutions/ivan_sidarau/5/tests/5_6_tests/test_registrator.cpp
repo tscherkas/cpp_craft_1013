@@ -11,10 +11,11 @@ boost::unit_test_framework::test_suite* init_unit_test_suite( int argc, char* ar
 
 	using namespace task5_6::tests_;
 
-//	ts1->add( BOOST_TEST_CASE( &solution_constructor_tests ) );	
-//	ts1->add( BOOST_TEST_CASE( &solution_results_tests ) );
+	ts1->add( BOOST_TEST_CASE( &thread_safe_queue_tests ) );
+	ts1->add( BOOST_TEST_CASE( &thread_safe_queue_many_thread_tests ) );
 
 #ifdef RUN_PERFORMANCE_TESTS
+	ts1->add( BOOST_TEST_CASE( &thread_safe_queue_a_lot_of_thread_tests ) );
 #endif
 
 	return ts1;

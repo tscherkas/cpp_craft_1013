@@ -4,7 +4,9 @@ namespace task5_6
 {
 	namespace tests_
 	{
-//		void solution_constructor_tests();
-//		void solution_results_tests();
+		void thread_safe_queue_tests();
+		void thread_safe_queue_many_thread_tests();
+
+		void thread_safe_queue_a_lot_of_thread_tests();
 	}
 }
