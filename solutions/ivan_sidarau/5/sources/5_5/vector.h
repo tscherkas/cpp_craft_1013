@@ -1,6 +1,8 @@
 #ifndef _TASK5_5_VECTOR_H_
 #define _TASK5_5_VECTOR_H_
 
+#include <cstdlib>
+
 namespace task5_5
 {
 	template< typename T >
@@ -8,7 +10,7 @@ namespace task5_5
 	{
 	public:
 		typedef T* iterator ; // you could change this
-		typedef const T* const const_iterator; // you could change this
+		typedef const T* const_iterator; // you could change this
 	public:
 		explicit vector();
 		vector( const vector& copy );
@@ -41,11 +43,11 @@ namespace task5_5
 	{
 	}
 	template< typename T >
-	vector< T >::vector( const vector< T >& copy )
+	vector< T >::vector( const vector< T >&  )
 	{
 	}
 	template< typename T >
-	vector< T >& vector< T >::operator=( const vector< T >& copy )
+	vector< T >& vector< T >::operator=( const vector< T >&  )
 	{
 		return *this;
 	}
@@ -56,28 +58,28 @@ namespace task5_5
 	}
 
 	template< typename T >
-	void vector< T >::insert( const size_t index, const T& value )
+	void vector< T >::insert( const size_t , const T&  )
 	{
 	}
 
 	template< typename T >
-	T& vector< T >::operator[]( const size_t index )
+	T& vector< T >::operator[]( const size_t  )
 	{
 		return *(new T());
 	}
 
 	template< typename T >
-	const T& vector< T >::operator[]( const size_t index ) const
+	const T& vector< T >::operator[]( const size_t  ) const
 	{
 		return *(new T());
 	}
 
 	template< typename T >
-	void vector< T >::resize( const size_t amount )
+	void vector< T >::resize( const size_t  )
 	{
 	}
 	template< typename T >
-	void vector< T >::reserve( const size_t amount )
+	void vector< T >::reserve( const size_t  )
 	{
 	}
 

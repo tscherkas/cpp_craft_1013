@@ -1,6 +1,8 @@
 #ifndef _TASK5_6_THREAD_SAFE_QUEUE_H_
 #define _TASK5_6_THREAD_SAFE_QUEUE_H_
 
+#include <cstdlib>
+
 namespace task5_6
 {
 	template< typename T >
@@ -28,14 +30,13 @@ namespace task5_6
 	}
 
 	template< typename T >
-	void thread_safe_queue< T >::push( const T& new_element )
+	void thread_safe_queue< T >::push( const T&  )
 	{
 	}
 
 	template< typename T >
-	bool thread_safe_queue< T >::pop( T& result )
+	bool thread_safe_queue< T >::pop( T& )
 	{
-		result = *(new T);
 		return true;
 	}
 
