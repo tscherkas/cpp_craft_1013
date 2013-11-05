@@ -6,6 +6,7 @@
 #include <map>
 #include <list>
 #include <set>
+#include <stdexcept>
 
 void task5_4::tests_::template_functions_vector_tests()
 {

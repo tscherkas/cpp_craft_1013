@@ -3,6 +3,7 @@
 #include <vector.h>
 
 #include <numeric>
+#include <stdexcept>
 
 void task5_5::tests_::vector_tests()
 {

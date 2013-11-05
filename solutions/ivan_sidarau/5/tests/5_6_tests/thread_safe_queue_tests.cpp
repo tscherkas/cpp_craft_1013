@@ -2,6 +2,8 @@
 
 #include <thread_safe_queue.h>
 
+#include <stdexcept>
+
 #include <boost/thread.hpp>
 
 namespace task5_6
