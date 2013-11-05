@@ -53,7 +53,7 @@ namespace task5_5
 	}
 
 	template< typename T >
-	void vector< T >::push_back( const T& value )
+	void vector< T >::push_back( const T& )
 	{
 	}
 

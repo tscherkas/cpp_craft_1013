@@ -21,57 +21,63 @@ namespace task5_6
 				size_t readed_size_;
 
 			public:
-				explicit thread_safe_queue_many_thread_helper( const size_t write_threads_amount, const size_t read_threads_amount )
-					: writen_size_( 0ul )
-					, readed_size_( 0ul )
-				{
-					boost::thread_group writers;
-					boost::thread_group readers;
-
-					for( size_t i = 0 ; i < write_threads_amount ; ++ i )
-						writers.create_thread( boost::bind( &thread_safe_queue_many_thread_helper::write_thread, this ) );
-
-					for( size_t i = 0 ; i < read_threads_amount ; ++ i )
-						readers.create_thread( boost::bind( &thread_safe_queue_many_thread_helper::read_thread, this ) );
-
-					writers.join_all();
-					readers.join_all();
-
-					size_t amount = 0;
-					while ( !queue.empty() )
-					{
-						int data;
-						if ( !queue.pop( data ) )
-							++amount;
-					}
-
-					BOOST_CHECK_EQUAL( writen_size_, readed_size_ + amount );
-				}
-				void write_thread()
-				{
-					const int size = rand() % 1000 + 1000;
-					for( int i = 0 ; i < size ; ++i )
-						queue.push( i );
-
-					boost::mutex::scoped_lock increase_size( protect_size_ );
-					writen_size_ += size;
-				}
-				void read_thread()
-				{
-					size_t amount = 0;
-					while ( !queue.empty() )
-					{
-						int data;
-						if ( !queue.pop( data ) )
-							++amount;
-					}
-					boost::mutex::scoped_lock increase_size( protect_size_ );
-					readed_size_ += amount;
-				}
+				explicit thread_safe_queue_many_thread_helper( const size_t write_threads_amount, const size_t read_threads_amount );
+				void write_thread();
+				void read_thread();
 			};
 		}
 	}
-};
+}
+
+//
+task5_6::tests_::detail::thread_safe_queue_many_thread_helper::thread_safe_queue_many_thread_helper( const size_t write_threads_amount, const size_t read_threads_amount )
+	: writen_size_( 0ul )
+	, readed_size_( 0ul )
+{
+	boost::thread_group writers;
+	boost::thread_group readers;
+
+	for( size_t i = 0 ; i < write_threads_amount ; ++ i )
+		writers.create_thread( boost::bind( &thread_safe_queue_many_thread_helper::write_thread, this ) );
+
+	for( size_t i = 0 ; i < read_threads_amount ; ++ i )
+		readers.create_thread( boost::bind( &thread_safe_queue_many_thread_helper::read_thread, this ) );
+
+	writers.join_all();
+	readers.join_all();
+
+	size_t amount = 0;
+	while ( !queue.empty() )
+	{
+		int data;
+		if ( !queue.pop( data ) )
+			++amount;
+	}
+
+	BOOST_CHECK_EQUAL( writen_size_, readed_size_ + amount );
+}
+void task5_6::tests_::detail::thread_safe_queue_many_thread_helper::write_thread()
+{
+	const int size = rand() % 1000 + 1000;
+	for( int i = 0 ; i < size ; ++i )
+		queue.push( i );
+
+	boost::mutex::scoped_lock increase_size( protect_size_ );
+	writen_size_ += size;
+}
+void task5_6::tests_::detail::thread_safe_queue_many_thread_helper::read_thread()
+{
+	size_t amount = 0;
+	while ( !queue.empty() )
+	{
+		int data;
+		if ( !queue.pop( data ) )
+			++amount;
+	}
+	boost::mutex::scoped_lock increase_size( protect_size_ );
+	readed_size_ += amount;
+}
+
 
 void task5_6::tests_::thread_safe_queue_tests()
 {
