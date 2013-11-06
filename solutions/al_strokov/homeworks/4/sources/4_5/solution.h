@@ -2,6 +2,8 @@
 #define _TASK4_5_SOLUTION_H_
 
 #include <vector>
+#include <iostream>
+#include <boost/thread/thread.hpp>
 
 namespace task4_5
 {
@@ -9,10 +11,15 @@ namespace task4_5
 
 	class solution
 	{
+	private:
+		data_type data_;
+		int min_;
+		int max_;
 	public:
 		explicit solution( const data_type& data );
 		int get_min() const;
 		int get_max() const;
+		void render();
 	};
 }
 
