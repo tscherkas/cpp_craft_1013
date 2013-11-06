@@ -1,6 +1,8 @@
 #ifndef _TASK4_5_SOLUTION_H_
 #define _TASK4_5_SOLUTION_H_
 
+#include "VectorIntMinMax.h"
+
 #include <vector>
 #include <iostream>
 #include <boost/thread/thread.hpp>

@@ -95,7 +95,7 @@ endif (BUILD_TESTS)
 
 if ( UNIX )
 	if (Debug)
-		add_definitions( " -O0 -g -Wall -pedantic -pedantic-errors -W " )
+		add_definitions( " -O0 -g -Wall -std=c++0x -pedantic -pedantic-errors -W " )
 	else()
 		add_definitions( " -O3 -Wall -Werror -std=c++0x -pedantic -pedantic-errors -W " )
 	endif()
