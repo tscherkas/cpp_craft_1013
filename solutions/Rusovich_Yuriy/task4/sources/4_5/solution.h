@@ -13,6 +13,14 @@ namespace task4_5
 		explicit solution( const data_type& data );
 		int get_min() const;
 		int get_max() const;
+
+	protected:
+		int mMax;
+		int mMin;
+		size_t numberData;
+		
+		void thread(const data_type &data);
+		void findMinMax(const std::vector < int > &data);
 	};
 }
 
