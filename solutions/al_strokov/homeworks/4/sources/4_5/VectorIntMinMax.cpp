@@ -14,6 +14,12 @@ VectorIntMinMax::VectorIntMinMax(const std::vector<int>& data):
 }
 
 VectorIntMinMax::~VectorIntMinMax() {
+}
+
+void VectorIntMinMax::process() {
+	if(!data_.size()){
+		return;
+	}
 	min_ = data_[0];
 	max_ = data_[0];
 
@@ -21,11 +27,6 @@ VectorIntMinMax::~VectorIntMinMax() {
 		min_ = std::min(min_, *it);
 		max_ = std::max(max_, *it);
 	}
-
-	std::cout << "vectorMinMax:\tmin" << getMin() << " max" << getMax() << std::endl;
-}
-
-void VectorIntMinMax::process() {
 }
 
 void VectorIntMinMax::setData(const std::vector<int>& data){
