@@ -1,4 +1,4 @@
-#include <reader.h>
+#include <marketevent.h>
 
 #include <iostream>
 #include <fstream>
@@ -19,5 +19,5 @@
 
 int main()
 {
-	test_no_throw( binary_reader::proxy_function_that_was_created_only_for_compiling_goals() );
+    test_no_throw( MarketEvent(0,0,0,"");  );
 }
